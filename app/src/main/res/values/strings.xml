@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">test1</string>
+    <string name="app_name">PBV_MII</string>
+    <color name="bg">#000000</color>
+    <color name="bg_backup">#A3CCA3</color>
+    <string name="version">v2.5.3-beta2</string>
+    <string name="left">Gravity.LEFT</string>
+    <string name="right">Gravity.RIGHT</string>
+    <string name="permission_required">Please grant the permission to use the microphone</string>
+    <string name="start_service">START SERVICE</string>
+    <string name="stop_service">STOP SERVICE</string>
+    <string name="Developer">Hyo-yeob Kim</string>
+
+
+    <string name="voice_recognizer_is_active">voice_recognizer_is_active</string>
+    <string name="ask_permission">Please allow Speech to always run in the background,else our services can\'t be accessed when you are in distress</string>
+    <string name="allow">ALLOW</string>
+    <string name="enable_autostart">Enable AutoStart</string>
+    <string name="my_service_name">com.sac.speechdemo.MyService</string>
+
+    <string name="sample_device_admin">SAMPLE DEVICE ADMIN</string>
+    <string name="sample_device_admin_description">DESCRIPTION</string>
+    <string name="System_name">PBV(Pick by Vision)</string>
 </resources>
