@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="word_next">
+        <item>"다음"</item>
+        <item>"down"</item>
+        <item>"다운"</item>
+        <item>"next"</item>
+        <item>"패스"</item>
+        <item>"pass"</item>
+        <item>"넥스트"</item>
+        <item>"앞으로"</item>
+        <item>"아프로"</item>
+        <item>"아래"</item>
+        <item>"아래로"</item>
+        <item>"right"</item>
+        <item>"라이트"</item>
+        <item>"나이트"</item>
+        <item>"텍스트"</item>
+        <item>"오른쪽"</item>
+        <item>"우측"</item>
+        <item>"오른쪽으로"</item>
+    </string-array>
+
+    <string-array name="word_pre">
+        <item>"이전"</item>
+        <item>"이정"</item>
+        <item>"뒤로"</item>
+        <item>"미로"</item>
+        <item>"전으로"</item>
+        <item>"이전으로"</item>
+        <item>"위로"</item>
+        <item>"up"</item>
+        <item>"레프트"</item>
+        <item>"래프트"</item>
+        <item>"왼쪽"</item>
+        <item>"left"</item>
+        <item>"위쪽"</item>
+        <item>"왼쪽"</item>
+        <item>"좌측"</item>
+        <item>"왼쪽으로"</item>
+    </string-array>
+
+    <string-array name="word_enter">
+        <item>"확인"</item>
+        <item>"오케이"</item>
+        <item>"오케"</item>
+        <item>"게임"</item>
+        <item>"ok"</item>
+        <item>"k"</item>
+        <item>"오캐"</item>
+        <item>"옥해"</item>
+        <item>"오캐이"</item>
+        <item>"엔터"</item>
+        <item>"enter"</item>
+        <item>"센터"</item>
+    </string-array>
+
+    <string-array name="word_cancel">
+        <item>"취소"</item>
+        <item>"cancel"</item>
+        <item>"캔슬"</item>
+        <item>"캔설"</item>
+        <item>"종료"</item>
+        <item>"빽"</item>
+        <item>"back"</item>
+        <item>"끝"</item>
+    </string-array>
+
+    <!--<string-array name="word_std">-->
+        <!--<item>"Hello"</item>-->
+        <!--<item>"헬로"</item>-->
+        <!--<item>"헬로우"</item>-->
+        <!--<item>"하이"</item>-->
+        <!--<item>"hi"</item>-->
+        <!--<item>"start"</item>-->
+        <!--<item>"스타트"</item>-->
+        <!--<item>"시작"</item>-->
+        <!--<item>"일어나"</item>-->
+        <!--<item>"헤이"</item>-->
+        <!--<item>"hey"</item>-->
+        <!--<item>"기상"</item>-->
+        <!--<item>"안녕"</item>-->
+        <!--<item>"그만 자"</item>-->
+        <!--<item>"일하자"</item>-->
+    <!--</string-array>-->
+
+    <!--<string-array name="word_sleep">-->
+        <!--<item>"스탑"</item>-->
+        <!--<item>"스톱"</item>-->
+        <!--<item>"슬립"</item>-->
+        <!--<item>"슬리퍼"</item>-->
+        <!--<item>"슬리프"</item>-->
+        <!--<item>"슬리피"</item>-->
+        <!--<item>"잘자"</item>-->
+        <!--<item>"잘 자"</item>-->
+        <!--<item>"잘자"</item>-->
+        <!--<item>"좀 있다 하자"</item>-->
+        <!--<item>"이따가 하자"</item>-->
+        <!--<item>"그만하자"</item>-->
+        <!--<item>"이따 가"</item>-->
+        <!--<item>"그만"</item>-->
+        <!--<item>"이따가"</item>-->
+        <!--<item>"점심시간"</item>-->
+        <!--<item>"쉬는 시간"</item>-->
+    <!--</string-array>-->
+</resources>
