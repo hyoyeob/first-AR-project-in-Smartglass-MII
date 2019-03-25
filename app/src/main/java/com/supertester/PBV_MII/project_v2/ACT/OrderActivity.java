@@ -5,7 +5,6 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -37,6 +36,8 @@ import com.supertester.PBV_MII.project_v2.DB.Contacts.ItemStatusContact;
 import com.supertester.PBV_MII.project_v2.DB.Contacts.OrderContact;
 import com.supertester.PBV_MII.project_v2.DB.Contacts.OrderStatusContact;
 import com.supertester.PBV_MII.project_v2.DB.DBAdapter;
+import com.supertester.PBV_MII.project_v2.DB.Item;
+import com.supertester.PBV_MII.project_v2.DB.User;
 import com.supertester.PBV_MII.project_v2.R;
 import com.supertester.PBV_MII.project_v2.VOICE_CONTROL.MyService;
 
@@ -44,39 +45,21 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-/**
- * cr,tv 옮김
- */
-
 public class OrderActivity extends Activity implements Serializable {
-    private String LINEo = null;
-    private String ZONEo = null;
-    private String PLANTo = null;
-    private String DATEo = null;        //order table status - date
-    private String IDo = null;
-    private String PWo = null;
-    private String TAKTo = null;
-    private String realtime = null;
-    private int status = 0;             // order table status - ORDER_STATUS
-    int load_index = -1;
-    int putindex;
     boolean enter_flag = true;
     boolean b;
     boolean getorder;
     boolean key_flag;
     boolean load_flag = false;
-    Context context;
-    String check = "V";
     BackgroundThread backgroundThread;
     int order_count = 0;
+    int order_index = 0;
     int Start = 0;
 
     SoapObject s = null;
@@ -87,22 +70,13 @@ public class OrderActivity extends Activity implements Serializable {
     TextView[] sernr;
     TextView[] back;
     TextView[] chk;
-
-    ArrayList AUFNR;
-    ArrayList test_status;
-    ArrayList DCN;
-    ArrayList LINE;
-    ArrayList<String> MATNR;
-    ArrayList<String> SEQ;
-    ArrayList<String> SERNR;
-    ArrayList STATUS;
-    ArrayList<String> YMII_BACK;
-    ArrayList PICK_SEQ;
-    ArrayList TAKT;
-    ArrayList IZONE;
     ArrayList Result;
     ArrayList Result_item;
-    ArrayList<String> load_stat;
+
+    User userInfo = new User();
+    Item item = new Item();
+
+    ArrayList<String> test_status;
 
     ArrayList<OrderContact> order_contact_data;
     OrderStatusContact orderStatusContact = new OrderStatusContact();
@@ -111,12 +85,11 @@ public class OrderActivity extends Activity implements Serializable {
     ItemContact itemContact = new ItemContact();
     MyHandler myHandler = new MyHandler(this);
 
-    DBAdapter order_status_dbAdapter;
-    DBAdapter order_dbAdapter;
-    DBAdapter item_status_dbAdapter;
-    DBAdapter item_dbAdapter;
+    DBAdapter<OrderStatusContact> order_status_dbAdapter;
+    DBAdapter<OrderContact> order_dbAdapter;
+    DBAdapter<ItemStatusContact> item_status_dbAdapter;
+    DBAdapter<ItemContact> item_dbAdapter;
     Std_Method app;
-    LinearLayout linear_h;
     ImageView voice_stat;
 
     @Override
@@ -136,10 +109,9 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
 
-    private boolean isServiceRunning(){
+    private boolean isServiceRunning() {
         ActivityManager manager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
-        {
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (MyService.class.getName().equals(service.service.getClassName()))
                 return true;
         }
@@ -147,7 +119,7 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     public void batteryLevel() {
-        if(isServiceRunning()){
+        if (isServiceRunning()) {
             BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
                 public void onReceive(Context context, Intent intent) {
                     context.unregisterReceiver(this);
@@ -165,39 +137,33 @@ public class OrderActivity extends Activity implements Serializable {
         }
     }
 
-    public void battery_init(int level){
+    public void battery_init(int level) {
         int hour;
         double minute;
         int hour2;
         double minute2;
-        hour = level/20;
-        hour2 = level/15;
-        minute=(level*2.8)-(hour*60);
-        minute2=(level*3.78)-(hour2*60);
-        int m1 =(int)minute;
-        int m2 =(int)minute2;
-        int sub =(int)((level*3.78)-(level*2.8));
-        if(level<25){
+        hour = level / 20;
+        hour2 = level / 15;
+        minute = (level * 2.8) - (hour * 60);
+        minute2 = (level * 3.78) - (hour2 * 60);
+        int m1 = (int) minute;
+        int m2 = (int) minute2;
+        int sub = (int) ((level * 3.78) - (level * 2.8));
+        if (level < 25) {
             Dialog(level, hour, m1, hour2, m2, sub);
         }
     }
 
-    public void Dialog(int level, int hour, int minute, int hour2, int minute2, int sub){
+    public void Dialog(int level, int hour, int minute, int hour2, int minute2, int sub) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Battery Warning!");
-        builder.setMessage("The battery is running low.("+level+"%)\nService shutdown can increase usage time.\nKeep On: "+hour+"h "+minute+"m Available"+"\nTo end: "+hour2+"h "+minute2+"m Available("+sub+"m more available)\nQuit voice service?");
+        builder.setMessage("The battery is running low.(" + level + "%)\nService shutdown can increase usage time.\nKeep On: " + hour + "h " + minute + "m Available" + "\nTo end: " + hour2 + "h " + minute2 + "m Available(" + sub + "m more available)\nQuit voice service?");
         builder.setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        app.PrintToastMessage("Battery discharge \nafter "+hour+"h "+minute+"m");
-                    }
-                });
+                (dialog, which) -> app.PrintToastMessage("Battery discharge \nafter " + hour + "h " + minute + "m"));
         builder.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        stopService(new Intent(context, MyService.class));
-                        app.PrintToastMessage("Terminate Voice Services\nAvailable for "+hour2+"h "+minute2+"m");
-                    }
+                (dialog, which) -> {
+                    stopService(new Intent(this, MyService.class));
+                    app.PrintToastMessage("Terminate Voice Services\nAvailable for " + hour2 + "h " + minute2 + "m");
                 });
         builder.show();
     }
@@ -207,18 +173,18 @@ public class OrderActivity extends Activity implements Serializable {
         String percent = "";
         String result_percent;
         int i;
-        for (i = 0; i < AUFNR.size(); i++) {      // 퍼센트 초기화
+        for (i = 0; i < item.getAUFNR().size(); i++) {      // 퍼센트 초기화
             result_percent = percent.concat("l");
             percent = result_percent;
         }
-        Log.e("log_order_percent",STATUS+"");
+        Log.e("log_order_percent", order_index+"/ "+item.getORDER_STATUS().size() + "");
         SpannableString spercent = new SpannableString(percent);
-        for (i = 0; i < AUFNR.size(); i++) {     // 퍼센트 초기화
-            if (i < status && !STATUS.get(i).equals("Y")) {
+        for (i = 0; i < item.getAUFNR().size(); i++) {     // 퍼센트 초기화
+            if (i < order_index && !item.getORDER_STATUS().get(i).equals("Y")) {
                 spercent.setSpan(new ForegroundColorSpan(Color.RED), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (i == status) {
+            } else if (i == order_index) {
                 spercent.setSpan(new ForegroundColorSpan(Color.BLACK), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (STATUS.get(i).equals("Y")) {
+            } else if (item.getORDER_STATUS().get(i).equals("Y")) {
                 spercent.setSpan(new ForegroundColorSpan(Color.GREEN), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
@@ -228,12 +194,13 @@ public class OrderActivity extends Activity implements Serializable {
     private void error_test() {
         if (!getorder) {
             enter_flag = true;
-            if (DATEo.equals(realtime)) {
-                Delete_table_not(realtime);
+            if (userInfo.getGETTIME().equals(userInfo.getREALTIME())) {
+                Delete_table_not(userInfo.getREALTIME());
                 Log.e("log_net", "exit to error");
             }
             err_dialog();
         } else {
+            Log.e("log_net", "falseeee!!!!");
             enter_flag = false;
             setUI();
             percent();
@@ -245,7 +212,7 @@ public class OrderActivity extends Activity implements Serializable {
         view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         app = (Std_Method) getApplicationContext();
-        linear_h = findViewById(R.id.layout_h);
+        LinearLayout linear_h = findViewById(R.id.layout_h);
         app.share_load();
         app.set_view(linear_h);
     }
@@ -268,7 +235,7 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void Delete_table_not(String del_DATE) {//DATE 가져 오는것까지 해야함,
-        Log.e("log_date", "살리는 날짜: "+del_DATE + " 삭제하는 날짜: " + DATEo);
+        Log.e("log_date", "살리는 날짜: " + del_DATE + " 삭제하는 날짜: " + userInfo.getGETTIME());
         if (!order_status_dbAdapter.isEmpty("DATE", del_DATE)) { //DB에 값이 있다면...
             try {
                 item_status_dbAdapter.deleteContact_not(del_DATE);
@@ -279,7 +246,7 @@ public class OrderActivity extends Activity implements Serializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             order_status_dbAdapter.DropTable();
             order_status_dbAdapter.CreateTable();
 
@@ -295,14 +262,14 @@ public class OrderActivity extends Activity implements Serializable {
         }
     }
 
-    private void Delete_table(String data, String del_DATE) {//DATE 가져 오는것까지 해야함,
-        Log.e("log_date", del_DATE + " " + DATEo);
+    private void Delete_table(String del_DATE) {//DATE 가져 오는것까지 해야함,
+        Log.e("log_date", del_DATE + " " + userInfo.getGETTIME());
         if (!order_status_dbAdapter.isEmpty("DATE", del_DATE)) { //DB에 값이 있다면...
             try {
-                item_status_dbAdapter.deleteContact(data, del_DATE);
-                item_dbAdapter.deleteContact(data, del_DATE);
-                order_dbAdapter.deleteContact(data, del_DATE);
-                order_status_dbAdapter.deleteContact(data, del_DATE);
+                item_status_dbAdapter.deleteContact("DATE", del_DATE);
+                item_dbAdapter.deleteContact("DATE", del_DATE);
+                order_dbAdapter.deleteContact("DATE", del_DATE);
+                order_status_dbAdapter.deleteContact("DATE", del_DATE);
                 Log.e("log_date", del_DATE + " 해당 날짜 외의 테이블 삭제 완료");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -315,11 +282,11 @@ public class OrderActivity extends Activity implements Serializable {
         Cursor cursor = null;
         int result = 0;
 
-        for (int i = 0; i < AUFNR.size(); i++) {
-            if (item_status_dbAdapter.isEmpty("AUFNR", String.valueOf(AUFNR.get(i)))) {
+        for (int i = 0; i < item.getAUFNR().size(); i++) {
+            if (item_status_dbAdapter.isEmpty("AUFNR", String.valueOf(item.getAUFNR().get(i)))) {
                 break;
             }
-            String selectQuery = "SELECT AUFNR FROM " + itemContact.getTable_name() + " WHERE AUFNR = '" + AUFNR.get(i) + "'";
+            String selectQuery = "SELECT AUFNR FROM " + itemContact.getTable_name() + " WHERE AUFNR = '" + item.getAUFNR().get(i) + "'";
             cursor = db.rawQuery(selectQuery, null);
             try {
                 if (cursor.moveToFirst()) {
@@ -336,62 +303,61 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void setUI() {
-        Print_First(seq, SEQ);
-        Print_First(sernr, SERNR);
-        Print_First(matnr, MATNR);
-        Print_First(back, YMII_BACK);
-        Print_First(chk, load_stat);
+        Print_First(seq, item.getORDER_SEQ());
+        Print_First(sernr, item.getSERNR());
+        Print_First(matnr, item.getORDER_MATNR());
+        Print_First(back, item.getYMII_BACK());
+        Print_First(chk, item.getLOAD_STATUS());
         print_clean(back);
-        index.setText((status + 1) + "/" + MATNR.size());
+        index.setText(getString(R.string.OrderIndex, (order_index + 1), item.getORDER_MATNR().size()));
+    }
+
+    private void CallDB(int size) {
+        order_contact_data = OrderGetData(); //DB값 호출.
+        for (int i = 0; i < order_contact_data.size(); i++)
+            order_contact_data.get(i).setProperties(order_contact_data.get(i).getProperties());
+        order_count = size;
+        if(item.getAUFNR().size()!=size) addOrderVariable(order_contact_data); // 변수에 값 저장.
+    }
+
+    private void SetLoadIndex(int size) {
+        Log.e("log_order111", item.getORDER_STATUS() + "");
+        getorder = size > 4;
+        item.setLOAD_INDEX(getDownloadCount());
+        for (int i = 0; i < item.getLOAD_INDEX(); i++) {
+            item.getLOAD_STATUS().set(i, getString(R.string.Check));
+        }
     }
 
     private void getOrder() {
         try {
             CallRemote_order cr = new CallRemote_order();
-            AsyncTask<String, String, SoapObject> at = cr.execute(LINEo, PLANTo, ZONEo, DATEo, IDo, PWo, TAKTo, "");
+            AsyncTask<String, String, SoapObject> at = cr.execute(userInfo.getLINE(), userInfo.getPLANT(), userInfo.getZONE(), userInfo.getGETTIME(), userInfo.getID(), userInfo.getPW(), userInfo.getTAKT(), "");
             s = at.get();
+            int size = order_dbAdapter.getConditionCount(orderContact, "DATE", userInfo.getREALTIME());
+            Log.e("log_today_size", size + " /"+userInfo.getGETTIME() +"//"+userInfo.getREALTIME());
+//            Log.e("log_ssssss1", s+"");
 
-            initOrderVariable();
-            int size = order_dbAdapter.getConditionCount(new OrderContact(), "DATE", realtime);
-            Log.e("log_today_size", size + "");
-
-            if (!order_dbAdapter.isEmpty("DATE", DATEo) && realtime.equals(DATEo)) { //DATE에 해당하는 필드값이 존재하므로 OrderList가 있다.
-                if (!b || s == null){ //네트워크가 끊어진 경우. == 예외처리.
-                    order_contact_data = OrderGetData(); //DB값 호출.
-                    for (int i = 0; i < order_contact_data.size(); i++)
-                        order_contact_data.get(i).setProperties(order_contact_data.get(i).getProperties());
-                    order_count = size;
-                    setOrderVariable(order_contact_data); // 변수에 값 저장.
-                    Log.e("log_order1111", STATUS + "");
-                    getorder = size > 4;
-                    load_index = getDownloadCount();
-                    for (int i = 0; i < load_index; i++) {
-                        load_stat.set(i, check);
-                    }
-                }else{
+            if (!order_dbAdapter.isEmpty("DATE", userInfo.getGETTIME()) && userInfo.getREALTIME().equals(userInfo.getGETTIME())) { //DATE에 해당하는 필드값이 존재하므로 OrderList가 있다.
+                if (!b || s == null) { //네트워크가 끊어진 경우. == 예외처리.
+                    CallDB(size);
+                    SetLoadIndex(size);
+                } else {
                     SoapObject countryDetails = s;      //all
-                    order_contact_data = OrderGetData(); //DB값 호출.
-                    for (int i = 0; i < order_contact_data.size(); i++)
-                        order_contact_data.get(i).setProperties(order_contact_data.get(i).getProperties());
-                    order_count = size;
-                    setOrderVariable(order_contact_data); // 변수에 값 저장.
+                    CallDB(size);
                     if (check_order_err(countryDetails)) OrderSetData_update(countryDetails);
-                    Log.e("log_order2222", STATUS + "");
-                    getorder = size > 4;
-                    load_index = getDownloadCount();
-                    for (int i = 0; i < load_index; i++) {
-                        load_stat.set(i, check);
-                    }
+                    SetLoadIndex(size);
                 }
-
-            } else { //DB에 값이 없는 경우.
-                if (!b || s == null){ //네트워크가 끊어진 경우. == 예외처리.
+            }
+            else { //DB에 값이 없는 경우.
+                if (!b || s == null) { //네트워크가 끊어진 경우. == 예외처리.
                     enter_flag = true;
                     getorder = false;
-                }else{
+                } else {
+                    Log.e("log_ssssss", "2222222");
                     OrderStatusUpdate("ORDER_QTY", String.valueOf(s.getPropertyCount()));
                     SoapToArraylist();
-                    load_index = 0;
+                    item.setLOAD_INDEX(0);
                 }
             }
         } catch (Exception e) {
@@ -402,80 +368,68 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void InitAdapter() {
-        order_status_dbAdapter = new DBAdapter(getApplicationContext(), orderStatusContact);
-        order_dbAdapter = new DBAdapter(getApplicationContext(), orderContact);
-        item_status_dbAdapter = new DBAdapter(getApplicationContext(), itemStatusContact);
-        item_dbAdapter = new DBAdapter(getApplicationContext(), itemContact);
-
-        /**
-         * 하단 주석 전부 풀면 실행 시마다 테이블 초기화
-         */
-//        order_status_dbAdapter.DropTable();
-//        order_status_dbAdapter.CreateTable();
-//
-//        item_status_dbAdapter.DropTable();
-//        item_status_dbAdapter.CreateTable();
-//
-//        item_dbAdapter.DropTable();
-//        item_dbAdapter.CreateTable();
-//
-//        order_dbAdapter.DropTable();
-//        order_dbAdapter.CreateTable();
+        order_status_dbAdapter = new DBAdapter<>(getApplicationContext(), orderStatusContact);
+        order_dbAdapter = new DBAdapter<>(getApplicationContext(), orderContact);
+        item_status_dbAdapter = new DBAdapter<>(getApplicationContext(), itemStatusContact);
+        item_dbAdapter = new DBAdapter<>(getApplicationContext(), itemContact);
     }
 
     //DB - OrderStatusTable- DATE 삽입
     //디비에 새로운 필드값 생성과 동시에 초기화 하는 과정.
     private void OrderStatusInput(String date, String order_status, String success_number, String order_qty, String load_date) {
-        ArrayList<String> data = new ArrayList<String>(Arrays.asList(date, order_status, success_number, order_qty, load_date));
+        ArrayList<String> data = new ArrayList<>(Arrays.asList(date, order_status, success_number, order_qty, load_date));
         orderStatusContact.setProperties(data);
         order_status_dbAdapter.addContact();
     }
 
     private ArrayList<OrderContact> OrderGetData() {
-        return order_dbAdapter.getAllContacts(new OrderContact());
+        return order_dbAdapter.getAllContacts(orderContact);
     }
 
-    private void initOrderVariable() {
-        AUFNR = new ArrayList();
-        DCN = new ArrayList();
-        LINE = new ArrayList();
-        MATNR = new ArrayList();
-        SEQ = new ArrayList();
-        SERNR = new ArrayList();
-        STATUS = new ArrayList();
-        YMII_BACK = new ArrayList();
-        PICK_SEQ = new ArrayList();
-        TAKT = new ArrayList();
-        IZONE = new ArrayList();
-    }
-
-    private void setOrderVariable(ArrayList<OrderContact> order_contact_data) {
-        Log.e("flow", order_count + "");
+    private void addOrderVariable(ArrayList<OrderContact> order_contact_data) {
+        Log.e("flow_add", order_count + "");
 //        for(int i=order_count; i<order_contact_data.size(); i++){ //여기바뀌면 출력바뀜
         for (int i = Start; i < order_count; i++) { //여기바뀌면 출력바뀜
-            AUFNR.add(order_contact_data.get(i).getAUFNR());
-            DCN.add(order_contact_data.get(i).getDCN());
-            LINE.add(order_contact_data.get(i).getLINE());
-            MATNR.add(order_contact_data.get(i).getMATNR());
-            SEQ.add(order_contact_data.get(i).getSEQ());
-            SERNR.add(order_contact_data.get(i).getSERNR());
-            STATUS.add(order_contact_data.get(i).getSTATUS());
-            YMII_BACK.add(order_contact_data.get(i).getYMII_BACK());
-            PICK_SEQ.add(order_contact_data.get(i).getPICK_SEQ());
-            TAKT.add(order_contact_data.get(i).getTAKT());
-            IZONE.add(order_contact_data.get(i).getIZONE());
-            load_stat.add("");
+            item.AUFNR.add(order_contact_data.get(i).getAUFNR());
+            item.DCN.add(order_contact_data.get(i).getDCN());
+            item.LINE.add(order_contact_data.get(i).getLINE());
+            item.ORDER_MATNR.add(order_contact_data.get(i).getMATNR());
+            item.ORDER_SEQ.add(order_contact_data.get(i).getSEQ());
+            item.SERNR.add(order_contact_data.get(i).getSERNR());
+            item.ORDER_STATUS.add(order_contact_data.get(i).getSTATUS());
+            item.YMII_BACK.add(order_contact_data.get(i).getYMII_BACK());
+            item.PICK_SEQ.add(order_contact_data.get(i).getPICK_SEQ());
+            item.TAKT.add(order_contact_data.get(i).getTAKT());
+            item.ZONE.add(order_contact_data.get(i).getIZONE());
+            item.LOAD_STATUS.add("");
             Result.add("");
             Result_item.add("");
         }
+        Log.e("flow", "start: "+Start+" end: "+order_count);
+        Log.e("flow", "start: "+item.ORDER_STATUS+" end: "+order_count);
     }
 
-    private void setOrderVariable2(ArrayList<OrderContact> order_contact_data) {
-        Log.e("flow", order_count + "");
+    private void setOrderVariable(ArrayList<OrderContact> order_contact_data) {
+        Log.e("flow_set", order_count + "");
 //        for(int i=order_count; i<order_contact_data.size(); i++){ //여기바뀌면 출력바뀜
         for (int i = Start; i < order_count; i++) { //여기바뀌면 출력바뀜
-            STATUS.set(i, order_contact_data.get(i).getSTATUS());
+            item.AUFNR.set(i,order_contact_data.get(i).getAUFNR());
+            item.DCN.set(i,order_contact_data.get(i).getDCN());
+            item.LINE.set(i,order_contact_data.get(i).getLINE());
+            item.ORDER_MATNR.set(i,order_contact_data.get(i).getMATNR());
+            item.ORDER_SEQ.set(i,order_contact_data.get(i).getSEQ());
+            item.SERNR.set(i,order_contact_data.get(i).getSERNR());
+            item.ORDER_STATUS.set(i,order_contact_data.get(i).getSTATUS());
+            item.YMII_BACK.set(i,order_contact_data.get(i).getYMII_BACK());
+            item.PICK_SEQ.set(i,order_contact_data.get(i).getPICK_SEQ());
+            item.TAKT.set(i,order_contact_data.get(i).getTAKT());
+            item.ZONE.set(i,order_contact_data.get(i).getIZONE());
+            item.LOAD_STATUS.set(i,"");
+            Result.set(i,"");
+            Result_item.set(i,"");
         }
+        Log.e("flow", "start: "+Start+" end: "+order_count);
+        Log.e("flow", "start: "+item.LOAD_STATUS+" end: "+order_count);
     }
 
     private void OrderSetData(SoapObject countryDetails) {
@@ -489,21 +443,22 @@ public class OrderActivity extends Activity implements Serializable {
         //try~ finally에서는 db를 이용하지 못한다.
         //왜냐하면 트랜잭션을 진행중이기 때문에 다른 트랜잭션이 끼어들지 못하기 때문임.
 
-        test_status = new ArrayList(countryDetails.getPropertyCount());
+        test_status = new ArrayList<>(countryDetails.getPropertyCount());
         SQLiteDatabase db = order_dbAdapter.mDBHelper.getWritableDatabase();
         db.beginTransaction();
+        Log.e("log_testtest",countryDetails.getPropertyCount()+"");
         try {
             for (int i = 0; i < countryDetails.getPropertyCount(); i++) {
                 Object property = countryDetails.getProperty(i);
                 if (property instanceof SoapObject) {
                     SoapObject countryObj = (SoapObject) property;
                     //DB Insert
-                    ArrayList<String> data = new ArrayList<String>(Arrays.asList(
+                    ArrayList<String> data = new ArrayList<>(Arrays.asList(
                             countryObj.getProperty("AUFNR").toString(),
-                            DATEo,
-                            PLANTo,
+                            userInfo.getGETTIME(),
+                            userInfo.getPLANT(),
                             countryObj.getProperty("LINE").toString(),
-                            ZONEo,
+                            userInfo.getZONE(),
                             countryObj.getProperty("DCN").toString(),
                             countryObj.getProperty("MATNR").toString(),
                             countryObj.getProperty("SEQ").toString(),
@@ -527,24 +482,21 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void OrderSetData_update(SoapObject countryDetails) {
-        test_status = new ArrayList(countryDetails.getPropertyCount());
-        try {
-            for (int i = 0; i < countryDetails.getPropertyCount(); i++) {
-                Object property = countryDetails.getProperty(i);
-                if (property instanceof SoapObject) {
-                    SoapObject countryObj = (SoapObject) property;
-                    String Status = countryObj.getProperty("STATUS").toString();
-                    test_status.add(Status);
-                }
+        test_status = new ArrayList<>(countryDetails.getPropertyCount());
+        for (int i = 0; i < countryDetails.getPropertyCount(); i++) {
+            Object property = countryDetails.getProperty(i);
+            if (property instanceof SoapObject) {
+                SoapObject countryObj = (SoapObject) property;
+                String Status = countryObj.getProperty("STATUS").toString();
+                test_status.add(Status);
             }
-        } finally {
         }
-        STATUS=test_status;
+        item.ORDER_STATUS = test_status;
     }
 
 
     private void OrderStatusUpdate(String convert_name, String convert_value) {
-        OrderStatusContact temp = (OrderStatusContact) order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", DATEo);
+        OrderStatusContact temp = order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", userInfo.getGETTIME());
         ArrayList<String> data = temp.getProperties();
         orderStatusContact.setProperties(data);
 
@@ -564,10 +516,8 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void init() {
-        Result = new ArrayList();
-        load_stat = new ArrayList();
         Result_item = new ArrayList();
-        context = this;
+        Result = new ArrayList();
         seq = new TextView[5];
         sernr = new TextView[5];
         matnr = new TextView[5];
@@ -576,7 +526,7 @@ public class OrderActivity extends Activity implements Serializable {
         TextView task_date = findViewById(R.id.task_date);
         index = findViewById(R.id.index);
         Percent = findViewById(R.id.percent);
-        task_date.setText(DATEo);
+        task_date.setText(userInfo.getGETTIME());
 
         for (int i = 0; i < 5; i++) {
             int getID;
@@ -593,8 +543,8 @@ public class OrderActivity extends Activity implements Serializable {
         }
     }
 
-    private void table_init(){
-        Delete_table_not(realtime);
+    private void table_init() {
+        Delete_table_not(userInfo.getREALTIME());
         net_check();
     }
 
@@ -604,24 +554,15 @@ public class OrderActivity extends Activity implements Serializable {
         InitAdapter();
 
         enter_flag = true;
-        realtime = getIntent().getExtras().getString("realtime");
-        DATEo = getIntent().getExtras().getString("DATEo");
-        LINEo = getIntent().getExtras().getString("LINEo");
-        PLANTo = getIntent().getExtras().getString("PLANTo");
-        ZONEo = getIntent().getExtras().getString("ZONEo");
-        TAKTo = getIntent().getExtras().getString("TAKTo");
-        IDo = getIntent().getExtras().getString("IDo");
-        PWo = getIntent().getExtras().getString("PWo");
+        userInfo = (User) getIntent().getSerializableExtra("userInfo");
 
         voice_stat = findViewById(R.id.voice_status);
         app.Set_voice_stat(voice_stat);
 
         table_init();
-//        new Handler().postDelayed(()->{
-//        },500);
 
-        if (order_status_dbAdapter.isEmpty("DATE", getIntent().getExtras().getString("DATEo"))) { //DB에 값이 없다면...
-            String date = getIntent().getExtras().getString("DATEo");
+        if (order_status_dbAdapter.isEmpty("DATE", userInfo.getGETTIME())) { //DB에 값이 없다면...
+            String date = userInfo.getGETTIME();
             String order_status = "0";
             String success_number = "0";
             String order_qty = "0";
@@ -630,13 +571,16 @@ public class OrderActivity extends Activity implements Serializable {
         } else { // DB에 값있다면
             Log.e("OrderStatus 필드 조회", "실패 or 값이 존재.");
         }
-        status = Integer.parseInt(order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", DATEo).getProperty(1));
+        order_index =Integer.parseInt(order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", userInfo.getGETTIME()).getProperty(1));
+        item.setORDER_INDEX(order_index);
+        Log.e("OrderStatus", order_index+"");
     }
 
 
     private boolean check_order_err(SoapObject countryDetails) {
         Object property = countryDetails.getProperty(0);
         SoapObject countryObj = (SoapObject) property;
+//        Log.e("log_order result", countryObj.getPropertyCount()+" testestest "+ countryObj+"false 값 에러");
         int count = countryObj.getPropertyCount();
         if (count == 1) {
             Log.e("log_order result", "false 값 에러");
@@ -651,33 +595,34 @@ public class OrderActivity extends Activity implements Serializable {
     public void SoapToArraylist() {
         try {
             SoapObject countryDetails = s;      //all
-            if (!order_dbAdapter.isEmpty("DATE", DATEo)) Delete_table("DATE", DATEo); //존재유무
+            if (!order_dbAdapter.isEmpty("DATE", userInfo.getGETTIME())) Delete_table(userInfo.getGETTIME()); //존재유무
             if (check_order_err(countryDetails)) {
                 OrderSetData(countryDetails);
                 Date A;
                 Date B;
-                A = new SimpleDateFormat("MM-dd-yyyy").parse(realtime);
-                B = new SimpleDateFormat("MM-dd-yyyy").parse(DATEo);
+                A = userInfo.simpleDateFormat.parse(userInfo.getREALTIME());
+                B = userInfo.simpleDateFormat.parse(userInfo.getGETTIME());
                 int compare = A.compareTo(B); //리얼이랑 현재 비교
                 order_contact_data = OrderGetData(); //DB값 호출.
                 if (compare >= 0) {  //과거 기록 조회
-                    order_count = order_dbAdapter.getConditionCount(new OrderContact(), "DATE", DATEo);//조회날짜 갯수
+                    order_count = order_dbAdapter.getConditionCount(new OrderContact(), "DATE", userInfo.getGETTIME());//조회날짜 갯수
                     Log.e("log_today_size 과거 또는 현재", Start + " ~ " + order_count);
                     for (int i = 0; i < order_contact_data.size(); i++)
                         order_contact_data.get(i).setProperties(order_contact_data.get(i).getProperties());
-                    setOrderVariable(order_contact_data); // 변수에 값 저장.
+                    addOrderVariable(order_contact_data); // 변수에 값 저장.
                 } else { //미래 기록 조회
                     order_count = order_contact_data.size();
-                    Start = order_dbAdapter.getConditionCount(new OrderContact(), "DATE", realtime);//조회날짜 갯수
+                    Start = order_dbAdapter.getConditionCount(new OrderContact(), "DATE", userInfo.getREALTIME());//조회날짜 갯수
                     Log.e("log_today_size 미래", Start + " ~ " + order_count);
                     for (int i = 0; i < order_contact_data.size(); i++)
                         order_contact_data.get(i).setProperties(order_contact_data.get(i).getProperties());
-                    setOrderVariable(order_contact_data); // 변수에 값 저장.
+                    addOrderVariable(order_contact_data); // 변수에 값 저장.
                 }
-                STATUS=test_status;
-                Log.e("log_order3333", STATUS + "");
-                getorder = AUFNR.size() > 4;
-            }else
+                item.ORDER_STATUS = test_status;
+                Log.e("log_order3333", item.ORDER_STATUS + "");
+                Log.e("log_order3333", item.getPICK_SEQ() + "");
+                getorder = item.getAUFNR().size() > 4;
+            } else
                 getorder = false;
         } catch (Exception e) {
             e.printStackTrace();
@@ -687,9 +632,9 @@ public class OrderActivity extends Activity implements Serializable {
     private void print_clean(TextView[] tv) {
         int i;
         for (i = -2; i < 3; i++) {
-            int temp = status;
+            int temp = order_index;
             temp += i;
-            if (temp >= 0 && temp < STATUS.size() && STATUS.get(temp).equals("Y")) {
+            if (temp >= 0 && temp < item.getORDER_STATUS().size() && item.getORDER_STATUS().get(temp).equals("Y")) {
                 tv[i + 2].setBackgroundColor(Color.parseColor("#FEFF52"));
             } else {
                 tv[i + 2].setBackgroundColor(Color.parseColor("#7EE8C6"));
@@ -698,11 +643,11 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void err_dialog() {
-        AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
         Log.e("log_dial", "test");
         String err_Net = "The network is not working. Connect to 'FactoryWireless'.";
-        String err_not_exist = "[" + DATEo + "] data does not exist!";
-        String err_message = "";
+        String err_not_exist = "[" + userInfo.getGETTIME() + "] data does not exist!";
+        String err_message;
         alertdialog.setTitle("Not Found");
         if (!b) {
             err_message = err_Net;
@@ -710,12 +655,7 @@ public class OrderActivity extends Activity implements Serializable {
             err_message = err_not_exist;
         }
         alertdialog.setMessage(err_message).setPositiveButton("Return",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        OrderActivity.this.finish();
-                    }
-                });
+                (dialog, which) -> OrderActivity.this.finish());
         AlertDialog alertDialog = alertdialog.create();
         alertDialog.show();
     }
@@ -723,60 +663,55 @@ public class OrderActivity extends Activity implements Serializable {
     private void check_load_time() {     //테스트만 하면댐 월요일
         String load_date;
         TextView tv = findViewById(R.id.load_date);
-        Log.e("log_date start", load_index + "   " + AUFNR.size());
-        load_date = order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", DATEo).getProperty(4);
+        Log.e("log_date_start", item.getLOAD_INDEX() + "   " + item.getAUFNR().size());
+        load_date = order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", userInfo.getGETTIME()).getProperty(4);
         if (load_date.equals("0")) {
             OrderStatusUpdate("LOAD_TIME", app.load_time());
-            load_date = order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", DATEo).getProperty(4);
-            tv.setText("loading from " + load_date);
-        } else if (load_index == AUFNR.size() && load_index != 0) {      //동작키에 넣어야할듯?
+            load_date = order_status_dbAdapter.getContact(new OrderStatusContact(), "DATE", userInfo.getGETTIME()).getProperty(4);
+            tv.setText(getString(R.string.TwoString, "loading from ", load_date));
+        } else if (item.getLOAD_INDEX() == item.getAUFNR().size() && item.getLOAD_INDEX() != 0) {      //동작키에 넣어야할듯?
             if (load_flag) {
                 OrderStatusUpdate("LOAD_TIME", app.load_time());
                 load_flag = false;
             }
-            tv.setText("End loading " + load_date);
+            tv.setText(getString(R.string.TwoString, "End loading ", load_date));
         } else {
-            tv.setText("loading from " + load_date);
+            tv.setText(getString(R.string.TwoString, "loading from ", load_date));
         }
     }
 
     public void Print_First(TextView[] tv, ArrayList<String> arr) {
-        if (status == 0) {
+        if (order_index == 0) {
             tv[0].setText("");
             tv[1].setText("");
-            tv[2].setText(arr.get(status));
-            tv[3].setText(arr.get(status + 1));
-            tv[4].setText(arr.get(status + 2));
-        } else if (status == 1) {
+            tv[2].setText(arr.get(order_index));
+            tv[3].setText(arr.get(order_index + 1));
+            tv[4].setText(arr.get(order_index + 2));
+        } else if (order_index == 1) {
             tv[0].setText("");
-            tv[1].setText(arr.get(status - 1));
-            tv[2].setText(arr.get(status));
-            tv[3].setText(arr.get(status + 1));
-            tv[4].setText(arr.get(status + 2));
-        } else if (status > 1 && status < AUFNR.size() - 2) {
-            tv[0].setText(arr.get(status - 2));
-            tv[1].setText(arr.get(status - 1));
-            tv[2].setText(arr.get(status));
-            tv[3].setText(arr.get(status + 1));
-            tv[4].setText(arr.get(status + 2));
-        } else if (status == AUFNR.size() - 2) {
-            tv[0].setText(arr.get(status - 2));
-            tv[1].setText(arr.get(status - 1));
-            tv[2].setText(arr.get(status));
-            tv[3].setText(arr.get(status + 1));
+            tv[1].setText(arr.get(order_index - 1));
+            tv[2].setText(arr.get(order_index));
+            tv[3].setText(arr.get(order_index + 1));
+            tv[4].setText(arr.get(order_index + 2));
+        } else if (order_index > 1 && order_index < item.getAUFNR().size() - 2) {
+            tv[0].setText(arr.get(order_index - 2));
+            tv[1].setText(arr.get(order_index - 1));
+            tv[2].setText(arr.get(order_index));
+            tv[3].setText(arr.get(order_index + 1));
+            tv[4].setText(arr.get(order_index + 2));
+        } else if (order_index == item.getAUFNR().size() - 2) {
+            tv[0].setText(arr.get(order_index - 2));
+            tv[1].setText(arr.get(order_index - 1));
+            tv[2].setText(arr.get(order_index));
+            tv[3].setText(arr.get(order_index + 1));
             tv[4].setText("");
         } else {
-            tv[0].setText(arr.get(status - 2));
-            tv[1].setText(arr.get(status - 1));
-            tv[2].setText(arr.get(status));
+            tv[0].setText(arr.get(order_index - 2));
+            tv[1].setText(arr.get(order_index - 1));
+            tv[2].setText(arr.get(order_index));
             tv[3].setText("");
             tv[4].setText("");
         }
-    }
-
-    public void onClick(View view) {
-        Intent intent = new Intent(this, ItemActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -815,12 +750,12 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void key_down() {
-        if (status > 0) {    //상태 감소
-            status -= 1;
+        if (order_index > 0) {    //상태 감소
+            order_index -= 1;
+            item.setORDER_INDEX(order_index);
             //UPDATE ORDER_STATUS 값
-            String convert_name = "ORDER_STATUS";
-            String convert_value = String.valueOf(status);
-            OrderStatusUpdate(convert_name, convert_value);
+            String convert_value = String.valueOf(order_index);
+            OrderStatusUpdate("ORDER_STATUS", convert_value);
             app.OrderStatusPrint(order_status_dbAdapter);
             for (int i = 4; i > 0; i--) {
                 seq[i].setText(seq[i - 1].getText());
@@ -828,11 +763,11 @@ public class OrderActivity extends Activity implements Serializable {
                 matnr[i].setText(matnr[i - 1].getText());
                 back[i].setText(back[i - 1].getText());
             }
-            if (status - 1 > 0) {
-                seq[0].setText(SEQ.get(status - 2));
-                sernr[0].setText(SERNR.get(status - 2));
-                matnr[0].setText(MATNR.get(status - 2));
-                back[0].setText(YMII_BACK.get(status - 2));
+            if (order_index - 1 > 0) {
+                seq[0].setText(item.getORDER_SEQ().get(order_index - 2));
+                sernr[0].setText(item.getSERNR().get(order_index - 2));
+                matnr[0].setText(item.getORDER_MATNR().get(order_index - 2));
+                back[0].setText(item.getYMII_BACK().get(order_index - 2));
             } else {
                 seq[0].setText("");
                 sernr[0].setText("");
@@ -840,19 +775,19 @@ public class OrderActivity extends Activity implements Serializable {
                 back[0].setText("");
             }
         }
-        Print_First(chk, load_stat);
+        Print_First(chk, item.getLOAD_STATUS());
         print_clean(back);
         percent();
-        index.setText((status + 1) + "/" + MATNR.size());
+        index.setText(getString(R.string.OrderIndex, (order_index + 1), item.getORDER_MATNR().size()));
     }
 
     private void key_up() {
-        if (status + 1 < MATNR.size()) {
-            status += 1;
+        if (order_index + 1 < item.getORDER_MATNR().size()) {
+            order_index += 1;
+            item.setORDER_INDEX(order_index);
             //UPDATE ORDER_STATUS 값
-            String convert_name = "ORDER_STATUS";
-            String convert_value = status + "";
-            OrderStatusUpdate(convert_name, convert_value);
+            String convert_value = order_index + "";
+            OrderStatusUpdate("ORDER_STATUS", convert_value);
             app.OrderStatusPrint(order_status_dbAdapter);
             for (int i = 0; i < 4; i++) {
                 seq[i].setText(seq[i + 1].getText());
@@ -860,11 +795,11 @@ public class OrderActivity extends Activity implements Serializable {
                 matnr[i].setText(matnr[i + 1].getText());
                 back[i].setText(back[i + 1].getText());
             }
-            if (status + 2 < MATNR.size()) {
-                seq[4].setText(SEQ.get(status + 2));
-                sernr[4].setText(SERNR.get(status + 2));
-                matnr[4].setText(MATNR.get(status + 2));
-                back[4].setText(YMII_BACK.get(status + 2));
+            if (order_index + 2 < item.getORDER_MATNR().size()) {
+                seq[4].setText(item.getORDER_SEQ().get(order_index + 2));
+                sernr[4].setText(item.getSERNR().get(order_index + 2));
+                matnr[4].setText(item.getORDER_MATNR().get(order_index + 2));
+                back[4].setText(item.getYMII_BACK().get(order_index + 2));
             } else {
                 seq[4].setText("");
                 sernr[4].setText("");
@@ -872,10 +807,10 @@ public class OrderActivity extends Activity implements Serializable {
                 back[4].setText("");
             }
         }
-        Print_First(chk, load_stat);
+        Print_First(chk, item.getLOAD_STATUS());
         print_clean(back);
         percent();
-        index.setText((status + 1) + "/" + MATNR.size());
+        index.setText(getString(R.string.OrderIndex, (order_index + 1), item.getORDER_MATNR().size()));
     }
 
 
@@ -887,13 +822,13 @@ public class OrderActivity extends Activity implements Serializable {
                     key_down();
                 } else {
                     key_flag = false;
-                    Log.e("log_thread_test",Thread.currentThread().getName());
+                    Log.e("log_thread_test", Thread.currentThread().getName());
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_UP:
                 if (!key_flag) {
                     key_down();
-                    Log.e("log_thread_test",Thread.currentThread().getName());
+                    Log.e("log_thread_test", Thread.currentThread().getName());
                 } else {
                     key_flag = false;
                 }
@@ -901,7 +836,7 @@ public class OrderActivity extends Activity implements Serializable {
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 if (!key_flag) {
                     key_up();
-                    Log.e("log_thread_test",Thread.currentThread().getName());
+                    Log.e("log_thread_test", Thread.currentThread().getName());
                 } else {
                     key_flag = false;
                 }
@@ -909,7 +844,7 @@ public class OrderActivity extends Activity implements Serializable {
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 if (!key_flag) {
                     key_up();
-                    Log.e("log_thread_test",Thread.currentThread().getName());
+                    Log.e("log_thread_test", Thread.currentThread().getName());
                 } else {
                     key_flag = false;
                 }
@@ -919,9 +854,9 @@ public class OrderActivity extends Activity implements Serializable {
                 break;
             case KeyEvent.KEYCODE_BACK:
                 enter_flag = true;
-                if (!DATEo.equals(realtime)) {
+                if (!userInfo.getGETTIME().equals(userInfo.getREALTIME())) {
                     Log.e("log_order", "back to delete!");
-                    Delete_table_not(realtime);
+                    Delete_table_not(userInfo.getREALTIME());
                 }
                 finish();
                 break;
@@ -933,38 +868,22 @@ public class OrderActivity extends Activity implements Serializable {
                 break;
         }
         app.key_voice_control(keyCode);
-        new Handler().postDelayed(()->{
-            app.Set_voice_stat(voice_stat);
-        },500);
+        new Handler().postDelayed(() -> app.Set_voice_stat(voice_stat), 500);
         return super.onKeyUp(keyCode, event);
     }
 
 
-    private void enter_key(){
-        String temp = load_stat.get(status);
-        if (temp.equals(check)) {
+    private void enter_key() {
+        String temp = item.getLOAD_STATUS().get(order_index);
+        if (temp.equals(getString(R.string.Check))) {
             enter_flag = true;
             Intent intent = new Intent(this, ItemActivity.class);
-            Bundle b = new Bundle();
-            intent.putExtra("bundle", b);
-            intent.putExtra("AUFNR", AUFNR.get(status).toString());
-            intent.putExtra("mat", MATNR.get(status));
-            intent.putExtra("LINEo", LINEo);
-            intent.putExtra("PLANTo", PLANTo);
-            intent.putExtra("IZONEo", ZONEo);
-            intent.putExtra("TAKTo", TAKTo);
-            intent.putExtra("IDo", IDo);
-            intent.putExtra("PWo", PWo);
-            intent.putExtra("load_index", load_index);
-            intent.putExtra("status_order", status);
-            intent.putExtra("getindex", putindex);
-            intent.putExtra("DATEo", DATEo);
-            intent.putStringArrayListExtra("AUFNR_order", AUFNR);
-            intent.putStringArrayListExtra("PICK_SEQ", PICK_SEQ);
-            intent.putStringArrayListExtra("load_stat", load_stat);
+            intent.putExtra("userInfo", userInfo);
+            intent.putExtra("item", item);
+            intent.putExtra("order_index", order_index);
             intent.putStringArrayListExtra("Result", Result_item);
-            intent.putExtra("order_qty", order_contact_data.size());
-            startActivityForResult(intent, 1);
+//            item.ORDER_INIT();
+            startActivityForResult(intent,1);
         } else {
             app.PrintToastMessage("Not yet loaded");
         }
@@ -992,15 +911,14 @@ public class OrderActivity extends Activity implements Serializable {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("log_flow", "order restart");
         UI_control();
         app.Set_voice_stat(voice_stat);
-        if (DATEo.equals(realtime)) {
+        if (userInfo.getGETTIME().equals(userInfo.getREALTIME())) {
             getOrder();
             print_clean(back);
         }
-        if(load_index < AUFNR.size() && putindex != AUFNR.size()){
-            Log.e("log_flow", "thread restart "+backgroundThread.isInterrupted());
+        if (item.getLOAD_INDEX() < item.getAUFNR().size() && item.getLIMIT_INDEX() != item.getAUFNR().size()) {
+            Log.e("log_flow", "thread restart " + backgroundThread.isInterrupted());
             backgroundThread = new BackgroundThread();
             backgroundThread.setRunning(true);
             backgroundThread.start();
@@ -1011,9 +929,9 @@ public class OrderActivity extends Activity implements Serializable {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("log_flow", "order_destroy");
         enter_flag = true;
         boolean retry = true;
+//        item.ORDER_INIT();
         backgroundThread.setRunning(false);
         while (retry) {
             try {
@@ -1024,28 +942,29 @@ public class OrderActivity extends Activity implements Serializable {
             }
         }
         UI_control();
-        if (DATEo.equals(realtime)) {
-            Delete_table_not(realtime);
+        if (userInfo.getGETTIME().equals(userInfo.getREALTIME())) {
+            Delete_table_not(userInfo.getREALTIME());
         }
-        Log.e("log_flow", "thread destroy "+backgroundThread.isInterrupted());
     }
 
     @Override
     protected void onActivityResult(int request, int result, Intent data) {
-        Log.e("log_test_", request + " " + result);
         switch (request) {
             case 1:
+                Log.e("log_test_result1", request + " " + result);
                 if (result == 1111) {
+                    Log.e("log_voc_thread_test", "running000 " + enter_flag);
                     UI_control();
-                    load_index = data.getIntExtra("load_index_item", 3333);  //현재 위치 알려줌
-                    putindex = data.getIntExtra("putindex", 4444);//다운다됐는지 확인
-                    load_stat = data.getStringArrayListExtra("load_stat");
-                    if (putindex >= AUFNR.size() - 1) {   //다 다운받았을경우
+                    item.setLOAD_INDEX(data.getIntExtra("load_index_item", 3333));//현재 위치 알려줌
+                    item.setLIMIT_INDEX(data.getIntExtra("limit_index", 4444));//다운다됐는지 확인
+                    item.LOAD_STATUS = data.getStringArrayListExtra("load_stat");
+                    if (item.getLIMIT_INDEX() >= item.getAUFNR().size() - 1) {   //다 다운받았을경우
                         enter_flag = true;
                         backgroundThread.setRunning(false);
-                        onDestroy();
+//                        onDestroy();
                     } else {
                         enter_flag = false;
+                        Log.e("log_voc_thread_test", "running111 " + enter_flag);
                     }
                 }
                 break;
@@ -1053,11 +972,11 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void handleMessage(Message msg) {
-        Print_First(chk, load_stat);
-        Log.e("log_voc_thread_test","handleMessage"+Thread.currentThread().getName());
+        Print_First(chk, item.getLOAD_STATUS());
+        Log.e("log_voc_thread_test", "handleMessage" + Thread.currentThread().getName());
     }
 
-    public class BackgroundThread extends Thread { //TODO 대체방안 마련해요
+    public class BackgroundThread extends Thread {
         boolean running = false;
 
         void setRunning(boolean b) {
@@ -1066,32 +985,35 @@ public class OrderActivity extends Activity implements Serializable {
 
         @Override
         public void run() {
+            Log.e("log_voc_thread_test", "running2222 " + enter_flag);
             breakOut:
             while (running) {
-                while (load_index < AUFNR.size() && putindex != AUFNR.size()) {
-                    Log.e("log_load_index6", load_index + " interrupt: "+backgroundThread.isInterrupted());
-                    if(putindex==AUFNR.size()){
+//                enter_flag = false;
+
+                while (item.getLOAD_INDEX() < item.getAUFNR().size() && item.getLIMIT_INDEX() != item.getAUFNR().size()) {
+                    Log.e("log_load_index6", item.getLOAD_INDEX() + " interrupt: " + item.getLIMIT_INDEX());
+                    if (item.getLIMIT_INDEX() == item.getAUFNR().size()) {
                         backgroundThread.setRunning(false);
                         break breakOut;
-                    }else if(enter_flag){
+                    } else if (enter_flag) {
                         backgroundThread.setRunning(false);
                         break breakOut;
                     }
                     SoapObject countryDetails;
-                    Log.e("log_load ", "1. 배열 인덱스: " + load_index);
-                    Log.e("log_load ", "1. 배열 인덱스 크기: " + (AUFNR.size() - 1));
+                    Log.e("log_load ", "1. 배열 인덱스: " + item.getLOAD_INDEX());
+                    Log.e("log_load ", "1. 배열 인덱스 크기: " + (item.getAUFNR().size() - 1));
                     SoapObject input_params = new SoapObject(app.NAMESPACE, "InputParams");
                     SoapObject filter_sequence = new SoapObject(app.NAMESPACE, "InputSequence");
                     SoapObject request = new SoapObject(app.NAMESPACE, app.SOAP_METHOD);
-                    filter_sequence.addProperty("OrderNo", AUFNR.get(load_index));//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("Line", LINEo);//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("Plant", PLANTo);//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("Zone", ZONEo);//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("Takt", TAKTo);//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("PIC_SEQ", PICK_SEQ.get(load_index));//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("OrderNo", item.getLOAD_ORDER());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("Line", userInfo.getLINE());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("Plant", userInfo.getPLANT());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("Zone", userInfo.getZONE());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("Takt", userInfo.getTAKT());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("PIC_SEQ", item.getLOAD_SEQ());//전달 파라미터(변수명 값 입력해야함)
                     input_params.addSoapObject(filter_sequence);//전달 파라미터(변수명 값 입력해야함)
-                    request.addProperty("LoginName", IDo);//전달 파라미터(변수명 값 입력해야함)
-                    request.addProperty("LoginPassword", PWo);//전달 파라미터(변수명 값 입력해야함)
+                    request.addProperty("LoginName", userInfo.getID());//전달 파라미터(변수명 값 입력해야함)
+                    request.addProperty("LoginPassword", userInfo.getPW());//전달 파라미터(변수명 값 입력해야함)
                     request.addProperty("InputParams", filter_sequence);//전달 파라미터(변수명 값 입력해야함)
 
                     //////웹서비스 호출 준비
@@ -1109,31 +1031,27 @@ public class OrderActivity extends Activity implements Serializable {
                         if (property instanceof SoapObject) {
                             SoapObject countryObj = (SoapObject) property;
                             String auf_test = countryObj.getProperty("AUFNR").toString();
-                            if (auf_test == null) {
-                                load_stat.set(load_index, "");
-                                backgroundThread.setRunning(false);
-                                break breakOut;
-                            } else {
-                                Log.e("log_load", "5b. 내용물 정상임" + auf_test);
-                                Result.set(load_index, countryDetails);
-                                load_stat.set(load_index, check);
-                                app.SoapToArraylist_item(Result, load_index, item_dbAdapter, DATEo, itemStatusContact, item_status_dbAdapter);
-                            }
+                            Log.e("log_load", "5b. 내용물 정상임" + auf_test);
+                            Result.set(item.getLOAD_INDEX(), countryDetails);
+                            Log.e("log_load", "Result: " + Result);
+                            item.getLOAD_STATUS().set(item.getLOAD_INDEX(), getString(R.string.Check));
+                            Log.e("log_load", "load_index: " + item.getLOAD_INDEX()+"/ date: "+userInfo.getGETTIME());
+                            app.SoapToArraylist_item(Result, item.getLOAD_INDEX(), item_dbAdapter, userInfo.getGETTIME(), itemStatusContact, item_status_dbAdapter);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e("log_load ", "6. 캐치 인덱스: " + load_index);
-                        load_stat.set(load_index, "0");
-                        Result.set(load_index, "Need Download");
-                        load_index--;
+                        Log.e("log_load ", "6. 캐치 인덱스: " + item.getLOAD_INDEX());
+//                        item.getLOAD_STATUS().set(item.getLOAD_INDEX(), "0");
+                        Result.set(item.getLOAD_INDEX(), "");
+                        item.setLOAD_INDEX(item.getLOAD_INDEX()-1);
                     }
                     myHandler.sendMessage(myHandler.obtainMessage());
-                    if (load_index == (AUFNR.size() - 1)) {
+                    if (item.getLOAD_INDEX() == (item.getAUFNR().size() - 1)) {
                         load_flag = true;
                     }
-                    load_index++;
+                    item.setLOAD_INDEX(item.getLOAD_INDEX()+1);
                 }
-                putindex = load_index;
+                item.setLIMIT_INDEX(item.getLOAD_INDEX());
             }
         }
     }
@@ -1142,8 +1060,8 @@ public class OrderActivity extends Activity implements Serializable {
         // 핸들러 객체 만들기
         private final WeakReference<OrderActivity> mActivity;
 
-        public MyHandler(OrderActivity activity) {
-            mActivity = new WeakReference<OrderActivity>(activity);
+        private MyHandler(OrderActivity activity) {
+            mActivity = new WeakReference<>(activity);
         }
 
         @Override

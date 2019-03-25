@@ -46,6 +46,7 @@ public class CallRemote_endpicking extends AsyncTask<String, String, SoapObject>
         try {
             androidHttpTransport.call(SOAP_ACTION, envelope);   //웹서비스 호출(soap action 변수 사용)
             countryDetails = (SoapObject) envelope.getResponse();
+            Log.e("log_end Result", "End: " + countryDetails);
         } catch (Exception e) {
             Log.e("log_end error Result", "Error: " + e.getMessage());
         }

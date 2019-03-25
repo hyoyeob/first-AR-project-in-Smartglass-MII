@@ -49,6 +49,7 @@ import java.util.Set;
 
 public class Std_Method extends Application {
     private int now_view;
+    private String REMEMBER_ID;
     public String ITEM = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/getPickingItemListTrx";
     public String NAMESPACE = "http://www.sap.com/xMII";
     public String SOAP_METHOD = "XacuteRequest";
@@ -294,6 +295,46 @@ public class Std_Method extends Application {
 
 
     /**
+     * 현재 뷰 위치 영구 저장
+     */
+    public void share_preferences(){
+        SharedPreferences pref = getSharedPreferences("test",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("NOW",now_view);
+        editor.apply();
+    }
+
+    public String getRememberID(){
+        return REMEMBER_ID;
+    }
+
+    public void setREMEMBER_ID(String REMEMBER_ID) {
+        this.REMEMBER_ID = REMEMBER_ID;
+    }
+
+    /**
+     * 저장한 현재 아이디 값 불러옴
+     */
+    public void InitRememberID(){
+        SharedPreferences prefs_id = getSharedPreferences("id",MODE_PRIVATE);
+        String result = prefs_id.getString("ID","");
+        Log.e("log_GetRememberID",result+"");
+        REMEMBER_ID=result;
+    }
+
+
+    /**
+     * 현재 아이디 기록 위치 영구 저장
+     */
+    public void ID_Preference(){
+        SharedPreferences pref_id = getSharedPreferences("id",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref_id.edit();
+        editor.putString("ID",REMEMBER_ID);
+        editor.apply();
+    }
+
+
+    /**
      * 현재 뷰위치 읽을 수 있도록 변수에 값 저장
      * @param now: 현재 뷰 위치
      */
@@ -314,15 +355,6 @@ public class Std_Method extends Application {
 
     }
 
-    /**
-     * 현재 뷰 위치 영구 저장
-     */
-    public void share_preferences(){
-        SharedPreferences pref = getSharedPreferences("test",MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("NOW",now_view);
-        editor.apply();
-    }
 
     public int get_now_view(){
         return now_view;

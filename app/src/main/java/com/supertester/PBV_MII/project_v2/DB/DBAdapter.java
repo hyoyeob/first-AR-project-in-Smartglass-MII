@@ -176,8 +176,6 @@ public class DBAdapter<Contact extends com.supertester.PBV_MII.project_v2.DB.Con
         }else{
             selectQuery = "SELECT DISTINCT count(*) FROM " + TABLE_NAME + " WHERE " + location_name + " = '" + location_value + "'";
         }
-
-
         Log.e("log_date", selectQuery);
         try{
             Cursor cursor1 = db.rawQuery(selectQuery, null);
@@ -215,7 +213,7 @@ public class DBAdapter<Contact extends com.supertester.PBV_MII.project_v2.DB.Con
             selectQuery = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + location_name + " = '" + location_value + "' ORDER BY LAMPOS ASC";
         }
         Cursor cursor = db.rawQuery(selectQuery, null);
-
+        Log.e("getConditionContacts", selectQuery);
         try {
             if (cursor.moveToFirst()) {
                 do {
@@ -351,7 +349,7 @@ public class DBAdapter<Contact extends com.supertester.PBV_MII.project_v2.DB.Con
 
 
         Cursor cursor = db.rawQuery(selectQuery, null);
-//        Log.e("log_load_index3_query" , selectQuery+"");
+        Log.e("log_load_getContact" , selectQuery+"");
 
         try {
             Contact c = (Contact) temp.getClass().newInstance();

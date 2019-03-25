@@ -57,11 +57,6 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
         return Service.START_STICKY;
     }
 
-    public String getVoc_result(){
-        Log.e("log_voc_get_res",voc_result);
-        return voc_result;
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -84,7 +79,7 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
 
     @Override
     public void onSpeechResult(String result) {
-        Log.e("log_voc_set_flow","Result:" +result);
+        Log.e("log_voc_result",result);
         if (!TextUtils.isEmpty(result)&&!result.equals("아")) {
             voc_result=result;
             sm=(Std_Method)getApplicationContext();
