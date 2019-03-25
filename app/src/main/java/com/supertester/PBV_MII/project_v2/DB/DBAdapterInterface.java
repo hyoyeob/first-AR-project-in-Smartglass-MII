@@ -7,14 +7,19 @@ import java.util.ArrayList;
 public interface DBAdapterInterface<Contact> {
 
     //생성자 2개
-    boolean CreateTable();
-    boolean DropTable();
-    int OneTimeInsert(SQLiteDatabase db, ArrayList<String> data);
-    int addContact();
+    void CreateTable();
+
+    void DropTable();
+
+    void OneTimeInsert(SQLiteDatabase db, ArrayList<String> data);
+
+    void addContact();
     boolean isEmpty(String location, String data);
     ArrayList<Contact> getAllContacts(Contact temp);
 
     Contact getContact(Contact temp, String location_name, String location_value);
-    boolean updateContact(String location, String data);
-    boolean deleteContact(String location, String data);
+
+    void updateContact(String location, String data);
+
+    void deleteContact(String location, String data);
 }

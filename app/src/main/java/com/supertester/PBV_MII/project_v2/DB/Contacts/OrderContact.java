@@ -23,34 +23,32 @@ public class OrderContact extends Contact {
     private String TAKT = "TAKT";
     private String IZONE = "IZONE";
 
-    private ArrayList<String> property_name = new ArrayList<String>(Arrays.asList(
-            AUFNR, DATE, PLANT, LINE, ZONE, DCN, MATNR, SEQ, SERNR, STATUS, YMII_BACK, PICK_SEQ, TAKT, IZONE));
-    private String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS OrderContact("
-            +AUFNR +" VARCHAR(100) PRIMARY KEY, "
-            +DATE +" VARCHAR(100), "
-            +PLANT + " VARCHAR(100),"
-            +LINE + " VARCHAR(100),"
-            +ZONE + " VARCHAR(100),"
-            +DCN + " VARCHAR(100),"
-            +MATNR + " VARCHAR(100),"
-            +SEQ + " VARCHAR(100),"
-            +SERNR + " VARCHAR(100),"
-            +STATUS + " VARCHAR(100),"
-            +YMII_BACK + " VARCHAR(100),"
-            +PICK_SEQ + " VARCHAR(100),"
-            +TAKT + " VARCHAR(100),"
-            +IZONE+" VARCHAR(100),"
-            +"constraint date_fk foreign key(date) references OrderStatusContact(date)"
-            +")";
-
-    public int length = property_name.size();
-
     public OrderContact() {
         super();
         super.table_name = "OrderContact";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS OrderContact("
+                + AUFNR + " VARCHAR(100) PRIMARY KEY, "
+                + DATE + " VARCHAR(100), "
+                + PLANT + " VARCHAR(100),"
+                + LINE + " VARCHAR(100),"
+                + ZONE + " VARCHAR(100),"
+                + DCN + " VARCHAR(100),"
+                + MATNR + " VARCHAR(100),"
+                + SEQ + " VARCHAR(100),"
+                + SERNR + " VARCHAR(100),"
+                + STATUS + " VARCHAR(100),"
+                + YMII_BACK + " VARCHAR(100),"
+                + PICK_SEQ + " VARCHAR(100),"
+                + TAKT + " VARCHAR(100),"
+                + IZONE + " VARCHAR(100),"
+                + "constraint date_fk foreign key(date) references OrderStatusContact(date)"
+                + ")";
         super.setCREATE_CONTACTS_TABLE(CREATE_CONTACTS_TABLE);
+        ArrayList<String> property_name = new ArrayList<>(Arrays.asList(
+                AUFNR, DATE, PLANT, LINE, ZONE, DCN, MATNR, SEQ, SERNR, STATUS, YMII_BACK, PICK_SEQ, TAKT, IZONE));
         super.setProperty_name(property_name);
-        super.setLength(this.length);
+        int length = property_name.size();
+        super.setLength(length);
     }
 
     public void setProperties(ArrayList<String> data){
@@ -81,10 +79,7 @@ public class OrderContact extends Contact {
 
 
     public String getAUFNR(){ return AUFNR; }
-    public String getDATE(){ return DATE; }
-    public String getPLANT(){ return PLANT; }
     public String getLINE(){ return LINE; }
-    public String getZONE(){ return ZONE; }
     public String getDCN(){ return DCN; }
     public String getMATNR(){ return MATNR; }
     public String getSEQ(){ return SEQ; }

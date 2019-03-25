@@ -1,8 +1,6 @@
 package com.supertester.PBV_MII.project_v2.ACT;
 
 import android.app.AlertDialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sac.speech.Speech;
-import com.supertester.PBV_MII.project_v2.CLASS.ShutdownConfigAdminReceiver;
 import com.supertester.PBV_MII.project_v2.CLASS.Std_Method;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -34,9 +31,6 @@ import com.supertester.PBV_MII.project_v2.VOICE_CONTROL.MyService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Date;
 
 public class MainActivity extends Activity {
@@ -351,12 +345,10 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int request, int result, Intent data) {
-        Log.e("log_act", request + "   " + result);
         switch (request) {
             case 1:
                 if (result == RESULT_OK) {
                     String edt;
-                    Log.e("log_test", result + " " + RESULT_OK);
                     edt = data.getStringExtra("gettime");
                     Date.setText(edt);
                     userInfo.setGETTIME(edt);
@@ -378,7 +370,6 @@ public class MainActivity extends Activity {
                             InitAdapter();
                             app.setREMEMBER_ID(userInfo.getUSER());
                             app.ID_Preference();
-                            Log.e("log_test_id", "" + app.getRememberID());
                         }
                         Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
                         intent1.putExtra("userInfo", userInfo);
@@ -409,38 +400,6 @@ public class MainActivity extends Activity {
             stopService(new Intent(this, MyService.class));
             app.voice_flag = false;
         }
-    }
-
-    private float getCpuTemperature() {
-        Process process;
-        try {
-            process = Runtime.getRuntime().exec("cat sys/class/thermal/thermal_zone0/temp");
-            process.waitFor();
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = bufferedReader.readLine();
-
-            float temperature = Float.parseFloat(line) / 1000.0f;
-            Log.e("log_test_cpu", temperature + "  111111");
-            Log.e("log_test_cpu", getCpuTemperature() + "");
-            return temperature;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0.0f;
-        }
-    }
-
-    private void Permission() {
-        app.devicePolicyManager = (DevicePolicyManager) getApplicationContext().getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName componentName = new ComponentName(getApplicationContext(), ShutdownConfigAdminReceiver.class);
-        if (!app.devicePolicyManager.isAdminActive(componentName)) {
-            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
-            startActivityForResult(intent, 0);
-        }
-        View view = getWindow().getDecorView();
-        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 }
 

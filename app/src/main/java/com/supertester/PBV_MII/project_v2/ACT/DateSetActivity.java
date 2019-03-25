@@ -13,11 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.supertester.PBV_MII.project_v2.CLASS.Std_Method;
 import com.supertester.PBV_MII.project_v2.DB.User;
 import com.supertester.PBV_MII.project_v2.R;
-
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,7 +96,6 @@ public class DateSetActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.e("key pressed", String.valueOf(event.getKeyCode()));
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
             if (key_flag) {
                 try {
@@ -128,7 +125,7 @@ public class DateSetActivity extends Activity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.e("key pressed", String.valueOf(event.getKeyCode()));
+        Log.e("getkey", String.valueOf(event.getKeyCode()));
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_LEFT://bt300 제스쳐 시도
                 if (!key_flag) {
@@ -168,9 +165,7 @@ public class DateSetActivity extends Activity {
                 break;
         }
         app.key_voice_control(keyCode);
-        new Handler().postDelayed(() -> {
-            app.Set_voice_stat(voice_stat);
-        }, 500);
+        new Handler().postDelayed(() -> app.Set_voice_stat(voice_stat), 500);
         return super.onKeyUp(keyCode, event);
     }
 

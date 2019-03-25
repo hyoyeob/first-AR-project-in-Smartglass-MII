@@ -20,7 +20,7 @@ public class CustomScannerActivity extends Activity{
         setContentView(R.layout.activity_custom_scanner);
         UI_control();
 
-        barcodeScannerView = (DecoratedBarcodeView)findViewById(R.id.zxing_barcode_scanner);
+        barcodeScannerView = findViewById(R.id.zxing_barcode_scanner);
 
         capture = new CaptureManager(this, barcodeScannerView);
         capture.initializeFromIntent(getIntent(), savedInstanceState);

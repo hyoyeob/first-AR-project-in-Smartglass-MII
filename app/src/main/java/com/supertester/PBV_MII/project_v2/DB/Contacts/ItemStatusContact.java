@@ -18,22 +18,21 @@ public class ItemStatusContact extends Contact {
     private String ITEM_QTY = "ITEM_QTY";
 
 
-    private ArrayList<String> property_name = new ArrayList<String>(Arrays.asList(AUFNR, ITEM_STATUS, SUCCESS_NUMBER, ITEM_QTY));
-    private String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS ItemStatusContact("
-            + AUFNR +" VARCHAR(100) , "
-            + ITEM_STATUS +" VARCHAR(100), "
-            +SUCCESS_NUMBER + " VARCHAR(100),"
-            +ITEM_QTY+" VARCHAR(100),"
-            +"FORIEGN KEY AUFNR REFERENCES OrderContact(AUFNR)"
-            +")";
-    public int length = property_name.size();
-
     public ItemStatusContact() {
         super();
         super.table_name = "ItemStatusContact";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS ItemStatusContact("
+                + AUFNR + " VARCHAR(100) , "
+                + ITEM_STATUS + " VARCHAR(100), "
+                + SUCCESS_NUMBER + " VARCHAR(100),"
+                + ITEM_QTY + " VARCHAR(100),"
+                + "FORIEGN KEY AUFNR REFERENCES OrderContact(AUFNR)"
+                + ")";
         super.setCREATE_CONTACTS_TABLE(CREATE_CONTACTS_TABLE);
+        ArrayList<String> property_name = new ArrayList<>(Arrays.asList(AUFNR, ITEM_STATUS, SUCCESS_NUMBER, ITEM_QTY));
         super.setProperty_name(property_name);
-        super.setLength(this.length);
+        int length = property_name.size();
+        super.setLength(length);
     }
 
     public void setProperties(ArrayList<String> data){
@@ -46,9 +45,5 @@ public class ItemStatusContact extends Contact {
     }
 
     public String getAUFNR(){ return AUFNR; }
-    public String getITEM_STATUS(){ return ITEM_STATUS; }
-    public String getSUCCESS_NUMBER(){ return SUCCESS_NUMBER; }
-    public String getITEM_QTY(){ return ITEM_QTY; }
-
 
 }

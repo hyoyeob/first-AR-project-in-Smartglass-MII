@@ -23,7 +23,7 @@ import android.util.Log;
         private static String DB_NAME ="YourDbName"; // 데이터베이스 이름
         private SQLiteDatabase mDataBase;
 
-        public HelperImpl(Context context, String db_name, SQLiteDatabase.CursorFactory factory, int db_version) {
+    HelperImpl(Context context, String db_name, SQLiteDatabase.CursorFactory factory, int db_version) {
             super(context, db_name, factory, db_version);
             Log.e("DB 생성", "START");
 

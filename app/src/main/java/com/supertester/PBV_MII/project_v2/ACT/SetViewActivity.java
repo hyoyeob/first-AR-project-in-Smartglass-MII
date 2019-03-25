@@ -107,9 +107,7 @@ public class SetViewActivity extends Activity {
                 break;
         }
         app.key_voice_control(keyCode);
-        new Handler().postDelayed(()->{
-            app.Set_voice_stat(voice_stat);
-        },500);
+        new Handler().postDelayed(() -> app.Set_voice_stat(voice_stat), 500);
         return super.onKeyUp(keyCode, event);
     }
 

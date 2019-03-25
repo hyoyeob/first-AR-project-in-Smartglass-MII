@@ -16,12 +16,10 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.supertester.PBV_MII.project_v2.ASYNC.CallRemote_endpicking;
 import com.supertester.PBV_MII.project_v2.CLASS.Std_Method;
 import com.supertester.PBV_MII.project_v2.DB.Contacts.ItemContact;
@@ -32,19 +30,16 @@ import com.supertester.PBV_MII.project_v2.DB.DBAdapter;
 import com.supertester.PBV_MII.project_v2.DB.Item;
 import com.supertester.PBV_MII.project_v2.DB.User;
 import com.supertester.PBV_MII.project_v2.R;
-
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
 public class ItemActivity extends Activity implements Serializable {
-//    int put_index;
     ItemActivity.BackgroundThread backgroundThread;
     boolean enter_flag = false;
     boolean key_flag;
@@ -57,21 +52,21 @@ public class ItemActivity extends Activity implements Serializable {
     TextView aufnr;
     TextView warning;
     TextView count;
-
+    TextView Percent;
     TextView[] matnr_item;
     TextView[] lampos;
     TextView[] qty;
     TextView[] box_no;
     TextView[] index;
     RelativeLayout[] rl;
+    ImageView voice_stat;
 
     ArrayList Result;
 
-    TextView Percent;
-    ImageView voice_stat;
 
     Item item = new Item();
     User user = new User();
+    Std_Method app;
 
     OrderStatusContact orderStatusContact = new OrderStatusContact();
     OrderContact orderContact = new OrderContact();
@@ -82,7 +77,6 @@ public class ItemActivity extends Activity implements Serializable {
     DBAdapter<OrderContact> order_dbAdapter;
     DBAdapter<ItemStatusContact> item_status_dbAdapter;
     DBAdapter<ItemContact> item_dbAdapter;
-    Std_Method app;
     LinearLayout linear_h;
 
     int item_status = 0;
@@ -93,7 +87,7 @@ public class ItemActivity extends Activity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         InitAdapter();
-        ready_to_load(); //TODO 다른 날짜 로드 시 클래스가 연동 안되는 것 같은 느낌?
+        ready_to_load();
         InitStatusNumber();
         First_Print();
         XmasReplace();
@@ -175,7 +169,7 @@ public class ItemActivity extends Activity implements Serializable {
             String query = "UPDATE ItemContact SET STATUS = 'Y' where AUFNR = '" + aufnr + "' AND LAMPOS = '" + lampos + "'";
             db.execSQL(query);
         } catch (Exception e) {
-            Log.e("ASD", e + "");
+            e.printStackTrace();
         }
         db.close();
         item.getITEM_STATUS().set(no, "Y");
@@ -187,7 +181,7 @@ public class ItemActivity extends Activity implements Serializable {
             String query = "UPDATE OrderContact SET STATUS = 'Y' where AUFNR = '" + aufnr + "'";
             db.execSQL(query);
         } catch (Exception e) {
-            Log.e("ASD", e + "");
+            e.printStackTrace();
         }
         db.close();
     }
@@ -227,18 +221,14 @@ public class ItemActivity extends Activity implements Serializable {
     //item_status_dbAdapter.updateContact 에서 contact의 property 값이 계속해서 null로 나와서 그냥 하드코딩함.
     private void ItemStatusUpdate() {
         String convert_value = String.valueOf(item_status);
-        Log.e("log_load_err", item_crash_flag + "");
         itemStatusContact = item_status_dbAdapter.getContact(new ItemStatusContact(), "AUFNR", item.getORDER_NAME());
         try {
             ArrayList<String> str = new ArrayList<>(itemStatusContact.getProperties());
             int location = itemStatusContact.getProperties_name().indexOf("ITEM_STATUS");
             if (location != -1) {
-                Log.e("item_log_indexOf", location + "");
                 Log.e("item_log_Convert_value", convert_value);
                 str.set(location, convert_value);
-                Log.e("log_load_strstr", str + "");
                 itemStatusContact.setProperties(str);
-//                item_status_dbAdapter.updateContact(itemStatusContact.getProperty_name(0), itemStatusContact.getProperty(0));
                 SQLiteDatabase db = item_status_dbAdapter.mDBHelper.getWritableDatabase();
                 try {
                     ContentValues values = new ContentValues();
@@ -256,7 +246,7 @@ public class ItemActivity extends Activity implements Serializable {
                 }
             }
         } catch (Exception e) {
-            Log.e("ASD", e + "");
+            e.printStackTrace();
         }
     }
 
@@ -270,8 +260,6 @@ public class ItemActivity extends Activity implements Serializable {
             percent = result_percent;
         }
         SpannableString spercent = new SpannableString(percent);
-
-        Log.e("percent", item.getITEM_MATNR().size()+" "+item_status+" "+item.getITEM_STATUS().size() );
         for (i = 0; i < item.getITEM_MATNR().size(); i++) {      // 퍼센트 초기화
             if (i < item_status && !item.getITEM_STATUS().get(i).equals("Y")) {
                 spercent.setSpan(new ForegroundColorSpan(Color.RED), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -293,16 +281,10 @@ public class ItemActivity extends Activity implements Serializable {
     private void ready_to_load() {
         user = (User) getIntent().getSerializableExtra("userInfo");
         item = (Item) getIntent().getSerializableExtra("item");
-        Result =  getIntent().getExtras().getStringArrayList("Result");
-        order_index =  getIntent().getExtras().getInt("order_index");
-        Log.e("log_test_order", user.getGETTIME()+"");
-//        Log.e("log_test_item", item.getORDER_NAME()+"/ "+item.getAUFNR()+"");
-        Log.e("log_test_item2", Result+"");
-
-
+        Result = getIntent().getStringArrayListExtra("Result");
+        order_index = Objects.requireNonNull(getIntent().getExtras()).getInt("order_index");
         ArrayList<ItemContact> item_contact_data = item_dbAdapter.getConditionContacts(new ItemContact(), "AUFNR", item.getORDER_NAME()); //DB값 호출.
 
-        Log.e("log_testing", "ready_to_load // " + "//" + item_contact_data.size());
         for (int i = 0; i < item_contact_data.size(); i++) {
             int loop_stat;
             if (i < item_contact_data.size() - 2 && (item_contact_data.get(i).getLAMPOS().equals(item_contact_data.get(i + 1).getLAMPOS()))) {
@@ -344,11 +326,6 @@ public class ItemActivity extends Activity implements Serializable {
             item.getTOT_QTY().add(item_contact_data.get(i).getTOT_QTY());
         }
 
-        Log.e("log_item_chk_qty", item.getQTY().size() + " " + item.getQTY()); //TODO 전부다 없다고 나옴
-        Log.e("log_item_chk_box", item.getBOX_NO().size() + " " + item.getBOX_NO());
-        Log.e("log_item_chk_tot", item.getTOT_QTY().size() + " " + item.getTOT_QTY());
-        Log.e("log_item_chk_MAKTX", item.getMAKTX().size() + " " + item.getMAKTX());
-        Log.e("log_item_chk_status", item.getITEM_STATUS().size() + " " + item.getITEM_STATUS());
         item_qty = item.getITEM_MATNR().size();
         aufnr = findViewById(R.id.aufnr);
         count = findViewById(R.id.count);
@@ -360,8 +337,6 @@ public class ItemActivity extends Activity implements Serializable {
         box_no = new TextView[menu_count + 1];
         index = new TextView[menu_count + 1];
         rl = new RelativeLayout[menu_count + 1];
-
-//        Result = new ArrayList();
 
         for (int i = 1; i < menu_count + 1; i++) {
             int getID;
@@ -404,7 +379,7 @@ public class ItemActivity extends Activity implements Serializable {
         try {
             SoapObject s;
             s = at.get();
-            Log.e("ssss end_picking", s + "");
+            Log.e("end_picking", s + "");
             OrderUpdate(item.getORDER_NAME());
             enter_flag = true;
             Intent intent = new Intent(this, OrderActivity.class);
@@ -437,25 +412,25 @@ public class ItemActivity extends Activity implements Serializable {
     private void xmas_2(int item_status, int num) {
         for (int i = 0; i < item.getQTY().get(item_status).size(); i++) {
             if (item.getQTY().get(item_status).size() == 1) {
-                if(item.getQTY().get(item_status).get(i)>9)
+                if (item.getQTY().get(item_status).get(i) > 9)
                     qty[num].setText(getString(R.string.IntString, item.getQTY().get(item_status).get(i), "\t "));
                 else
                     qty[num].setText(getString(R.string.IntString, item.getQTY().get(item_status).get(i), "\t\t "));
                 box_no[num].setText(item.getBOX_NO().get(item_status).get(i));
             } else if (i == 0) {//젤처음
-                if(item.getQTY().get(item_status).get(i)>9)
+                if (item.getQTY().get(item_status).get(i) > 9)
                     qty[num].setText(getString(R.string.IntString, item.getQTY().get(item_status).get(i), "\t  "));
                 else
                     qty[num].setText(getString(R.string.IntString, item.getQTY().get(item_status).get(i), "\t\t  "));
                 box_no[num].setText(getString(R.string.TwoString, item.getBOX_NO().get(item_status).get(i), "\t  "));
             } else if (i == item.getQTY().get(item_status).size() - 1) {
-                if(item.getQTY().get(item_status).get(i)>9)
+                if (item.getQTY().get(item_status).get(i) > 9)
                     qty[num].append(item.getQTY().get(item_status).get(i) + "");
                 else
                     qty[num].append(item.getQTY().get(item_status).get(i) + "\t");
                 box_no[num].append(item.getBOX_NO().get(item_status).get(i));
             } else {
-                if(item.getQTY().get(item_status).get(i)>9)
+                if (item.getQTY().get(item_status).get(i) > 9)
                     qty[num].append(item.getQTY().get(item_status).get(i) + "\t ");
                 else
                     qty[num].append(item.getQTY().get(item_status).get(i) + "\t\t ");
@@ -541,7 +516,6 @@ public class ItemActivity extends Activity implements Serializable {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.e("getkey", event.getKeyCode() + "");
-        Log.e("key pressed", String.valueOf(event.getKeyCode()));
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
             event.startTracking();
             key_down_left();
@@ -662,7 +636,6 @@ public class ItemActivity extends Activity implements Serializable {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("log_flow", "onPause");
     }
 
     @Override
@@ -681,15 +654,12 @@ public class ItemActivity extends Activity implements Serializable {
         Log.e("log_voc_set_flow", "item_destroy");
         boolean retry = true;
         UI_control();
-//        item.ORDER_INIT();
-//        item.ITEM
         backgroundThread.setRunning(false);
         while (retry) {
             try {
                 backgroundThread.join();
                 retry = false;
             } catch (InterruptedException e) {
-                Log.e("log_thread test", "retry catch!!");
                 e.printStackTrace();
             }
         }
@@ -717,7 +687,6 @@ public class ItemActivity extends Activity implements Serializable {
         UI_control();
     }
 
-
     public class BackgroundThread extends Thread {
         boolean running = false;
 
@@ -731,11 +700,9 @@ public class ItemActivity extends Activity implements Serializable {
             while (running) {
                 while (item.getLOAD_INDEX() < item.getAUFNR().size() && item.getLIMIT_INDEX() != item.getAUFNR().size()) {
                     if (enter_flag) {
-//                        put_index = item.getLOAD_INDEX();
                         backgroundThread.setRunning(false);
                         break breakOut;
                     }
-                    Log.e("log_load_index6", item.getLOAD_INDEX() + " item interrupt: " + backgroundThread.isInterrupted());
                     SoapObject countryDetails;
                     Log.e("log_load ", "1. 배열 인덱스: " + item.getLOAD_INDEX());
                     SoapObject input_params = new SoapObject(app.NAMESPACE, "InputParams");
@@ -759,48 +726,26 @@ public class ItemActivity extends Activity implements Serializable {
                     HttpTransportSE androidHttpTransport = new HttpTransportSE(app.ITEM, 3000);
                     androidHttpTransport.debug = true;
                     try {
-                        SoapObject hello_s;
                         androidHttpTransport.call(app.SOAP_ACTION, envelope);
                         countryDetails = (SoapObject) envelope.getResponse();
-                        hello_s = countryDetails;
-                        Object property = hello_s.getProperty(0);
-                        if (property instanceof SoapObject) {
-                            SoapObject countryObj = (SoapObject) property;
-                            String auf_test = countryObj.getProperty("AUFNR").toString();
-                            Log.e("log_load ", "3. 내용물 존재 여부i: " + item.getLOAD_INDEX() + "/" + auf_test);
-                            if (auf_test.equals("")) {
-                                Log.e("log_load", "4a. 내용물 null");
-                                item.getLOAD_STATUS().set(item.getLOAD_INDEX(), "");
-                                backgroundThread.setRunning(false);
-//                                put_index = item.getLOAD_INDEX();
-                                break breakOut;
-                            } else {
-                                if (!item_crash_flag) {
-                                    item_crash_flag2 = true;
-                                    Log.e("log_load", "4b. 내용물 정상임");
-                                    Result.set(item.getLOAD_INDEX(), countryDetails);
-                                    item.getLOAD_STATUS().set(item.getLOAD_INDEX(), "V");
-//                                    put_index = item.getLOAD_INDEX();
-                                    app.SoapToArraylist_item(Result, item.getLOAD_INDEX(), item_dbAdapter, user.getGETTIME(), itemStatusContact, item_status_dbAdapter);
-                                    item_crash_flag2 = false;
-                                } else {
-                                    Log.e("log_load", "4c. breakout");
-//                                    item.getLOAD_STATUS().set(item.getLOAD_INDEX(), "0");
-                                    Result.set(item.getLOAD_INDEX(), "");
-                                    item.setLOAD_INDEX(item.getLOAD_INDEX() - 1);
-//                                    put_index = item.getLOAD_INDEX();
-                                }
-                            }
+                        if (!item_crash_flag) {
+                            item_crash_flag2 = true;
+                            Result.set(item.getLOAD_INDEX(), countryDetails);
+                            item.getLOAD_STATUS().set(item.getLOAD_INDEX(), "V");
+                            Log.e("log_load", "load_index: " + item.getLOAD_INDEX() + "/ date: " + user.getGETTIME());
+                            app.SoapToArraylist_item(Result, item.getLOAD_INDEX(), item_dbAdapter, user.getGETTIME(), itemStatusContact, item_status_dbAdapter);
+                            item_crash_flag2 = false;
+                        } else {
+                            Result.set(item.getLOAD_INDEX(), "");
+                            item.setLOAD_INDEX(item.getLOAD_INDEX() - 1);
                         }
                     } catch (Exception e) {
                         item.getLOAD_STATUS().set(item.getLOAD_INDEX(), "0");
                         Result.set(item.getLOAD_INDEX(), "");
                         item.setLOAD_INDEX(item.getLOAD_INDEX() - 1);
-//                        put_index = item.getLOAD_INDEX();
                         e.printStackTrace();
                     }
                     item.setLOAD_INDEX(item.getLOAD_INDEX() + 1);
-//                    put_index = item.getLOAD_INDEX();
                 }
                 item.setLIMIT_INDEX(item.getLOAD_INDEX());
             }
