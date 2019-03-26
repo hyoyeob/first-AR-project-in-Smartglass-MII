@@ -1,4 +1,4 @@
-**Pick-by-Vision Support Documents**<br>
+**<h3>Pick-by-Vision Support Documents<h3>**<br>
 Applied version: v2.6.1<br><br>
 
 
