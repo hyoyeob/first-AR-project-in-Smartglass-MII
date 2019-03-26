@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg"
-    tools:context=".ACT.OrderActivity">
+    tools:context=".Activity.OrderActivity">
 
     <TextView
         android:id="@+id/percent"

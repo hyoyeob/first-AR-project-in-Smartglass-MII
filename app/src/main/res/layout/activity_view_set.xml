@@ -7,7 +7,7 @@
     android:gravity="bottom"
     android:background="#000000"
     android:id="@+id/layout"
-    tools:context=".ACT.MainActivity">
+    tools:context=".Activity.MainActivity">
 
 
     <ImageView

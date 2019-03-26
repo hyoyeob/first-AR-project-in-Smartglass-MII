@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:name="com.supertester.PBV_MII.project_v2.CLASS.Std_Method"
+        android:name="com.supertester.PBV_MII.project_v2.Class.Std_Method"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -21,42 +21,44 @@
         android:screenOrientation="landscape"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.SplashActivity"
+        <activity
+            android:name="com.supertester.PBV_MII.project_v2.Activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.MainActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.MainActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.ItemActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.ItemActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.OrderActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.OrderActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.DateSetActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.DateSetActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.SetViewActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.SetViewActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.QRCodeActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.QRCodeActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.ACT.CustomScannerActivity">
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.CustomScannerActivity">
         </activity>
 
 
 
         <service
-            android:name="com.supertester.PBV_MII.project_v2.VOICE_CONTROL.MyService"
+            android:name="com.supertester.PBV_MII.project_v2.VoiceService.MyService"
             android:stopWithTask="true">
         </service>
 
-        <receiver android:name="com.supertester.PBV_MII.project_v2.CLASS.ShutdownConfigAdminReceiver"
+        <receiver
+            android:name="com.supertester.PBV_MII.project_v2.Class.ShutdownConfigAdminReceiver"
             android:label="@string/sample_device_admin"
             android:description="@string/sample_device_admin_description"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
