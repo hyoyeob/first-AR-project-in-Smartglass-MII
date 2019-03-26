@@ -23,7 +23,6 @@ The screen position can be adjusted to suit the user&#39;s environment. A total 
 **4-1. Voice recognition**<br>
 ![4444](https://user-images.githubusercontent.com/40781419/54964248-216a5a80-4faf-11e9-9635-b437a0f13eda.jpg)<br>
 The button can be switched on or off. The current on-off status is shown in the lower right corner. You can also control voice recognition with the volume control button on the controller. If the service does not work, turn it on again to use it.<br>
-<br>
 
 **4-2. Voice word list**<br>
 It recognizes Korean and English words and works. And operates according to the words in the table below.<br><br>
