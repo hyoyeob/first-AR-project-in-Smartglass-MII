@@ -50,8 +50,9 @@ It recognizes Korean and English words and works. And operates according to the 
 | 좌측 | Pass |   |   |   | 끝 |
 |   | 오른쪽 |   |   |   |   |
 |   | 우측 |   |   |   |   |
-<br><br>
-**5. Code for login**<br>
+
+
+<br><br>**5. Code for login**<br>
 ![5555](https://user-images.githubusercontent.com/40781419/54964255-27f8d200-4faf-11e9-8649-6818b24748bc.jpg)<br>
 This code means the user ID &#39;A293155&#39;. Scan the code in augmented reality and log in. Maintain access through one login before the program ends.
 <br><br>
