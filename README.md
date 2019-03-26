@@ -1,424 +1,99 @@
-이터레이션 단위로 버전 작성
-
-========================================================
-v1.0
+**<h3>Pick-by-Vision Support Documents</h3>**
+Applied version: v2.6.1<br><br>
 
-v1.0.1-alpha
-: PBV(Pick by vision)의 프로토타입 구현을 위한 기초 설계
-- 서버 데이터로 orderlist 및 itemlist 설계
-- 데이터 틀 구현
-- UI 로직 구현
-
-v1.0.2-alpha
-: 데이터 버그 수정 및 형식 변환
-- 데이터 틀 xml로 수정
-- QR 코드 스캐닝 기능 구현
-
-v1.0.3-alpha
-: SW 기능 추가
-- 기존 데이터 형을 JSON 형식으로 변환
-- UI 그래픽 알고리즘 수정
-- 음성 인식 API 기능 구현
-
-v1.0.3-beta1
-: intents 전달 부 수정 및 UI 코드 안정화, 1차 공개
-- UI 알고리즘 복잡도 수정
-- 배열 데이터 처리 알고리즘 안정화
-- 음성 처리 이벤트 기능 추가
 
-v1.0.3-beta2
-: 음성 사전 추가
-- vuzix 음성 사전을 추가하여 인식 가능한 단어 추가
+**0. Requires Wi-Fi connection**<br>
+PBV operates on the company&#39;s network &#39;FactoryWireless&#39;. If you are not connected, you need a new connection.<br>
+<br>
 
-v1.0.3-beta3
-: 시각 피로도 감소
--흰 배경에서 파스텔 초록색으로 변환하여 눈 피로도 감소
+**1. Main Menu**<br>
+![1mainmenu](https://user-images.githubusercontent.com/40781419/54964219-0861a980-4faf-11e9-8903-3967beee9df2.jpg)<br>
+<br>
 
-결과: PBV POC 구현 및 대체 가능성 확인에 중점, 이후 MII 연동을 위한 구현 필요
+**2. Reset Data Menu**<br>
+![2resetdata](https://user-images.githubusercontent.com/40781419/54964237-18798900-4faf-11e9-9092-1cacc14deab9.jpg)<br>
+Menu for initializing data values or job logs. Mainly used to reload MII data manually.<br>
+<br>
 
-========================================================
-v1.1
+**3. View set menu**<br>
+![3setview](https://user-images.githubusercontent.com/40781419/54964243-1c0d1000-4faf-11e9-8649-76210d27169c.jpg)<br>
+The screen position can be adjusted to suit the user&#39;s environment. A total of four positions can be specified: top left, top right, bottom left, and bottom right. The setup information will remain permanent until it is reset.<br>
+<br>
 
-v1.1.1-alpha
-: ERP 호환 기능 테스트
-- 웹 서비스 연결
+**4-1. Voice recognition**<br>
+![4444](https://user-images.githubusercontent.com/40781419/54964248-216a5a80-4faf-11e9-9635-b437a0f13eda.jpg)<br>
+The button can be switched on or off. The current on-off status is shown in the lower right corner. You can also control voice recognition with the volume control button on the controller. If the service does not work, turn it on again to use it.<br><br>
 
-v1.1.2-alpha
-:데이터 호출 방법 수정
-- 가상 데이터 삭제
-- SOAP 데이터 호출
+**4-2. Voice word list**<br>
+It recognizes Korean and English words and works. And operates according to the words in the table below.<br>
 
-v1.1.3-alpha
-:데이터 구조 수정
-- 로컬 서버 삭제
-- SOAP 데이터 JSON으로 파싱하여 액티비티에 연동
+① **Left:** Move to Left Item
 
-v1.1.4-alpha
-:ERP 오더 리스트 데이터 호출 및 처리
-- MII 데이터 오더 리스트 연동
-- 파라미터 값 전달
+② **Right:** Move to Right Item
 
-v1.1.5-alpha
-:ERP 아이템 리스트 데이터 호출 및 처리
-- MII 데이터 아이템 리스트 연동
-- 파라미터 값 전달
-- JSON 데이터 구조 삭제
-- SOAP Object로 파싱 및 처리
+③ **Up:** Move to above item
 
-v1.1.5-beta1
-:오더 리스트 파라미터 연동
-- 사용자 설정 값에 맞는 데이터 호출
-- 웹서비스 오더 리스트 파라미터 전달
+④ **Down:** Move to below Item
 
-v1.1.5-beta2
-:아이템 리스트 파라미터 연동
-- 웹서비스 아이템 리스트 파라미터 전달
+⑤ **OK:** Select Current Item
 
+⑥ **Cancel:** Exit from current position
 
-결과: MII에 연동하여 파라미터를 전달해 정확한 데이터 처리에 중점, STT 기능 수정 필요
 
-========================================================
-v1.2
+| **Left** | **Right** | **Up** | **Down** | **OK** | **Cancel** |
+| --- | --- | --- | --- | --- | --- |
+| 이전 | 다음 | 위로 | 아래로 | 확인 | 취소 |
+| 뒤로 | Next | 위쪽 | Down | OK | Cancel |
+| Left | 앞으로 | Up | 아래쪽 | Enter | 종료 |
+| 왼쪽 | Right |   | 아래 |   | Back |
+| 좌측 | Pass |   |   |   | 끝 |
+|   | 오른쪽 |   |   |   |   |
+|   | 우측 |   |   |   |   |
 
-v1.2.1-alpha
-:디바이스 정보 연동
-- MII에서 허용한 디바이스만 접근하도록 설정
-- 아이템 리스트 액티비티 코드 안정화
 
-v1.2.2-alpha
-:날짜 정보 삽입
-- 날짜 설정 메뉴 추가
-- 날짜 인텐트 액티비티로 전달
+<br><br>**5. Code for login**<br>
+![5555](https://user-images.githubusercontent.com/40781419/54964255-27f8d200-4faf-11e9-8649-6818b24748bc.jpg)<br>
+This code means the user ID &#39;A293155&#39;. Scan the code in augmented reality and log in. Maintain access through one login before the program ends.
+<br><br>
 
-v1.2.2-beta1
-:음성 인식 on, off 기능 메뉴 추가
-- 음성 컨트롤 항목 추가
+**6. Select task date**<br>
+![66666](https://user-images.githubusercontent.com/40781419/54964264-2c24ef80-4faf-11e9-892f-9d38126f83ea.jpg)<br>
+Setting job and query date.<br><br>
 
-v1.2.2-beta2
-:네트워크 에러 처리
-- 네트워크 비연결 시 생기는 오류 처리
 
+**7-1. Load Order List**<br>
+![77777](https://user-images.githubusercontent.com/40781419/54964267-2f1fe000-4faf-11e9-97bd-68444a58f6f6.jpg)<br>
+The load information is shown on the left. And it is then ordered by sequence, MATNR, back number, and serial number. If the sequence number box is yellow, it means that the order has been completed.<br>
+The current working position is shown in numbers in the upper right corner. Finally, the load time is shown on the lower left.
+<br><br>
 
-결과: 메뉴 UI 추가 및 수정, 코드 안정화
+**7-2. Order List Bar**<br>
+![8888](https://user-images.githubusercontent.com/40781419/54964275-32b36700-4faf-11e9-9f05-0ed389a48677.jpg)<br>
+The &#39;bar&#39; at the top of the center provides a visual representation of the working position. A red mark is an unfinished operation, and a green mark is a completed operation.<br><br>
 
-========================================================
-v1.3
 
-v1.3.1-alpha
-: 박스 리스트 출력
-- 아이템 리스트에서 박스 리스트 다이얼로그 출력
-- 버튼 이벤트 다이얼로그 처리
+**7-3. Order List Error msg**<br>
+![9999](https://user-images.githubusercontent.com/40781419/54964281-36df8480-4faf-11e9-957e-c1c6e822e950.jpg)<br>
+If it is on the weekend or if the Internet is not connected, print an error message.<br><br>
 
-v1.3.2-alpha
-: 메뉴 UI 직관성 개선
-- 화살표 추가
-- 스플래시 이미지 추가
 
-v1.3.2-beta1
-: 액티비티 별 직관성을 위한 인덱스 삽입
-- 현재 포커스 항목의 인덱스 출력
-- 시리얼 넘버 아이템 액티비티로 전달 후 출력
+**8-1. Load Item List**<br>
+![1000](https://user-images.githubusercontent.com/40781419/54964286-39da7500-4faf-11e9-9ee3-9a3151185abd.jpg)<br>
+Displays the 3 items to be picked up at the moment. Order name is displayed at the top, followed by &#39;lamp position&#39;, &#39;material number&#39;, &#39;quantity&#39; and &#39;box number&#39;.<br>
+You will see the number of items you need to pick up and the corresponding boxes. If multiple boxes are required, they are displayed in multiple horizons. If some tasks are not completed, they are shown in red number at the below of item bar. When all tasks are completed successfully, send a completion message to MII and proceed with the next order.<br><br>
 
-v1.3.2-beta2
-: 아이템 액티비티 넘버 인덱스 삭제
-- 넘버 인덱스를 삭제하여 디스플레이 너비 안정화
 
+**8-2. Load Item Box**<br>
+![11](https://user-images.githubusercontent.com/40781419/54964289-3d6dfc00-4faf-11e9-98de-a7aeea82536c.jpg)<br>
+When clicked &#39;Up&#39; button on item list, the required box list is printed.<br><br>
 
-결과: 사용자 UI 불편함을 감소시키는데 집중, 로그인 기능 필요
 
-========================================================
-v1.4
+**8-3. Item List Bar**<br>
+![12](https://user-images.githubusercontent.com/40781419/54964292-4068ec80-4faf-11e9-95f1-49cd89d56e0f.jpg)<br>
+The &#39;bar&#39; at the top of the center provides a visual representation of the working position. A red mark is an unfinished operation, and a green mark is a completed operation.<br>
+(The above picture shows that work No. 1 and No. 2 has not been completed.)<br><br>
 
-v1.4.1-alpha
-: QR 로그인 기능 추가
-- id, pw가 담긴 코드를 읽어 로그인이 가능하도록 기능 추가
-- 코드 파싱 및 파라미터 전달
 
-v1.4.2-alpha
-: 로그인 1차 보안 설정
-- 로그인 데이터 형식 설정
-- 로그인 예외처리 설정으로 1차 보안 설정
-
-v1.4.3-alpha
-: 계정 전달 에러 수정
-- 계정 전달 오류로 발생하는 에러 수정
-
-v1.4.3-beta1
-: 복잡한 알고리즘 단순화
-- 아이템 액티비티 배열 처리 알고리즘 단순화
-
-
-결과: 기본 로그인 기능을 추가하여 승인된 사용자만 이용 가능하도록 설정, 음성 인식 기능 개선 필요, 사용자 데이터 저장 필요
-
-========================================================
-v1.5
-
-v1.5.1-alpha
-: 사용자 작업 데이터의 실시간 저장
-- 사용자 작업 인덱스 삽입
-- 사용자 작업 상태를 저장하여 이전 작업 경로를 기억
-
-v1.5.1-beta1
-: 전체 코드 안정화
-- 전체 데이터 형식을 통일하여 코드의 안정화
-- 네트워크 외의 오류 처리
-
-v1.5.1-beta2
-: 아이템 뷰 UI 수정
-- 시리얼 넘버 삭제 및 중앙 정렬화
-- 직관성 개선
-
-
-결과: 인덱스를 통해 작업 중간 기억, MII 데이터 구조 수정 필요
-
-========================================================
-v1.6
-
-v.1.6.1-alpha
-:메인 메뉴 구조 수정
-- 파이프라인 플로우 수정
-- 작업 시간 설정, 로그인 과정 하나로 통합
-
-v.1.6.2-alpha
-:데이터 호출 시 로딩 프로그레스 바 생성
-- 아이템 리스트 구조개선
-- 백그라운드 기능 수정
-
-v.1.6.3-alpha
-:로딩 없이 백그라운드에서 데이터 호출 동작
-- 백그라운드 스레드 활용
-
-v.1.6.4-alpha
-:MII 데이터 구조 수정
-- 아이템 액티비티로 이동할 때 스레드 종료 대기 현상 해결
-- UI 스레드 동작으로 실시간 load 확인 가능
-- wifi가 끊기면 로드 대기, 재 연결 시 리로드
-- 파이프라인 수정으로 메인 UI 개선 및 수정
-
-v.1.6.4-beta1
-:DB를 추가하여 연동
-- DB 연동 및 로그인 구조 단순화
-
-v.1.6.4-beta2
-:로컬 DB 생성
-- 오더 및 아이템 리스트 로컬 DB 생성 및 적용
-- 기본 키 설정으로 테이블 연동
-- 쿼리 제어
-
-v.1.6.4-beta3
-:아이템 액티비티에서도 스레드 동작하게 구현
-- 아이템 액티비티 스레드 2개 추가하여 백그라운드 로딩 완벽 구현
-
-v.1.6.4-beta4
-:로드 중단점 생성
-- 로드 중단점 생성하여 이중 로드 방지
-- status DB 테이블 생성하여 사용자 작업 위치 실시간 저장
-
-v.1.6.4-beta5
-:MII 데이터 로컬 DB에서 호출
-- 모든 MII 데이터 로컬 데이터베이스에서 호출
-- UI 에러 처리
-- 예외처리 재설정
-- 무한 로드 현상 제거
-
-
-결과: MII 서버 & 로컬 서버 연동, 대부분 예외처리 수정, MII 전송 기능 추가 필요
-
-========================================================
-v1.7
-
-v.1.7.1-alpha
-:MII 데이터 전송
-- 완료된 오더 정보 MII 서버로 전송하여 상태 “Y”로 설정
-
-v.1.7.2-alpha
-:유저 사용 편의성 증가
-- Item Status 인덱스 로컬 서버에 저장하여 이전 작업 위치 기억 및 호출
-- Order Status 인덱스 로컬 서버에 저장하여 이전 작업 위치 기억 및 호출
-- 네트워크 예외 추가
-
-v.1.7.3-alpha
-:진행 현황 시각적으로 보여줌
-- Item 리스트 작업 중 완료가 덜 된 작업을 화면에 보여줌
-
-v.1.7.3-beta1
-:로컬 서버 보관기간 설정
-- 당일 데이터 외에는 삭제
-
-v.1.7.3-beta2
-:서버 코드 안정화
-- 코드 개선 및 정책 개선으로 용량 안정화 및 코드 안정화
-
-v.1.7.3-beta3
-:네트워크 관련 모든 예외상황 처리
-- 테스트 시 발생한 모든 네트워크 관련 에러사항 처리 완료
-- 주말 및 Unknown data 처리, 오더(Y, N) 전원 출력하도록 수정
-
-v.1.7.3-RC1
-:모든 에러 제거 및 배포 후보 버전
-- 발생가능한 모든 에러 제거 및 최적화
-
-=============================
-
-v2.0.1-alpha
-:디바이스 BT-300으로 교체
-- 디바이스 epson사의 BT-300으로 교체 및 코드 적용
-- UI 개선
-
-v2.0.2-alpha
-:컨트롤러 조작 변경
-- 상하좌우 컨트롤 가능하게 제어 기능 개선
-- 버튼 길게 클릭하여 한 번에 리스트 넘길 수 있도록 기능 추가
-- AR로 동작하도록 UI 변경
-
-v2.0.3-alpha
-:직관성 개선
-- 모든 페이지 직관성 개선
-- 오더리스트 작업 바 추가
-
-v2.0.3-beta1
-:UI 에러 제거
-- UI와 로드 스레드에서 발생하는 DB 중복 호출 에러 제거
-- 
-v2.0.3-beta2
-:오류 플래그 추가
-- 충돌방지 플래그 추가하여 스레드 최적화
-
-=============================
-
-v2.1.1-alpha
-:오류 다이얼로그 개선 및 인터페이스 개선
-- 회사 네트워크만 예외처리
-- UI 하단 배치
-
-v2.1.2-alpha
-:UI 위치 선택 가능하도록 설정
-- UI 설정 메뉴에서 UI 위치 선택 가능
-- 매니페스트 수정
-- MII 연동 버전 앱 생성
-
-v2.1.2-beta1
-:로드타임 표시 추가
-- 작업 로드 타임 표시기능 추가
-
-v2.1.2-beta1 (MII)
-: MII 연동 프로그램 생성
-- MII 실제 값과 연동
-
-=============================
-
-
-v2.2.1-alpha
-:voice 기능 추가
-- 테스트 음성 인식 기능 삽입
-- 단어사전 생성
-
-v2.2.2-alpha
-:음성 제어 기능 추가
-- 화면 켜기, 끄기, 이동, 선택 기능 완전히 추가
-- 에러 처리 및 퍼미션 단계 추가
-- 음성 불가 디바이스지만 구글 서비스에 강제로 연결하여 음성 인식을 사용할 수 있게 구현
-
-v2.2.2-beta1
-:음성 플래그 삽입으로 에러 처리 및 오프라인 동작
-- 오프라인 음성 사전 활용할 수 있도록 구현
-- 음성 플래그 삽입으로 음성 서비스 중복 방지
-- 강제로 오프라인에서 서비스 동작하도록 구현
-
-v2.2.2-beta2
-:음성 및 레이아웃 최적화 & 메모리 최적화
-- UI 레이아웃 최적화 및 수정
-- 불필요 리소스 관리
-
-=============================
-
-v2.3.1-alpha
-:TTS 기능 추가
-- 단순 TTS 기능 메소드 추가
-
-v2.3.1-beta1
-:아이템 뷰 알고리즘 전면 수정
-- 신뢰적인 데이터 동기화를 위한 알고리즘 수정
-- UI 일부 수정 및 직관성 개선
-
-v2.3.1-beta2
-:데이터 초기화 메뉴 추가
-- 오류 데이터 발생 시를 대비한 데이터 초기화 메뉴 생성
-- 음성 서비스 생명주기 수정
-
-=============================
-
-v2.4.1-alpha
-:비기능 메소드 추가
-- 배터리 사용량에 따른 서비스 선택 다이얼로그 생성
-- 서비스 실시간 동기화 적용
-- 서비스 종료 방지 수정
-
-v2.4.2-alpha
-:음성 인식 신뢰도 상승
-- 문장 단위 해석으로 신뢰도 상승
-- 음성 상태 토글 메시지 삽입하여 음성 기능의 상태 확인 가능
-- 음성 사전 최적화
-
-v2.4.3-alpha
-:음성 인식 최적화를 위한 스레드 재구성
-- 스레드 구조 개선으로 충돌방지
-
-v2.4.3-beta1
-:음성 및 스레드 최적화
-- UI 아이템 뷰 개선
-- 음성 성능 개선
-- 테스트 결과 최고 기능 2~3시간, 절약 기능 4~5시간
-
-v2.4.3-beta2
-:음성 사전 최적화 및 컨트롤러 수정
-- 음성 사전을 최적화하여 신뢰성 유지
-
-v2.4.3-beta3
-:음성 MII 연동 강화
-- 오더 상태 값 실시간 확인 가능
-- 오더 뷰 알고리즘 단순화
-
-v2.4.3-beta4
-:QR 스캔 시 카메라 모듈 수정
-- QR 스캐닝 시 카메라 모듈 숨겨 AR로 QR 스캔할 수 있도록 구현
-- QR 스캐닝 보다 자연스럽게 구현
-
-
-v2.4.3-beta5
-:UI 개선
-- 각 뷰 직관성 개선
-- 스레드 작은 오류 수정
-
-=============================
-
-v2.5.1-alpha
-:아이템 뷰 출력 2개로 개선
-- 아이템 2개씩 작업할 수 있도록 개선
-
-
-v2.5.2-alpha
-:아이템 뷰 출력 3개로 개선 및 최적화
-- 아이템 3개씩 작업할 수 있도록 개선
-- UI 최종 틀 최적화
-
-v2.5.3-alpha
-:아이템 뷰 직관성 개선
-- 아이템 뷰 넘어가는 장면 개선
-- Call Dialog 자동 실행 제거
-- UI 최종 틀 개선
-- 코드 스캔 영역 확대
-
-v2.5.3-beta1
-:음성 반응 직관성 개선
-- 토스트 레이아웃 개선
-- 음성 사전 구조 해쉬맵 사용으로 속도 최적화
-- 이중 음성 인식 방지
-
-=============================
-
-v2.6.1-alpha
-:타 계정 연동 및 데이터 구조개선
-- 타 업무에서 이용할 수 있도록 적용
-- 데이터 자료 구조개선
-- Git 연동
+**etc. Other Account**<br>
+![13](https://user-images.githubusercontent.com/40781419/54964296-4363dd00-4faf-11e9-9a3a-a8e230ffbf70.jpg)<br>
+This code is Block Common Zone&#39;s login code. That means user ID &#39;A246087&#39;<br>
