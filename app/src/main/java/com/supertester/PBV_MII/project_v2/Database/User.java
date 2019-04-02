@@ -1,5 +1,7 @@
 package com.supertester.PBV_MII.project_v2.Database;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -14,7 +16,12 @@ public class User implements Serializable {
     private String USER;
     private String GETTIME;
     private String REALTIME;
+    public boolean LOGIN_STATUS = false;
     public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.KOREA);
+
+    public void logUSERINFO() {
+        Log.e("log_test_USERINFO", "User: " + getUSER() + " Zone: " + getZONE() + " Line: " + getLINE());
+    }
 
     public String getGETTIME() {
         return GETTIME;

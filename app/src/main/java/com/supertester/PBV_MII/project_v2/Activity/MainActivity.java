@@ -31,6 +31,8 @@ import com.supertester.PBV_MII.project_v2.VoiceService.MyService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends Activity {
@@ -57,6 +59,8 @@ public class MainActivity extends Activity {
         voice_set();
         ready();
         UserInIt();
+
+        JsonParse("A293155");
     }
 
     private void voice_set() {
@@ -107,8 +111,8 @@ public class MainActivity extends Activity {
         arrow2.setVisibility(View.INVISIBLE);
         arrow3.setVisibility(View.INVISIBLE);
         arrow4.setVisibility(View.INVISIBLE);
-        user = new String[7];
-        for (int i = 0; i < 7; i++) user[i] = "";
+        user = new String[5];
+        for (int i = 0; i < 5; i++) user[i] = "";
     }
 
     private void ready() {
@@ -126,42 +130,44 @@ public class MainActivity extends Activity {
 
     private void UserInIt() {
         userInfo.setUSER(user[0]);
-        userInfo.setLINE(user[1]);
-        userInfo.setPLANT(user[2]);
-        userInfo.setZONE(user[3]);
-        userInfo.setTAKT(user[4]);
-        userInfo.setID(user[5]);
-        userInfo.setPW(user[6]);
+        userInfo.setPLANT(user[1]);
+        userInfo.setTAKT(user[2]);
+        userInfo.setID(user[3]);
+        userInfo.setPW(user[4]);
     }
 
     private String[] JsonParse(String json) { //json A293155
         String USER;
-        String LINE;
         String PLANT;
-        String ZONE;
         String TAKT;
         String ID;
         String PW;
-        String[] user_data = new String[7];
+        String[] user_data = new String[5];
         try {
-            JSONArray jsonArray = new JSONObject(getString(R.string.UserInfo)).getJSONArray(json);
+            JSONObject jsonObject = new JSONObject(getString(R.string.UserInfo));
+            JSONArray jsonArray = jsonObject.getJSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jObject = jsonArray.getJSONObject(i);
                 USER = jObject.getString("USER");
-                LINE = jObject.getString("LINE");
                 PLANT = jObject.getString("PLANT");
-                ZONE = jObject.getString("ZONE");
                 TAKT = jObject.getString("TAKT");
                 ID = jObject.getString("ID");
                 PW = jObject.getString("PW");
 
                 user_data[0] = USER;
-                user_data[1] = LINE;
-                user_data[2] = PLANT;
-                user_data[3] = ZONE;
-                user_data[4] = TAKT;
-                user_data[5] = ID;
-                user_data[6] = PW;
+                user_data[1] = PLANT;
+                user_data[2] = TAKT;
+                user_data[3] = ID;
+                user_data[4] = PW;
+
+                userInfo.LOGIN_STATUS = jsonObject.has(json);
+
+                userInfo.setUSER(user_data[0]);
+                userInfo.setPLANT(user_data[1]);
+                userInfo.setTAKT(user_data[2]);
+                userInfo.setID(user_data[3]);
+                userInfo.setPW(user_data[4]);
+                userInfo.logUSERINFO();
             }
         } catch (Exception e) {
             user_data[0] = "";
@@ -169,8 +175,6 @@ public class MainActivity extends Activity {
             user_data[2] = "";
             user_data[3] = "";
             user_data[4] = "";
-            user_data[5] = "";
-            user_data[6] = "";
             e.printStackTrace();
         }
         return user_data;
@@ -178,14 +182,14 @@ public class MainActivity extends Activity {
 
     private void start_menu_function() {
         if (arrow_pos == 0) {
-            if (userInfo.getUSER().equals("A293155") || userInfo.getUSER().equals("A246087")) {
+            if (userInfo.LOGIN_STATUS) {
                 app.PrintToastMessage("Connected " + userInfo.getUSER());
-                Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
+//                Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, SetMenuActivity.class);
                 intent1.putExtra("userInfo", userInfo);
                 startActivity(intent1);
             } else {
                 IntentIntegrator qrScan = new IntentIntegrator(this);
-//                qrScan.setOrientationLocked(false);
                 if (app.get_now_view() != 2) qrScan.setCaptureActivity(CustomScannerActivity.class);
                 qrScan.initiateScan();
             }
@@ -214,6 +218,7 @@ public class MainActivity extends Activity {
         builder.setPositiveButton("Reset",
                 (dialog, which) -> {
                     InitAdapter();
+                    userInfo.LOGIN_STATUS = false;
                     app.PrintToastMessage("Data initialization completed");
                 });
         builder.show();
@@ -364,13 +369,14 @@ public class MainActivity extends Activity {
                 if (results != null) {
                     user = JsonParse(results.getContents());
                     UserInIt();
-                    if (userInfo.getUSER().equals("A293155") || userInfo.getUSER().equals("A246087")) {
+                    if (userInfo.LOGIN_STATUS) {
                         if(!app.getRememberID().equals(userInfo.getUSER())){
                             InitAdapter();
                             app.setREMEMBER_ID(userInfo.getUSER());
                             app.ID_Preference();
                         }
-                        Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
+//                        Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
+                        Intent intent1 = new Intent(MainActivity.this, SetMenuActivity.class);
                         intent1.putExtra("userInfo", userInfo);
                         startActivity(intent1);
                     } else {

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="UserInfo">{"A293155":[{"USER":"A293155","LINE":"E21","PLANT":"1000","ZONE":"ECM1","TAKT":"AE04","ID":"XCEMII01","PW":"init1234"}], "A246087":[{"USER":"A246087","LINE":"E20","PLANT":"1000","ZONE":"BCM1","TAKT":"AE01","ID":"XCEMII01","PW":"init1234"}]}</string>
+    <string name="UserInfo">{"A293155":[{"USER":"A293155","PLANT":"1000","TAKT":"AE04","ID":"XCEMII01","PW":"init1234"}], "A246087":[{"USER":"A246087","PLANT":"1000","TAKT":"AE01","ID":"XCEMII01","PW":"init1234"}]}</string>
+    <string name="ColumnData">{"ZONE":["BCM1", "ECM1"]}</string>
+    <string name="LINE">{"BCM1":["E22", "E20", "E50", "L10", "E40"], "ECM1":["E21"]}</string>
 </resources>

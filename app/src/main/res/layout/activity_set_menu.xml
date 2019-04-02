@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    tools:context=".Activity.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_h"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/percent">
+
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="70dp"
+            android:baselineAligned="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/toptext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text="Data Setting"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textzone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toptext"
+                android:layout_marginBottom="10dp"
+                android:text="Zone\t"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/list_zone"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toptext"
+                android:background="@drawable/border1"
+                android:layout_toEndOf="@id/textzone"
+                android:gravity="center"
+                android:layout_alignParentEnd="true"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textlines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textzone"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="Lines\t"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/list_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textzone"
+                android:layout_toEndOf="@id/textlines"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/border1"
+                android:gravity="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textlines"
+                android:gravity="center"
+                android:text="Date\t"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/gettime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textlines"
+                android:layout_gravity="center"
+                android:layout_toEndOf="@id/textdate"
+                android:background="@drawable/border1"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/voice_status"
+        android:layout_width="48sp"
+        android:layout_height="48sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp" />
+
+
+</RelativeLayout>

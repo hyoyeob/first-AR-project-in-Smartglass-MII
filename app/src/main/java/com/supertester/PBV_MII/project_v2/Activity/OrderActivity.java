@@ -331,7 +331,7 @@ public class OrderActivity extends Activity implements Serializable {
         try {
             CallRemote_order cr = new CallRemote_order();
             AsyncTask<String, String, SoapObject> at = cr.execute(userInfo.getLINE(), userInfo.getPLANT(), userInfo.getZONE(), userInfo.getGETTIME(), userInfo.getID(), userInfo.getPW(), userInfo.getTAKT(), "");
-            s = at.get();
+            s = at.get();   //TODO 위에 파라미터 줄이기
             int size = order_dbAdapter.getConditionCount(orderContact, "DATE", userInfo.getREALTIME());
             if (!order_dbAdapter.isEmpty("DATE", userInfo.getGETTIME()) && userInfo.getREALTIME().equals(userInfo.getGETTIME())) { //DATE에 해당하는 필드값이 존재하므로 OrderList가 있다.
                 if (!b || s == null) { //네트워크가 끊어진 경우. == 예외처리.
@@ -963,7 +963,7 @@ public class OrderActivity extends Activity implements Serializable {
                         app.SoapToArraylist_item(Result, item.getLOAD_INDEX(), item_dbAdapter, userInfo.getGETTIME(), itemStatusContact, item_status_dbAdapter);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e("log_load ", "캐치 인덱스: " + item.getLOAD_INDEX());
+                        Log.e("log_load ", "catch index: " + item.getLOAD_INDEX());
                         Result.set(item.getLOAD_INDEX(), "");
                         item.setLOAD_INDEX(item.getLOAD_INDEX() - 1);
                     }
