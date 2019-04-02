@@ -376,7 +376,7 @@ public class ItemActivity extends Activity implements Serializable {
     private void SendSuccessToMII() { //MII로 완료된 오더 전송, 이전에 논리 필요함
         CallRemote_endpicking ce = new CallRemote_endpicking();
         String pick = item.getPICK_SEQ().get(order_index);
-        AsyncTask<String, String, SoapObject> at = ce.execute(pick, user.getID(), user.getPW());
+        AsyncTask<String, String, SoapObject> at = ce.execute(pick);
         try {
             SoapObject s;
             s = at.get();

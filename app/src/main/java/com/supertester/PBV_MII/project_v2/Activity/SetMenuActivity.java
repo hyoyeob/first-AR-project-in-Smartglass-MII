@@ -52,6 +52,7 @@ public class SetMenuActivity extends Activity {
         setContentView(R.layout.activity_set_menu);
         JsonParse();
         ready();
+        UserInIt();
     }
 
     private void JsonParse() {

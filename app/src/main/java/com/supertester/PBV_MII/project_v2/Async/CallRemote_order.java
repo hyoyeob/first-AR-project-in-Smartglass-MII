@@ -3,6 +3,8 @@ package com.supertester.PBV_MII.project_v2.Async;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.supertester.PBV_MII.project_v2.Database.User;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -13,7 +15,7 @@ public class CallRemote_order extends AsyncTask<String, String, SoapObject> {
     private static final String SOAP_METHOD = "XacuteRequest"; //호출되는 함수의 이름
     private static final String NAMESPACE = "http://www.sap.com/xMII";  //웹서비스 만들 때 기재
     private static final String URL = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/getPickingOrderListTrx";
-
+    private User userInfo = new User();
 
 
     protected SoapObject doInBackground(String... params) {
@@ -27,14 +29,24 @@ public class CallRemote_order extends AsyncTask<String, String, SoapObject> {
         String status;
         SoapObject countryDetails;
 
-        line = params[0];
-        plant = params[1];
-        zone = params[2];
-        date = params[3];
-        id = params[4];
-        pw = params[5];
-        takt = params[6];
-        status = params[7];
+
+        line = userInfo.getLINE();
+        plant = userInfo.getPLANT();
+        zone = userInfo.getZONE();
+        date = userInfo.getGETTIME();
+        id = userInfo.getID();
+        pw = userInfo.getPW();
+        takt = userInfo.getTAKT();
+        status = params[0];
+
+//        line = params[0];
+//        plant = params[1];
+//        zone = params[2];
+//        date = params[3];
+//        id = params[4];
+//        pw = params[5];
+//        takt = params[6];
+//        status = params[7];
 
         try {
             SoapObject input_params = new SoapObject(NAMESPACE, "InputParams");

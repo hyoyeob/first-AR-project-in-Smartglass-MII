@@ -3,6 +3,9 @@ package com.supertester.PBV_MII.project_v2.Async;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.supertester.PBV_MII.project_v2.Database.Item;
+import com.supertester.PBV_MII.project_v2.Database.User;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -13,15 +16,17 @@ public class CallRemote_endpicking extends AsyncTask<String, String, SoapObject>
     private static final String SOAP_METHOD = "XacuteRequest"; //호출되는 함수의 이름
     private static final String NAMESPACE = "http://www.sap.com/xMII";  //웹서비스 만들 때 기재
     private static final String URL = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/EndPickingProcessTrx";
+    private User user = new User();
+
     protected SoapObject doInBackground(String... params) {
         String pick;
         String id;
         String pw;
-
         SoapObject countryDetails = null;
+
         pick = params[0];
-        id = params[1];
-        pw = params[2];
+        id = user.getID();
+        pw = user.getPW();
 
         SoapObject input_params = new SoapObject(NAMESPACE, "InputParams");
         SoapObject filter_sequence = new SoapObject(NAMESPACE, "InputSequence");

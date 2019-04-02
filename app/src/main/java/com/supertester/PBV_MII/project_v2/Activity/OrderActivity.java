@@ -330,7 +330,7 @@ public class OrderActivity extends Activity implements Serializable {
     private void getOrder() {
         try {
             CallRemote_order cr = new CallRemote_order();
-            AsyncTask<String, String, SoapObject> at = cr.execute(userInfo.getLINE(), userInfo.getPLANT(), userInfo.getZONE(), userInfo.getGETTIME(), userInfo.getID(), userInfo.getPW(), userInfo.getTAKT(), "");
+            AsyncTask<String, String, SoapObject> at = cr.execute("");
             s = at.get();   //TODO 위에 파라미터 줄이기
             int size = order_dbAdapter.getConditionCount(orderContact, "DATE", userInfo.getREALTIME());
             if (!order_dbAdapter.isEmpty("DATE", userInfo.getGETTIME()) && userInfo.getREALTIME().equals(userInfo.getGETTIME())) { //DATE에 해당하는 필드값이 존재하므로 OrderList가 있다.
