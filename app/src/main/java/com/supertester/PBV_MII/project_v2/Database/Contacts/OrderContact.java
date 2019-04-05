@@ -34,7 +34,7 @@ public class OrderContact extends Contact {
                 + ZONE + " VARCHAR(100),"
                 + DCN + " VARCHAR(100),"
                 + MATNR + " VARCHAR(100),"
-                + SEQ + " VARCHAR(100),"
+                + SEQ + " INT(100),"
                 + SERNR + " VARCHAR(100),"
                 + STATUS + " VARCHAR(100),"
                 + YMII_BACK + " VARCHAR(100),"

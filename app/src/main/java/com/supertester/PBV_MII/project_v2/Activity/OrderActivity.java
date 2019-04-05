@@ -194,6 +194,7 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void error_test() {
+        Log.e("log_order error", getorder + "");
         if (!getorder) {
             enter_flag = true;
             if (userInfo.getGETTIME().equals(userInfo.getREALTIME())) {
@@ -203,7 +204,9 @@ public class OrderActivity extends Activity implements Serializable {
         } else {
             enter_flag = false;
             setUI();
+            Log.e("log_order error", "111");
             percent();
+            Log.e("log_order error", "2222");
         }
     }
 
@@ -320,7 +323,8 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void SetLoadIndex(int size) {
-        getorder = size > 4;
+        getorder = size > 0;
+        Log.e("log_order sizeeee2", size + "/" + getDownloadCount());
         item.setLOAD_INDEX(getDownloadCount());
         for (int i = 0; i < item.getLOAD_INDEX(); i++) {
             item.getLOAD_STATUS().set(i, getString(R.string.Check));
@@ -330,9 +334,11 @@ public class OrderActivity extends Activity implements Serializable {
     private void getOrder() {
         try {
             CallRemote_order cr = new CallRemote_order();
-            AsyncTask<String, String, SoapObject> at = cr.execute("");
+            AsyncTask<User, String, SoapObject> at = cr.execute(userInfo);
             s = at.get();   //TODO 위에 파라미터 줄이기
+
             int size = order_dbAdapter.getConditionCount(orderContact, "DATE", userInfo.getREALTIME());
+            Log.e("log_order", size + "/" + item.getAUFNR().size());
             if (!order_dbAdapter.isEmpty("DATE", userInfo.getGETTIME()) && userInfo.getREALTIME().equals(userInfo.getGETTIME())) { //DATE에 해당하는 필드값이 존재하므로 OrderList가 있다.
                 if (!b || s == null) { //네트워크가 끊어진 경우. == 예외처리.
                     CallDB(size);
@@ -350,7 +356,9 @@ public class OrderActivity extends Activity implements Serializable {
                 } else {
                     OrderStatusUpdate("ORDER_QTY", String.valueOf(s.getPropertyCount()));
                     SoapToArraylist();
+                    Log.e("log_order error", getorder + "2222");
                     item.setLOAD_INDEX(0);
+                    Log.e("log_order error", getorder + "33333");
                 }
             }
         } catch (Exception e) {
@@ -358,6 +366,8 @@ public class OrderActivity extends Activity implements Serializable {
             enter_flag = true;
             finish();
         }
+//        Log.e("log_test","order seq: "+item.getORDER_SEQ());
+//        Log.e("log_test","order Pseq: "+item.getPICK_SEQ());
     }
 
     private void InitAdapter() {
@@ -380,6 +390,7 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     private void addOrderVariable(ArrayList<OrderContact> order_contact_data) {
+        Log.e("log_order_aufnr", order_contact_data.get(0).getAUFNR());
         for (int i = Start; i < order_count; i++) { //여기바뀌면 출력바뀜
             item.AUFNR.add(order_contact_data.get(i).getAUFNR());
             item.DCN.add(order_contact_data.get(i).getDCN());
@@ -518,6 +529,7 @@ public class OrderActivity extends Activity implements Serializable {
 
         enter_flag = true;
         userInfo = (User) getIntent().getSerializableExtra("userInfo");
+        userInfo.logUSERINFO();
 
         voice_stat = findViewById(R.id.voice_status);
         app.Set_voice_stat(voice_stat);
@@ -542,12 +554,13 @@ public class OrderActivity extends Activity implements Serializable {
     private boolean check_order_err(SoapObject countryDetails) {
         Object property = countryDetails.getProperty(0);
         SoapObject countryObj = (SoapObject) property;
+
         int count = countryObj.getPropertyCount();
         if (count == 1) {
-            Log.e("log_order result", "false 값 에러");
+            Log.e("log_order result", count + " false 값 에러");
             return false;
         } else {
-            Log.e("log_order result", "true 값 정상");
+            Log.e("log_order result", count + " true 값 정상");
             return true;
         }
     }
@@ -579,7 +592,7 @@ public class OrderActivity extends Activity implements Serializable {
                     addOrderVariable(order_contact_data); // 변수에 값 저장.
                 }
                 item.ORDER_STATUS = test_status;
-                getorder = item.getAUFNR().size() > 4;
+                getorder = item.getAUFNR().size() > 0;
             } else
                 getorder = false;
         } catch (Exception e) {
@@ -637,36 +650,10 @@ public class OrderActivity extends Activity implements Serializable {
     }
 
     public void Print_First(TextView[] tv, ArrayList<String> arr) {
-        if (order_index == 0) {
-            tv[0].setText("");
-            tv[1].setText("");
-            tv[2].setText(arr.get(order_index));
-            tv[3].setText(arr.get(order_index + 1));
-            tv[4].setText(arr.get(order_index + 2));
-        } else if (order_index == 1) {
-            tv[0].setText("");
-            tv[1].setText(arr.get(order_index - 1));
-            tv[2].setText(arr.get(order_index));
-            tv[3].setText(arr.get(order_index + 1));
-            tv[4].setText(arr.get(order_index + 2));
-        } else if (order_index > 1 && order_index < item.getAUFNR().size() - 2) {
-            tv[0].setText(arr.get(order_index - 2));
-            tv[1].setText(arr.get(order_index - 1));
-            tv[2].setText(arr.get(order_index));
-            tv[3].setText(arr.get(order_index + 1));
-            tv[4].setText(arr.get(order_index + 2));
-        } else if (order_index == item.getAUFNR().size() - 2) {
-            tv[0].setText(arr.get(order_index - 2));
-            tv[1].setText(arr.get(order_index - 1));
-            tv[2].setText(arr.get(order_index));
-            tv[3].setText(arr.get(order_index + 1));
-            tv[4].setText("");
-        } else {
-            tv[0].setText(arr.get(order_index - 2));
-            tv[1].setText(arr.get(order_index - 1));
-            tv[2].setText(arr.get(order_index));
-            tv[3].setText("");
-            tv[4].setText("");
+        for (int i = 0; i < 5; i++) {
+            if (order_index - (2 - i) >= 0 && order_index - (2 - i) < item.getAUFNR().size())
+                tv[i].setText(arr.get(order_index - (2 - i)));
+            else tv[i].setText("");
         }
     }
 
@@ -941,7 +928,7 @@ public class OrderActivity extends Activity implements Serializable {
                     filter_sequence.addProperty("Line", userInfo.getLINE());//전달 파라미터(변수명 값 입력해야함)
                     filter_sequence.addProperty("Plant", userInfo.getPLANT());//전달 파라미터(변수명 값 입력해야함)
                     filter_sequence.addProperty("Zone", userInfo.getZONE());//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("Takt", userInfo.getTAKT());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("Takt", "");//전달 파라미터(변수명 값 입력해야함)
                     filter_sequence.addProperty("PIC_SEQ", item.getLOAD_SEQ());//전달 파라미터(변수명 값 입력해야함)
                     input_params.addSoapObject(filter_sequence);//전달 파라미터(변수명 값 입력해야함)
                     request.addProperty("LoginName", userInfo.getID());//전달 파라미터(변수명 값 입력해야함)
@@ -957,6 +944,7 @@ public class OrderActivity extends Activity implements Serializable {
                     try {
                         androidHttpTransport.call(app.SOAP_ACTION, envelope);
                         countryDetails = (SoapObject) envelope.getResponse();
+                        Log.e("log_order_soap", countryDetails + "");
                         Result.set(item.getLOAD_INDEX(), countryDetails);
                         item.getLOAD_STATUS().set(item.getLOAD_INDEX(), getString(R.string.Check));
                         Log.e("log_load", "load_index: " + item.getLOAD_INDEX() + "/ date: " + userInfo.getGETTIME());

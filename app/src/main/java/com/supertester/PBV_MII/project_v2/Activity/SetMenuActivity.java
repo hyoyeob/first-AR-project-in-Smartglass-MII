@@ -17,6 +17,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.supertester.PBV_MII.project_v2.Class.Std_Method;
+import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemContact;
+import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemStatusContact;
+import com.supertester.PBV_MII.project_v2.Database.Contacts.OrderContact;
+import com.supertester.PBV_MII.project_v2.Database.Contacts.OrderStatusContact;
+import com.supertester.PBV_MII.project_v2.Database.DBAdapter;
 import com.supertester.PBV_MII.project_v2.Database.User;
 import com.supertester.PBV_MII.project_v2.R;
 
@@ -110,15 +115,50 @@ public class SetMenuActivity extends Activity {
         }
     }
 
+
+    private void InitAdapter() {
+        DBAdapter order_status_dbAdapter;
+        DBAdapter order_dbAdapter;
+        DBAdapter item_status_dbAdapter;
+        DBAdapter item_dbAdapter;
+        OrderStatusContact orderStatusContact = new OrderStatusContact();
+        OrderContact orderContact = new OrderContact();
+        ItemStatusContact itemStatusContact = new ItemStatusContact();
+        ItemContact itemContact = new ItemContact();
+
+        order_status_dbAdapter = new DBAdapter<>(getApplicationContext(), orderStatusContact);
+        order_dbAdapter = new DBAdapter<>(getApplicationContext(), orderContact);
+        item_status_dbAdapter = new DBAdapter<>(getApplicationContext(), itemStatusContact);
+        item_dbAdapter = new DBAdapter<>(getApplicationContext(), itemContact);
+
+        order_status_dbAdapter.DropTable();
+        item_status_dbAdapter.DropTable();
+        item_dbAdapter.DropTable();
+        order_dbAdapter.DropTable();
+
+        order_status_dbAdapter.CreateTable();
+        item_status_dbAdapter.CreateTable();
+        item_dbAdapter.CreateTable();
+        order_dbAdapter.CreateTable();
+    }
+
     private void enter_key() {
         net_check();
         if (userInfo.LOGIN_STATUS) {
-            try {
-                Intent intent1 = new Intent(this, OrderActivity.class);
-                intent1.putExtra("userInfo", userInfo);
-                startActivity(intent1);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!app.getRememberOption().equals(userInfo.getLINE())) {
+                InitAdapter();
+                app.setREMEMBEROption(userInfo.getLINE());
+            }
+            if (userInfo.getLINE().equals("E50") && !userInfo.getGETTIME().equals(userInfo.getREALTIME()))
+                app.PrintToastMessage("E50 line only displays today's data.");
+            else {
+                try {
+                    Intent intent1 = new Intent(this, OrderActivity.class);
+                    intent1.putExtra("userInfo", userInfo);
+                    startActivity(intent1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else if (!b && !userInfo.getGETTIME().equals(userInfo.getREALTIME())) {
             app.PrintToastMessage("Login failed.\nCheck your Network.");
@@ -261,6 +301,8 @@ public class SetMenuActivity extends Activity {
         LinearLayout linear_h = findViewById(R.id.layout_h);
         app.share_load();
         app.set_view(linear_h);
+        app.InitRememberOption();
+        Log.e("log_test_option", app.getRememberOption() + "/" + userInfo.getLINE());
     }
 
     private void net_check() {

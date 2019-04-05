@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemContact;
 import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemStatusContact;
+import com.supertester.PBV_MII.project_v2.Database.Contacts.OrderContact;
 import com.supertester.PBV_MII.project_v2.Database.Contacts.OrderStatusContact;
 import com.supertester.PBV_MII.project_v2.Database.DBAdapter;
 import com.supertester.PBV_MII.project_v2.R;
@@ -38,6 +39,7 @@ import java.util.Set;
 public class Std_Method extends Application {
     private int now_view;
     private String REMEMBER_ID;
+    private String REMEMBER_Option;
     public String ITEM = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/getPickingItemListTrx";
     public String NAMESPACE = "http://www.sap.com/xMII";
     public String SOAP_METHOD = "XacuteRequest";
@@ -239,13 +241,16 @@ public class Std_Method extends Application {
         editor.apply();
     }
 
+
     public String getRememberID(){
         return REMEMBER_ID;
     }
 
     public void setREMEMBER_ID(String REMEMBER_ID) {
         this.REMEMBER_ID = REMEMBER_ID;
+        ID_Preference();
     }
+
 
     /**
      * 저장한 현재 아이디 값 불러옴
@@ -257,7 +262,6 @@ public class Std_Method extends Application {
         REMEMBER_ID=result;
     }
 
-
     /**
      * 현재 아이디 기록 위치 영구 저장
      */
@@ -265,6 +269,34 @@ public class Std_Method extends Application {
         SharedPreferences pref_id = getSharedPreferences("id",MODE_PRIVATE);
         SharedPreferences.Editor editor = pref_id.edit();
         editor.putString("ID",REMEMBER_ID);
+        editor.apply();
+    }
+
+
+    public String getRememberOption() {
+        return REMEMBER_Option;
+    }
+
+    public void setREMEMBEROption(String REMEMBER_Option) {
+        this.REMEMBER_Option = REMEMBER_Option;
+        Option_Preference();
+    }
+
+    /**
+     * 저장한 현재 옵션 값 불러옴
+     */
+    public void InitRememberOption() {
+        SharedPreferences prefs_option = getSharedPreferences("option", MODE_PRIVATE);
+        String result = prefs_option.getString("OPTION", "");
+        Log.e("log_GetRememberOPTION", result + "");
+        REMEMBER_Option = result;
+    }
+
+
+    public void Option_Preference() {
+        SharedPreferences pref_id = getSharedPreferences("option", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref_id.edit();
+        editor.putString("OPTION", REMEMBER_Option);
         editor.apply();
     }
 

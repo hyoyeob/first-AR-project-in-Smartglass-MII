@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
         ready();
         UserInIt();
 
-        JsonParse("A293155");
+//        JsonParse("A293155");
     }
 
     private void voice_set() {
@@ -373,7 +373,6 @@ public class MainActivity extends Activity {
                         if(!app.getRememberID().equals(userInfo.getUSER())){
                             InitAdapter();
                             app.setREMEMBER_ID(userInfo.getUSER());
-                            app.ID_Preference();
                         }
 //                        Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
                         Intent intent1 = new Intent(MainActivity.this, SetMenuActivity.class);

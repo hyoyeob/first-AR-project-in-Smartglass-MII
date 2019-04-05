@@ -16,7 +16,6 @@ public class CallRemote_endpicking extends AsyncTask<String, String, SoapObject>
     private static final String SOAP_METHOD = "XacuteRequest"; //호출되는 함수의 이름
     private static final String NAMESPACE = "http://www.sap.com/xMII";  //웹서비스 만들 때 기재
     private static final String URL = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/EndPickingProcessTrx";
-    private User user = new User();
 
     protected SoapObject doInBackground(String... params) {
         String pick;
@@ -25,8 +24,8 @@ public class CallRemote_endpicking extends AsyncTask<String, String, SoapObject>
         SoapObject countryDetails = null;
 
         pick = params[0];
-        id = user.getID();
-        pw = user.getPW();
+        id = params[1];
+        pw = params[2];
 
         SoapObject input_params = new SoapObject(NAMESPACE, "InputParams");
         SoapObject filter_sequence = new SoapObject(NAMESPACE, "InputSequence");

@@ -244,7 +244,7 @@ public class DBAdapter<Contact extends com.supertester.PBV_MII.project_v2.Databa
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
         ArrayList<Contact> contacts = new ArrayList<>();
         if (TABLE_NAME.equals("OrderContact")) {
-            selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY PICK_SEQ";
+            selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY SEQ";
         } else {
             selectQuery = "SELECT * FROM " + TABLE_NAME;
         }

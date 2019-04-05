@@ -10,15 +10,14 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-public class CallRemote_order extends AsyncTask<String, String, SoapObject> {
+public class CallRemote_order extends AsyncTask<User, String, SoapObject> {
     private static final String SOAP_ACTION = "http://www.sap.com/xMII/XacuteRequest"; //웹에서 확인하면 함수 설명이 나옴(namespace + soap_method)
     private static final String SOAP_METHOD = "XacuteRequest"; //호출되는 함수의 이름
     private static final String NAMESPACE = "http://www.sap.com/xMII";  //웹서비스 만들 때 기재
     private static final String URL = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/getPickingOrderListTrx";
-    private User userInfo = new User();
 
 
-    protected SoapObject doInBackground(String... params) {
+    protected SoapObject doInBackground(User... params) {
         String line;
         String plant;
         String zone ;
@@ -30,6 +29,7 @@ public class CallRemote_order extends AsyncTask<String, String, SoapObject> {
         SoapObject countryDetails;
 
 
+        User userInfo = params[0];
         line = userInfo.getLINE();
         plant = userInfo.getPLANT();
         zone = userInfo.getZONE();
@@ -37,7 +37,7 @@ public class CallRemote_order extends AsyncTask<String, String, SoapObject> {
         id = userInfo.getID();
         pw = userInfo.getPW();
         takt = userInfo.getTAKT();
-        status = params[0];
+        status = "";
 
 //        line = params[0];
 //        plant = params[1];
@@ -57,9 +57,11 @@ public class CallRemote_order extends AsyncTask<String, String, SoapObject> {
             filter_sequence.addProperty("Line", line);
             filter_sequence.addProperty("Plant", plant);
             filter_sequence.addProperty("Zone", zone);
-            filter_sequence.addProperty("Takt", takt);
+            filter_sequence.addProperty("Takt", "");
             filter_sequence.addProperty("Period", "0");
             filter_sequence.addProperty("Status",status);
+
+            Log.e("log_test", "date:" + date + " line:" + line + " plant:" + plant + " zone:" + zone + " takt:" + takt + " status:" + status);
 
             input_params.addSoapObject(filter_sequence);
 

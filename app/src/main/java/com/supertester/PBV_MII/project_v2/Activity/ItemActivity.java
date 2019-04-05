@@ -95,6 +95,8 @@ public class ItemActivity extends Activity implements Serializable {
         backgroundThread = new BackgroundThread();
         backgroundThread.setRunning(true);
         backgroundThread.start();
+
+        Log.e("log_order test", item.getLAMPOS() + "");
     }
 
 
@@ -142,13 +144,14 @@ public class ItemActivity extends Activity implements Serializable {
         int order_success;
         ItemStatusContact tempContact = item_status_dbAdapter.getContact(new ItemStatusContact(), "AUFNR", item.getORDER_NAME());
 
-        item_status = Integer.parseInt(tempContact.getProperty(1));
+        if (tempContact.getProperty(1) == null) item_status = 0;
+        else item_status = Integer.parseInt(tempContact.getProperty(1));
         Log.e("InitSuccessNumber", item_status + "      ");
 
         item_qty = Integer.parseInt(item_status_dbAdapter.getContact(new ItemStatusContact(), "AUFNR", item.getORDER_NAME()).getProperty(3));
         item_success = item_dbAdapter.getConditionCount(new ItemContact(), "STATUS", "Y");
         order_success = order_dbAdapter.getConditionCount(new OrderContact(), "STATUS", "Y");
-        Log.e("InitSuccessNumber", item_qty + "      " + item_success + "    " + order_success);
+        Log.e("Init SuccessNumber", item_qty + "      " + item_success + "    " + order_success);
     }
 
     private void InitAdapter() {
@@ -288,10 +291,14 @@ public class ItemActivity extends Activity implements Serializable {
 
         for (int i = 0; i < item_contact_data.size(); i++) {
             int loop_stat;
-            if (i < item_contact_data.size() - 2 && (item_contact_data.get(i).getLAMPOS().equals(item_contact_data.get(i + 1).getLAMPOS()))) {
-                if (i < item_contact_data.size() - 3 && (item_contact_data.get(i + 1).getLAMPOS().equals(item_contact_data.get(i + 2).getLAMPOS()))) {
-                    if (i < item_contact_data.size() - 4 && (item_contact_data.get(i + 2).getLAMPOS().equals(item_contact_data.get(i + 3).getLAMPOS()))) {
-                        if (i < item_contact_data.size() - 5 && (item_contact_data.get(i + 3).getLAMPOS().equals(item_contact_data.get(i + 4).getLAMPOS()))) {
+            if (i < item_contact_data.size() - 2 && (item_contact_data.get(i).getLAMPOS().equals(item_contact_data.get(i + 1).getLAMPOS()))
+                    && (item_contact_data.get(i).getMAKTX().equals(item_contact_data.get(i + 1).getMAKTX()))) {
+                if (i < item_contact_data.size() - 3 && (item_contact_data.get(i + 1).getLAMPOS().equals(item_contact_data.get(i + 2).getLAMPOS()))
+                        && (item_contact_data.get(i + 1).getMAKTX().equals(item_contact_data.get(i + 2).getMAKTX()))) {
+                    if (i < item_contact_data.size() - 4 && (item_contact_data.get(i + 2).getLAMPOS().equals(item_contact_data.get(i + 3).getLAMPOS()))
+                            && (item_contact_data.get(i + 2).getMAKTX().equals(item_contact_data.get(i + 3).getMAKTX()))) {
+                        if (i < item_contact_data.size() - 5 && (item_contact_data.get(i + 3).getLAMPOS().equals(item_contact_data.get(i + 4).getLAMPOS()))
+                                && (item_contact_data.get(i + 3).getMAKTX().equals(item_contact_data.get(i + 4).getMAKTX()))) {
                             loop_stat = 5;
                         } else loop_stat = 4;
                     } else loop_stat = 3;
@@ -376,7 +383,7 @@ public class ItemActivity extends Activity implements Serializable {
     private void SendSuccessToMII() { //MII로 완료된 오더 전송, 이전에 논리 필요함
         CallRemote_endpicking ce = new CallRemote_endpicking();
         String pick = item.getPICK_SEQ().get(order_index);
-        AsyncTask<String, String, SoapObject> at = ce.execute(pick);
+        AsyncTask<String, String, SoapObject> at = ce.execute(pick, user.getID(), user.getPW());
         try {
             SoapObject s;
             s = at.get();
@@ -713,7 +720,7 @@ public class ItemActivity extends Activity implements Serializable {
                     filter_sequence.addProperty("Line", user.getLINE());//전달 파라미터(변수명 값 입력해야함)
                     filter_sequence.addProperty("Plant", user.getPLANT());//전달 파라미터(변수명 값 입력해야함)
                     filter_sequence.addProperty("Zone", user.getZONE());//전달 파라미터(변수명 값 입력해야함)
-                    filter_sequence.addProperty("Takt", user.getTAKT());//전달 파라미터(변수명 값 입력해야함)
+                    filter_sequence.addProperty("Takt", "");//전달 파라미터(변수명 값 입력해야함)
                     filter_sequence.addProperty("PIC_SEQ", item.getLOAD_SEQ());//전달 파라미터(변수명 값 입력해야함)
                     input_params.addSoapObject(filter_sequence);//전달 파라미터(변수명 값 입력해야함)
                     request.addProperty("LoginName", "XCEMII01");//전달 파라미터(변수명 값 입력해야함)
