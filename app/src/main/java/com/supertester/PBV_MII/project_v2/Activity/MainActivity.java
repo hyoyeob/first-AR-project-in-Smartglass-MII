@@ -44,10 +44,12 @@ public class MainActivity extends Activity {
 
     TextView NW_stat;
     TextView Date;
+    TextView Manual;
     ImageView arrow1;
     ImageView arrow2;
     ImageView arrow3;
     ImageView arrow4;
+    ImageView arrow5;
     ImageView voice_stat;
     LinearLayout linear_h;
 
@@ -104,13 +106,16 @@ public class MainActivity extends Activity {
         UI_control();
         NW_stat = findViewById(R.id.nw_stat);
         Date = findViewById(R.id.date);
+        Manual = findViewById(R.id.manual);
         arrow1 = findViewById(R.id.arrow1);
         arrow2 = findViewById(R.id.arrow2);
         arrow3 = findViewById(R.id.arrow3);
         arrow4 = findViewById(R.id.arrow4);
+        arrow5 = findViewById(R.id.arrow5);
         arrow2.setVisibility(View.INVISIBLE);
         arrow3.setVisibility(View.INVISIBLE);
         arrow4.setVisibility(View.INVISIBLE);
+        arrow5.setVisibility(View.INVISIBLE);
         user = new String[5];
         for (int i = 0; i < 5; i++) user[i] = "";
     }
@@ -260,21 +265,31 @@ public class MainActivity extends Activity {
             arrow2.setVisibility(View.INVISIBLE);
             arrow3.setVisibility(View.INVISIBLE);
             arrow4.setVisibility(View.INVISIBLE);
+            arrow5.setVisibility(View.INVISIBLE);
         } else if (arrow_pos == 1) {
             arrow1.setVisibility(View.INVISIBLE);
             arrow2.setVisibility(View.VISIBLE);
             arrow3.setVisibility(View.INVISIBLE);
             arrow4.setVisibility(View.INVISIBLE);
+            arrow5.setVisibility(View.INVISIBLE);
         } else if (arrow_pos == 2) {
             arrow1.setVisibility(View.INVISIBLE);
             arrow2.setVisibility(View.INVISIBLE);
             arrow3.setVisibility(View.VISIBLE);
             arrow4.setVisibility(View.INVISIBLE);
+            arrow5.setVisibility(View.INVISIBLE);
         } else if (arrow_pos == 3) {
             arrow1.setVisibility(View.INVISIBLE);
             arrow2.setVisibility(View.INVISIBLE);
             arrow3.setVisibility(View.INVISIBLE);
             arrow4.setVisibility(View.VISIBLE);
+            arrow5.setVisibility(View.INVISIBLE);
+        } else if (arrow_pos == 4) {
+            arrow1.setVisibility(View.INVISIBLE);
+            arrow2.setVisibility(View.INVISIBLE);
+            arrow3.setVisibility(View.INVISIBLE);
+            arrow4.setVisibility(View.INVISIBLE);
+            arrow5.setVisibility(View.VISIBLE);
         }
     }
 
@@ -286,7 +301,7 @@ public class MainActivity extends Activity {
     }
 
     private void key_up() {
-        if (arrow_pos < 3) {
+        if (arrow_pos < 4) {
             arrow_pos += 1;
         }
         key_control();
