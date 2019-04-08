@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+    <title>PBV_Manual</title>
+    <meta charset="euc-kr">
+    <style type="text/css">
+    p {font-size : 22px;}
+    table{width: 66%; border-collapse: collapse;}
+    th, td{border: 1px solid #cccccc; padding: 5px;}
+    img{width: 50%; height: auto;}
+
+
+    </style>
+</head>
+<body bgcolor="black" text="white">
+<p><strong>Pick-by-Vision Support Documents</strong><br>
+    Applied version: v2.6</p>
+<p><strong>0-1. 디바이스 구성</strong><br>
+    <img src="file:///android_asset/img/bt300.jpg"
+         alt="bt300"><br>
+    크게 위와 같이 안경, 컨트롤러, 코걸이가 있습니다. 코걸이는 안경을 끼고도 착용할 수 있도록 하기 위함입니다. 컨트롤러와 안경은 유선으로 연결되어 있으며,
+    기본적으로 컨트롤러를 활용하여 디바이스를 제어합니다.</p>
+<p><strong>0-2. 컨트롤러 사용법</strong><br>
+    <img src="file:///android_asset/img/bt300_control.jpg" style="width: 33%; height: auto;"
+         alt="bt300_control"><br>
+    PBV는 십자 키와 엔터키를 주로 사용합니다. 상하좌우 이동을 십자 키로 제어할 수 있으며, 가운데 엔터 키를 이용해 작업을 진행할 수 있습니다.</p>
+<p><strong>0-3. Wi-Fi 연결 설정</strong><br>
+    PBV은 회사 내부 네트워크 ‘FactoryWireless’에서만 동작합니다. 네트워크가 끊어졌다면 새로운 연결이 필요합니다.</p>
+<p><strong>1. 메인 메뉴</strong><br>
+    <img src="file:///android_asset/img/1mainmenu.jpg"
+         alt="1mainmenu"></p>
+<p><strong>2. 데이터 초기화</strong><br>
+    <img src="file:///android_asset/img/2resetdata.jpg"
+         alt="2resetdata"><br>
+    작업 내역과 DB를 초기화하는 메뉴입니다. 일반적으로 MII 데이터를 다시 로드할 때 사용합니다.</p>
+<p><strong>3. 디스플레이 위치 설정</strong><br>
+    <img src="file:///android_asset/img/3setview.jpg"
+         alt="3setview"><br>
+    화면의 위치는 사용자의 환경에 맞게 설정이 가능합니다.
+    총 4개의 위치(좌측상단, 우측상단, 좌측하단, 우측하단)에 설정이 가능합니다.
+    이 설정은 초기화 시에도 유지되며, 사용자 설정에 의해서만 변경됩니다.</p>
+<p><strong>4-1. 음성 인식 메뉴</strong><br>
+    <img src="file:///android_asset/img/4444.jpg"
+         alt="4444"><br>
+    메뉴 버튼만으로 인식 기능을 켜고 끌 수 있습니다. 우측하단에는 현재 기능의 on-off 여부를 확인할 수 있는 아이콘이 나와 있습니다.
+    또한 컨트롤러의 볼륨제어 버튼으로 음성 인식 기능을 제어할 수 있습니다.<br><br>
+    <img src="file:///android_asset/img/mic.jpg"
+         alt="mic"><br>
+    만약 음성 기능이 제대로 동작하지 않는다면 볼륨제어 버튼을 이용해 기능을 재부팅하거나, 디바이스에 연결된 마이크 선을 다시 꼽아 이용하시면 됩니다.
+</p>
+<p><strong>4-2. 음성 단어 목록</strong><br>
+    PBV는 한국어와 영어 단어를 인식하고 동작합니다. 제어할 수 있는 기능과 해당 음성 단어 목록이 아래에 나와 있습니다.<br>
+    ① <strong>Left:</strong> 왼쪽 항목으로 이동<br>
+    ② <strong>Right:</strong> 오른쪽 항목으로 이동<br>
+    ③ <strong>Up:</strong> 위쪽 항목으로 이동<br>
+    ④ <strong>Down:</strong> 아래쪽 항목으로 이동<br>
+    ⑤ <strong>OK:</strong> 현재 항목 선택<br>
+    ⑥ <strong>Cancel:</strong> 현재 위치에서 탈출</p>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th><strong>Left</strong></th>
+        <th><strong>Right</strong></th>
+        <th><strong>Up</strong></th>
+        <th><strong>Down</strong></th>
+        <th><strong>OK</strong></th>
+        <th><strong>Cancel</strong></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>이전</td>
+        <td>다음</td>
+        <td>위로</td>
+        <td>아래로</td>
+        <td>확인</td>
+        <td>취소</td>
+    </tr>
+    <tr>
+        <td>뒤로</td>
+        <td>Next</td>
+        <td>위쪽</td>
+        <td>Down</td>
+        <td>OK</td>
+        <td>Cancel</td>
+    </tr>
+    <tr>
+        <td>Left</td>
+        <td>앞으로</td>
+        <td>Up</td>
+        <td>아래쪽</td>
+        <td>Enter</td>
+        <td>종료</td>
+    </tr>
+    <tr>
+        <td>왼쪽</td>
+        <td>Right</td>
+        <td></td>
+        <td>아래</td>
+        <td></td>
+        <td>Back</td>
+    </tr>
+    <tr>
+        <td>좌측</td>
+        <td>Pass</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>끝</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>오른쪽</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>우측</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+<p><strong>5. 코드를 이용한 로그인</strong><br>
+    <img src="file:///android_asset/img/5555.jpg" style="width: 25%; height: auto;"
+         alt="5555"><br>
+    이 코드의 의미는 사용자 ID ‘A000000’를 의미합니다. 증강현실에서 이 코드를 인식하여 로그인을 시도할 수 있습니다. 한 번의 로그인으로 프로그램 종료 시까지 이용할
+    수 있습니다.</p>
+<p><strong>6. 작업 환경 설정</strong><br>
+    <img src="file:///android_asset/img/66666.jpg"
+         alt="66666"><br>
+    작업할 Zone과 Line, 그리고 날짜를 선택합니다.</p>
+<p><strong>7-1. 오더리스트 로드</strong><br>
+    <img src="file:///android_asset/img/77777.jpg"
+         alt="77777"><br>
+    작업 환경을 설정하고, 확인을 누르면 해당 오더리스트가 나타납니다. 오더리스트는 좌측부터 SEQUENCE, MATNR, BACK NUMBER, SERIAL NUMBER
+    순으로 출력됩니다. 만약 맨 좌측 시퀀스 박스가 노란색으로 표시된다면, 해당 오더는 완료됐음을 의미합니다.<br>
+</p>
+<p><strong>7-2. 오더리스트 작업 막대</strong><br>
+    <img src="file:///android_asset/img/8888.jpg" style="width: 25%; height: auto;"
+         alt="8888"><br>
+    중앙 최상단에 위치한 가로 막대는 현재 작업 위치를 시각적으로 보여줍니다. 빨간 마크는 미완료된 작업을 뜻하며, 초록 마크는 완료된 작업을 뜻합니다.</p>
+<p><strong>7-3. 오더리스트 에러 메시지</strong><br>
+    <img src="file:///android_asset/img/9999.jpg"
+         alt="9999"><br>
+    만약 작업 조회 날짜가 휴일이거나, 네트워크가 동작하지 않을 시 에러 메시지를 리턴합니다.</p>
+<p><strong>8-1. 아이템리스트 로드</strong><br>
+    <img src="file:///android_asset/img/1000.jpg"
+         alt="1000"><br>
+    아이템리스트는 현재 집어야 할 아이템들을 3개씩 보여줍니다. 작업을 위해 보여지는 항목은 ‘Lamp position’, ‘Material number’,
+    ‘Quantity’, ‘Box number’입니다.
+    램프 포지션은 아이템의 위치이고, 재료 번호는 아이템의 고유 번호, 퀀티티는 집어야할 개수이며, 박스 번호는 해당 아이템이 들어갈 박스의 번호를 뜻합니다.<br>
+    만약 한 아이템이 여러 개의 박스에 나누어 담아져야 한다면 가로로 여러 개의 항목이 출력됩니다.
+    또한 몇몇 작업이 미완료 됐다면 아이템 작업막대 하단에 해당 번호가 출력됩니다. 모든 작업이 완료된다면, MII에 완료 메시지를 전송하고,
+    다음 오더를 진행하면 됩니다.<br>
+    (좌우 이동으로 아이템을 확인 할 수 있으며, 음성 ‘확인 명령’를 통해 작업을 진행합니다.
+    참고로 ‘확인 명령’은 2초 내에 반복 실행할 수 없습니다. 그리고 없는 명령을 말하면 ‘잘못된 단어’라는 토스트 메시지가 출력됩니다.)</p>
+<p><strong>8-2. 아이템 박스 출력</strong><br>
+    <img src="file:///android_asset/img/11.jpg"
+         alt="11"><br>
+    Up 버튼 클릭 시(또는 Up 음성 명령) 필요한 박스 리스트를 보여줍니다.</p>
+<p><strong>8-3. 아이템 리스트 작업 막대</strong><br>
+    <img src="file:///android_asset/img/12.jpg"
+         alt="12"><br>
+    중앙 최상단에 위치한 막대는 아이템리스트에서 진행 중인 작업 위치를 시각적으로 보여주기 위해 존재합니다.
+    빨간 마크는 미완료 작업이며, 초록 마크는 완료된 작업입니다.
+    <br>
+    (위 사진에서는 1, 2번째의 작업이 완료됐음을 뜻합니다.)</p>
+</body>
+</html>

@@ -30,7 +30,7 @@ public class ManualActivity extends AppCompatActivity {
         // 웹뷰 셋팅
         mWebView = findViewById(R.id.webView);//xml 자바코드 연결
         index = findViewById(R.id.index);
-        String myUrl = "file:///android_asset/www/pbv_manual.html";
+        String myUrl = "file:///android_asset/www/pbv_manual_ko.html";
         mWebView.getSettings().setJavaScriptEnabled(true);//자바스크립트 허용
         mWebView.loadUrl(myUrl);//웹뷰 실행
         mWebView.setBackgroundColor(Color.parseColor("#000000"));
@@ -38,7 +38,6 @@ public class ManualActivity extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClientClass());//새창열기 없이 웹뷰 내에서 다시 열기//페이지 이동 원활히 하기위해 사용
 
         index.bringToFront();
-
         new Handler().postDelayed(this::SetIndexView, 300);
     }
 
@@ -65,7 +64,6 @@ public class ManualActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.e("log_scroll2", mWebView.getContentHeight() / 600 + "");
         Log.e("getkey", event.getKeyCode() + "");
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_LEFT://bt300 제스쳐 시도
@@ -97,7 +95,6 @@ public class ManualActivity extends AppCompatActivity {
         }
         mWebView.clearFocus();
         SetIndexView();
-        Log.e("log_scroll", mWebView.getScrollY() + "/" + mWebView.getContentHeight());
         return super.onKeyUp(keyCode, event);
     }
 
