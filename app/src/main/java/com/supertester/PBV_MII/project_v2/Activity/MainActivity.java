@@ -204,6 +204,9 @@ public class MainActivity extends Activity {
             intent.putExtra("bundle", b);
             startActivityForResult(intent, 1);
         } else if (arrow_pos == 3) {
+            Intent intent = new Intent(this, ManualActivity.class);
+            startActivity(intent);
+        } else if (arrow_pos == 4) {
             Dialog();
         }
     }

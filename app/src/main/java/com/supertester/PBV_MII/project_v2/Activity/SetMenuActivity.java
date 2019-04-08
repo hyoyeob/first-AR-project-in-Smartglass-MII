@@ -13,9 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
-
 import com.supertester.PBV_MII.project_v2.Class.Std_Method;
 import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemContact;
 import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemStatusContact;
@@ -24,14 +22,9 @@ import com.supertester.PBV_MII.project_v2.Database.Contacts.OrderStatusContact;
 import com.supertester.PBV_MII.project_v2.Database.DBAdapter;
 import com.supertester.PBV_MII.project_v2.Database.User;
 import com.supertester.PBV_MII.project_v2.R;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.lang.reflect.Array;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -166,6 +159,7 @@ public class SetMenuActivity extends Activity {
             app.PrintToastMessage("Login failed.\nCheck your ID.");
         }
     }
+    //
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

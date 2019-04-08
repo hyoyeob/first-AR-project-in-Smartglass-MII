@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+    <title>PBV_Manual</title>
+    <meta charset="euc-kr">
+    <style type="text/css">
+    p {font-size : 22px;}
+    table{width: 80%; border-collapse: collapse;}
+    th, td{border: 1px solid #ffffff; padding: 5px;}
+
+
+    </style>
+</head>
+<body bgcolor="black" text="white">
+<p><strong>Pick-by-Vision Support Documents</strong><br>
+    Applied version: v2.6.1</p>
+<p><strong>0. Requires Wi-Fi connection</strong><br>
+    PBV operates on the company's network 'FactoryWireless'. If you are not connected, you need a
+    new connection.</p>
+<p><strong>1. Main Menu</strong><br>
+    <img src="file:///android_asset/img/1mainmenu.jpg"
+         alt="1mainmenu"></p>
+<p><strong>2. Reset Data Menu</strong><br>
+    <img src="file:///android_asset/img/2resetdata.jpg"
+         alt="2resetdata"><br>
+    Menu for initializing data values or job logs. Mainly used to reload MII data manually.</p>
+<p><strong>3. View set menu</strong><br>
+    <img src="file:///android_asset/img/3setview.jpg"
+         alt="3setview"><br>
+    The screen position can be adjusted to suit the user's environment. A total of four positions
+    can be specified: top left, top right, bottom left, and bottom right. The setup information will
+    remain permanent until it is reset.</p>
+<p><strong>4-1. Voice recognition</strong><br>
+    <img src="file:///android_asset/img/4444.jpg"
+         alt="4444"><br>
+    The button can be switched on or off. The current on-off status is shown in the lower right
+    corner. You can also control voice recognition with the volume control button on the controller.
+    If the service does not work, turn it on again to use it.</p>
+<p><strong>4-2. Voice word list</strong><br>
+    It recognizes Korean and English words and works. And operates according to the words in the
+    table below.<br>
+    ① <strong>Left:</strong> Move to Left Item<br>
+    ② <strong>Right:</strong> Move to Right Item<br>
+    ③ <strong>Up:</strong> Move to above item<br>
+    ④ <strong>Down:</strong> Move to below Item<br>
+    ⑤ <strong>OK:</strong> Select Current Item<br>
+    ⑥ <strong>Cancel:</strong> Exit from current position</p>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th><strong>Left</strong></th>
+        <th><strong>Right</strong></th>
+        <th><strong>Up</strong></th>
+        <th><strong>Down</strong></th>
+        <th><strong>OK</strong></th>
+        <th><strong>Cancel</strong></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>이전</td>
+        <td>다음</td>
+        <td>위로</td>
+        <td>아래로</td>
+        <td>확인</td>
+        <td>취소</td>
+    </tr>
+    <tr>
+        <td>뒤로</td>
+        <td>Next</td>
+        <td>위쪽</td>
+        <td>Down</td>
+        <td>OK</td>
+        <td>Cancel</td>
+    </tr>
+    <tr>
+        <td>Left</td>
+        <td>앞으로</td>
+        <td>Up</td>
+        <td>아래쪽</td>
+        <td>Enter</td>
+        <td>종료</td>
+    </tr>
+    <tr>
+        <td>왼쪽</td>
+        <td>Right</td>
+        <td></td>
+        <td>아래</td>
+        <td></td>
+        <td>Back</td>
+    </tr>
+    <tr>
+        <td>좌측</td>
+        <td>Pass</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>끝</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>오른쪽</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>우측</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+<p><strong>5. Code for login</strong><br>
+    <img src="file:///android_asset/img/5555.jpg"
+         alt="5555"><br>
+    This code means the user ID 'A293155'. Scan the code in augmented reality and log in. Maintain
+    access through one login before the program ends.</p>
+<p><strong>6. Select task date</strong><br>
+    <img src="file:///android_asset/img/66666.jpg"
+         alt="66666"><br>
+    Setting job and query date.</p>
+<p><strong>7-1. Load Order List</strong><br>
+    <img src="file:///android_asset/img/77777.jpg"
+         alt="77777"><br>
+    The load information is shown on the left. And it is then ordered by sequence, MATNR, back
+    number, and serial number. If the sequence number box is yellow, it means that the order has
+    been completed.<br>
+    The current working position is shown in numbers in the upper right corner. Finally, the load
+    time is shown on the lower left.</p>
+<p><strong>7-2. Order List Bar</strong><br>
+    <img src="file:///android_asset/img/8888.jpg"
+         alt="8888"><br>
+    The 'bar' at the top of the center provides a visual representation of the working position. A
+    red mark is an unfinished operation, and a green mark is a completed operation.</p>
+<p><strong>7-3. Order List Error msg</strong><br>
+    <img src="file:///android_asset/img/9999.jpg"
+         alt="9999"><br>
+    If it is on the weekend or if the Internet is not connected, print an error message.</p>
+<p><strong>8-1. Load Item List</strong><br>
+    <img src="file:///android_asset/img/1000.jpg"
+         alt="1000"><br>
+    Displays the 3 items to be picked up at the moment. Order name is displayed at the top, followed
+    by 'lamp position', 'material number', 'quantity' and 'box number'.<br>
+    You will see the number of items you need to pick up and the corresponding boxes. If multiple
+    boxes are required, they are displayed in multiple horizons. If some tasks are not completed,
+    they are shown in red number at the below of item bar. When all tasks are completed
+    successfully, send a completion message to MII and proceed with the next order.</p>
+<p><strong>8-2. Load Item Box</strong><br>
+    <img src="file:///android_asset/img/11.jpg"
+         alt="11"><br>
+    When clicked 'Up' button on item list, the required box list is printed.</p>
+<p><strong>8-3. Item List Bar</strong><br>
+    <img src="file:///android_asset/img/12.jpg"
+         alt="12"><br>
+    The 'bar' at the top of the center provides a visual representation of the working position. A
+    red mark is an unfinished operation, and a green mark is a completed operation.<br>
+    (The above picture shows that work No. 1 and No. 2 has not been completed.)</p>
+<p><strong>etc. Other Account</strong><br>
+    <img src="file:///android_asset/img/13.jpg"
+         alt="13"><br>
+    This code is Block Common Zone's login code. That means user ID 'A246087'</p>
+</body>
+</html>

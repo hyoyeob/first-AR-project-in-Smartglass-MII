@@ -38,9 +38,6 @@
         <activity android:name="com.supertester.PBV_MII.project_v2.Activity.OrderActivity">
         </activity>
 
-        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.DateSetActivity">
-        </activity>
-
         <activity android:name="com.supertester.PBV_MII.project_v2.Activity.SetViewActivity">
         </activity>
 
@@ -49,6 +46,9 @@
 
         <activity android:name="com.supertester.PBV_MII.project_v2.Activity.CustomScannerActivity">
         </activity>
+
+        <activity android:name="com.supertester.PBV_MII.project_v2.Activity.ManualActivity"></activity>
+
 
         <activity android:name="com.supertester.PBV_MII.project_v2.Activity.SetMenuActivity"></activity>
 
