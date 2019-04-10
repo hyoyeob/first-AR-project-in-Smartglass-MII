@@ -26,7 +26,7 @@ public class ItemStatusContact extends Contact {
                 + ITEM_STATUS + " VARCHAR(100), "
                 + SUCCESS_NUMBER + " VARCHAR(100),"
                 + ITEM_QTY + " VARCHAR(100),"
-                + "FORIEGN KEY AUFNR REFERENCES OrderContact(AUFNR)"
+                + "FOREIGN KEY(AUFNR) REFERENCES OrderContact(AUFNR)"
                 + ")";
         super.setCREATE_CONTACTS_TABLE(CREATE_CONTACTS_TABLE);
         ArrayList<String> property_name = new ArrayList<>(Arrays.asList(AUFNR, ITEM_STATUS, SUCCESS_NUMBER, ITEM_QTY));

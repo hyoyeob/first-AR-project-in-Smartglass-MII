@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.supertester.PBV_MII.project_v2.Async.CallRemote_endpicking;
 import com.supertester.PBV_MII.project_v2.Class.Std_Method;
 import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemContact;
@@ -41,7 +40,6 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class ItemActivity extends Activity implements Serializable {
-    ItemActivity.BackgroundThread backgroundThread;
     boolean enter_flag = false;
     boolean key_flag;
     boolean item_crash_flag;
@@ -49,6 +47,8 @@ public class ItemActivity extends Activity implements Serializable {
 
     int menu_count = 3;
     int order_index;
+    int item_status = 0;
+    int item_qty = 0;
 
     TextView aufnr;
     TextView warning;
@@ -59,29 +59,25 @@ public class ItemActivity extends Activity implements Serializable {
     TextView[] qty;
     TextView[] box_no;
     TextView[] index;
-    RelativeLayout[] rl;
     ImageView voice_stat;
-
     ArrayList Result;
+    RelativeLayout[] rl;
+    LinearLayout linear_h;
 
-
-    Item item = new Item();
-    User user = new User();
     Std_Method app;
+    ItemActivity.BackgroundThread backgroundThread;
 
     OrderStatusContact orderStatusContact = new OrderStatusContact();
     OrderContact orderContact = new OrderContact();
     ItemStatusContact itemStatusContact = new ItemStatusContact();
     ItemContact itemContact = new ItemContact();
+    Item item = new Item();
+    User user = new User();
 
     DBAdapter<OrderStatusContact> order_status_dbAdapter;
     DBAdapter<OrderContact> order_dbAdapter;
     DBAdapter<ItemStatusContact> item_status_dbAdapter;
     DBAdapter<ItemContact> item_dbAdapter;
-    LinearLayout linear_h;
-
-    int item_status = 0;
-    int item_qty = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

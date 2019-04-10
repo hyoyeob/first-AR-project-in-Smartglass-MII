@@ -46,7 +46,6 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -59,12 +58,12 @@ public class OrderActivity extends Activity implements Serializable {
     boolean getorder;
     boolean key_flag;
     boolean load_flag = false;
-    BackgroundThread backgroundThread;
     int order_count = 0;
     int order_index = 0;
     int Start = 0;
 
     SoapObject s = null;
+    ImageView voice_stat;
     TextView index;
     TextView Percent;
     TextView[] matnr;
@@ -74,10 +73,6 @@ public class OrderActivity extends Activity implements Serializable {
     TextView[] chk;
     ArrayList Result;
     ArrayList Result_item;
-
-    User userInfo = new User();
-    Item item = new Item();
-
     ArrayList<String> test_status;
 
     ArrayList<OrderContact> order_contact_data;
@@ -86,13 +81,15 @@ public class OrderActivity extends Activity implements Serializable {
     ItemStatusContact itemStatusContact = new ItemStatusContact();
     ItemContact itemContact = new ItemContact();
     MyHandler myHandler = new MyHandler(this);
+    User userInfo = new User();
+    Item item = new Item();
 
     DBAdapter<OrderStatusContact> order_status_dbAdapter;
     DBAdapter<OrderContact> order_dbAdapter;
     DBAdapter<ItemStatusContact> item_status_dbAdapter;
     DBAdapter<ItemContact> item_dbAdapter;
     Std_Method app;
-    ImageView voice_stat;
+    BackgroundThread backgroundThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

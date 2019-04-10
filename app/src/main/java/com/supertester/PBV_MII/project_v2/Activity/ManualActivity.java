@@ -12,7 +12,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-
 import com.supertester.PBV_MII.project_v2.R;
 
 
@@ -99,7 +98,6 @@ public class ManualActivity extends AppCompatActivity {
     }
 
     private class WebViewClientClass extends WebViewClient {//페이지 이동
-
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d("check URL", url);

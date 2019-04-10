@@ -29,20 +29,22 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SetMenuActivity extends Activity {
+    int row = 0;
+    int z_col = 0;
+    int l_col = 0;
+    boolean b;
+    boolean key_flag;
+
     TextView DATE;
     TextView tvZONE;
     TextView tvLINE;
-    boolean b;
-    boolean key_flag;
-    Std_Method app;
     ImageView voice_stat;
-    User userInfo = new User();
-    int row = 0; //행
-    int z_col = 0; //열
-    int l_col = 0; //열
     String[] ZONE;
     String[][] LINE;
 
+    User userInfo = new User();
+
+    Std_Method app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

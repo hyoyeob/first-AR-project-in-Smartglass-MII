@@ -28,15 +28,11 @@ import com.supertester.PBV_MII.project_v2.Database.User;
 import com.supertester.PBV_MII.project_v2.R;
 import com.supertester.PBV_MII.project_v2.VoiceService.Constants;
 import com.supertester.PBV_MII.project_v2.VoiceService.MyService;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends Activity {
-
     User userInfo = new User();
     Std_Method app;
     int arrow_pos = 0;

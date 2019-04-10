@@ -15,15 +15,16 @@ import com.supertester.PBV_MII.project_v2.Class.Std_Method;
 import com.supertester.PBV_MII.project_v2.R;
 
 public class SetViewActivity extends Activity {
+    int now = 0;
 
     RelativeLayout rv;
     TextView tv;
-    int now=0;
+    ImageView voice_stat;
     String leftUp="왼쪽 시력이 좋으며 아래를 자주볼 때";
     String leftDown="왼쪽 시력이 좋으며 위쪽을 자주볼 때";
     String rightUp="오른쪽 시력이 좋으며 아래를 자주볼 때";
     String rightDown="오른쪽 시력이 좋으며 위쪽을 자주볼 때";
-    ImageView voice_stat;
+
     Std_Method app;
 
      @Override

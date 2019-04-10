@@ -10,7 +10,6 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.supertester.PBV_MII.project_v2.R;
 
 public class CustomScannerActivity extends Activity{
-
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
 
