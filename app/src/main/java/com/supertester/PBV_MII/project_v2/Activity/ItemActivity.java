@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.supertester.PBV_MII.project_v2.Async.CallRemote_endpicking;
 import com.supertester.PBV_MII.project_v2.Class.Std_Method;
 import com.supertester.PBV_MII.project_v2.Database.Contacts.ItemContact;
@@ -30,10 +31,12 @@ import com.supertester.PBV_MII.project_v2.Database.DBAdapter;
 import com.supertester.PBV_MII.project_v2.Database.Item;
 import com.supertester.PBV_MII.project_v2.Database.User;
 import com.supertester.PBV_MII.project_v2.R;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;

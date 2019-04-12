@@ -11,25 +11,27 @@ import android.media.AudioManager;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.sac.speech.GoogleVoiceTypingDisabledException;
 import com.sac.speech.Speech;
 import com.sac.speech.SpeechDelegate;
 import com.sac.speech.SpeechRecognitionNotAvailable;
 import com.supertester.PBV_MII.project_v2.Class.Std_Method;
 import com.tbruyelle.rxpermissions.RxPermissions;
+
 import java.util.List;
 import java.util.Random;
 
 public class MyService extends Service implements SpeechDelegate, Speech.stopDueToDelay {
 
     Std_Method sm;
-    String voc_result="";
+    String voc_result = "";
 
     public static SpeechDelegate delegate;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        sm=(Std_Method)getApplicationContext();
+        sm = (Std_Method) getApplicationContext();
         Speech.init(this);
         delegate = this;
         Speech.getInstance().setListener(this);
@@ -42,7 +44,8 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
             RxPermissions.getInstance(this).request(permission.RECORD_AUDIO).subscribe(granted -> {
                 if (granted) {
                     try {
-                        if (Speech.getInstance().isListening()) Speech.getInstance().stopListening();
+                        if (Speech.getInstance().isListening())
+                            Speech.getInstance().stopListening();
                         Speech.getInstance().startListening(null, this);
                     } catch (SpeechRecognitionNotAvailable exc) {
                         Log.e("log_voc_set", "Speech recognition is not available on this device!");
@@ -79,20 +82,20 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
 
     @Override
     public void onSpeechResult(String result) {
-        Log.e("log_voc_result",result);
-        if (!TextUtils.isEmpty(result)&&!result.equals("아")) {
-            voc_result=result;
-            sm=(Std_Method)getApplicationContext();
+        Log.e("log_voc_result", result);
+        if (!TextUtils.isEmpty(result) && !result.equals("아")) {
+            voc_result = result;
+            sm = (Std_Method) getApplicationContext();
             sm.Key_control(voc_result);
         }
     }
 
     @Override
     public void onSpecifiedCommandPronounced(String event) {
-        sm=(Std_Method)getApplicationContext();
+        sm = (Std_Method) getApplicationContext();
 
         sm.voice_count++;
-        Log.e("log_voc_set_flow","onSpecifiedCommandPronounced 안정  "+sm.voice_count+" / "+  sm.isServiceRunning());
+        Log.e("log_voc_set_flow", "onSpecifiedCommandPronounced 안정  " + sm.voice_count + " / " + sm.isServiceRunning());
         if (Speech.getInstance().isListening()) {
             muteBeepSoundOfRecorder();
             Speech.getInstance().stopListening();
@@ -100,7 +103,8 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
             RxPermissions.getInstance(this).request(permission.RECORD_AUDIO).subscribe(granted -> {
                 if (granted) {
                     try {
-                        if (Speech.getInstance().isListening()) Speech.getInstance().stopListening();
+                        if (Speech.getInstance().isListening())
+                            Speech.getInstance().stopListening();
                         Speech.getInstance().startListening(null, this);
                     } catch (SpeechRecognitionNotAvailable exc) {
                         Log.e("log_voc_set", "Speech recognition is not available on this device!");
@@ -153,9 +157,9 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
     @Override
     public void onDestroy() {
         super.onDestroy();
-        sm=(Std_Method)getApplicationContext();
-        sm.voice_flag=false;
-        if (Speech.getInstance().isListening()){
+        sm = (Std_Method) getApplicationContext();
+        sm.voice_flag = false;
+        if (Speech.getInstance().isListening()) {
             Speech.getInstance().stopListening();
         }
     }

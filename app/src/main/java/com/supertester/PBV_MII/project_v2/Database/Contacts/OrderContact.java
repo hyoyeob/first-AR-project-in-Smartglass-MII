@@ -51,7 +51,7 @@ public class OrderContact extends Contact {
         super.setLength(length);
     }
 
-    public void setProperties(ArrayList<String> data){
+    public void setProperties(ArrayList<String> data) {
         super.setProperties(data);
 
         AUFNR = data.get(0);
@@ -70,24 +70,55 @@ public class OrderContact extends Contact {
         IZONE = data.get(13);
     }
 
-    public void setProperties2(ArrayList<String> data){
+    public void setProperties2(ArrayList<String> data) {
         super.setProperties(data);
 
         STATUS = data.get(9);
     }
 
 
+    public String getAUFNR() {
+        return AUFNR;
+    }
 
-    public String getAUFNR(){ return AUFNR; }
-    public String getLINE(){ return LINE; }
-    public String getDCN(){ return DCN; }
-    public String getMATNR(){ return MATNR; }
-    public String getSEQ(){ return SEQ; }
-    public String getSERNR(){ return SERNR; }
-    public String getSTATUS(){ return STATUS; }
-    public String getYMII_BACK(){ return YMII_BACK; }
-    public String getPICK_SEQ(){ return PICK_SEQ; }
-    public String getTAKT(){ return TAKT; }
-    public String getIZONE(){ return IZONE; }
+    public String getLINE() {
+        return LINE;
+    }
+
+    public String getDCN() {
+        return DCN;
+    }
+
+    public String getMATNR() {
+        return MATNR;
+    }
+
+    public String getSEQ() {
+        return SEQ;
+    }
+
+    public String getSERNR() {
+        return SERNR;
+    }
+
+    public String getSTATUS() {
+        return STATUS;
+    }
+
+    public String getYMII_BACK() {
+        return YMII_BACK;
+    }
+
+    public String getPICK_SEQ() {
+        return PICK_SEQ;
+    }
+
+    public String getTAKT() {
+        return TAKT;
+    }
+
+    public String getIZONE() {
+        return IZONE;
+    }
 
 }

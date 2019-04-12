@@ -2,9 +2,9 @@ package com.supertester.PBV_MII.project_v2.Activity;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+
 import com.supertester.PBV_MII.project_v2.R;
 
 
@@ -98,6 +99,7 @@ public class ManualActivity extends AppCompatActivity {
     }
 
     private class WebViewClientClass extends WebViewClient {//페이지 이동
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d("check URL", url);

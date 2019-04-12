@@ -5,16 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class SplashActivity extends Activity{
+public class SplashActivity extends Activity {
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UI_control();
-        try{
+        try {
             Thread.sleep(1500);
-            }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        }startActivity(new Intent(this, MainActivity.class));
+        }
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
@@ -23,7 +24,7 @@ public class SplashActivity extends Activity{
         super.onStart();
     }
 
-    public void UI_control(){
+    public void UI_control() {
         View view = getWindow().getDecorView();
         view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);

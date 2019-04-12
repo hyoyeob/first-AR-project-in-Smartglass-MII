@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom"
     android:background="#000000"
-    android:id="@+id/layout"
+    android:gravity="bottom"
+    android:orientation="vertical"
     tools:context=".Activity.MainActivity">
 
 
@@ -33,13 +33,12 @@
         android:textSize="24sp" />
 
     <ImageView
+        android:id="@+id/voice_status"
         android:layout_width="48sp"
         android:layout_height="48sp"
-        android:layout_gravity="bottom"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/voice_status"
-        android:layout_margin="30dp"
-        />
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp" />
 
 </RelativeLayout>

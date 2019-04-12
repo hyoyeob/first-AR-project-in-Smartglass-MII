@@ -2,6 +2,7 @@ package com.supertester.PBV_MII.project_v2.Database.Contacts;
 
 
 import com.supertester.PBV_MII.project_v2.Database.Contact;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -53,8 +54,7 @@ public class ItemContact extends Contact {
     }
 
 
-
-    public void setProperties(ArrayList<String> data, int no){
+    public void setProperties(ArrayList<String> data, int no) {
         data.add(String.valueOf(no));
         super.setProperties(data);
         this.NO = no;
@@ -74,7 +74,7 @@ public class ItemContact extends Contact {
         STATUS = data.get(12);
     }
 
-    public void setProperties(ArrayList<String> data){
+    public void setProperties(ArrayList<String> data) {
         super.setProperties(data);
 
         AUFNR = data.get(0);
@@ -93,12 +93,32 @@ public class ItemContact extends Contact {
         NO = parseInt(data.get(13));
     }
 
-    public String getMATNR(){ return MATNR; }
-    public String getMAKTX(){ return MAKTX; }
-    public String getBOX_NO(){ return BOX_NO; }
-    public String getLAMPOS(){ return LAMPOS; }
-    public String getQTY(){ return QTY; }
-    public String getTOT_QTY(){ return TOT_QTY; }
-    public String getSTATUS(){ return STATUS; }
+    public String getMATNR() {
+        return MATNR;
+    }
+
+    public String getMAKTX() {
+        return MAKTX;
+    }
+
+    public String getBOX_NO() {
+        return BOX_NO;
+    }
+
+    public String getLAMPOS() {
+        return LAMPOS;
+    }
+
+    public String getQTY() {
+        return QTY;
+    }
+
+    public String getTOT_QTY() {
+        return TOT_QTY;
+    }
+
+    public String getSTATUS() {
+        return STATUS;
+    }
 
 }

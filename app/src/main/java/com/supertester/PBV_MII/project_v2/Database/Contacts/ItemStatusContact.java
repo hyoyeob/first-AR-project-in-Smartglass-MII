@@ -2,6 +2,7 @@ package com.supertester.PBV_MII.project_v2.Database.Contacts;
 
 
 import com.supertester.PBV_MII.project_v2.Database.Contact;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,7 +36,7 @@ public class ItemStatusContact extends Contact {
         super.setLength(length);
     }
 
-    public void setProperties(ArrayList<String> data){
+    public void setProperties(ArrayList<String> data) {
         super.setProperties(data);
 
         AUFNR = data.get(0);
@@ -44,6 +45,8 @@ public class ItemStatusContact extends Contact {
         ITEM_QTY = data.get(3);
     }
 
-    public String getAUFNR(){ return AUFNR; }
+    public String getAUFNR() {
+        return AUFNR;
+    }
 
 }

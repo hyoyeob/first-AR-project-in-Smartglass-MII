@@ -20,7 +20,7 @@ public class CallRemote_order extends AsyncTask<User, String, SoapObject> {
     protected SoapObject doInBackground(User... params) {
         String line;
         String plant;
-        String zone ;
+        String zone;
         String date;
         String id;
         String pw;
@@ -59,7 +59,7 @@ public class CallRemote_order extends AsyncTask<User, String, SoapObject> {
             filter_sequence.addProperty("Zone", zone);
             filter_sequence.addProperty("Takt", "");
             filter_sequence.addProperty("Period", "0");
-            filter_sequence.addProperty("Status",status);
+            filter_sequence.addProperty("Status", status);
 
             Log.e("log_test", "date:" + date + " line:" + line + " plant:" + plant + " zone:" + zone + " takt:" + takt + " status:" + status);
 
@@ -78,7 +78,7 @@ public class CallRemote_order extends AsyncTask<User, String, SoapObject> {
             androidHttpTransport.call(SOAP_ACTION, envelope);   //웹서비스 호출(soap action 변수 사용)
 
             countryDetails = (SoapObject) envelope.getResponse();
-            Log.e("log_order_info",""+countryDetails);
+            Log.e("log_order_info", "" + countryDetails);
 
         } catch (Exception e) { //네트워크 x, 기타 등등...
             Log.e("log_order error Result", e.getMessage());

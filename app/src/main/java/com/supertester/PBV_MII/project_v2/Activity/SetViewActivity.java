@@ -20,14 +20,14 @@ public class SetViewActivity extends Activity {
     RelativeLayout rv;
     TextView tv;
     ImageView voice_stat;
-    String leftUp="왼쪽 시력이 좋으며 아래를 자주볼 때";
-    String leftDown="왼쪽 시력이 좋으며 위쪽을 자주볼 때";
-    String rightUp="오른쪽 시력이 좋으며 아래를 자주볼 때";
-    String rightDown="오른쪽 시력이 좋으며 위쪽을 자주볼 때";
+    String leftUp = "왼쪽 시력이 좋으며 아래를 자주볼 때";
+    String leftDown = "왼쪽 시력이 좋으며 위쪽을 자주볼 때";
+    String rightUp = "오른쪽 시력이 좋으며 아래를 자주볼 때";
+    String rightDown = "오른쪽 시력이 좋으며 위쪽을 자주볼 때";
 
     Std_Method app;
 
-     @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_set);
@@ -37,48 +37,50 @@ public class SetViewActivity extends Activity {
         rv.setBackgroundResource(R.drawable.left_up);
         tv.setText(leftUp);
 
-         voice_stat = findViewById(R.id.voice_status);
-         app.Set_voice_stat(voice_stat);
+        voice_stat = findViewById(R.id.voice_status);
+        app.Set_voice_stat(voice_stat);
     }
 
-    private void set_view_control(int index){
-        now+=index;
-        if(now<0){
-            now-=index;
-        }else if(now>3){
-            now-=index;
-        }if (now == 0){
+    private void set_view_control(int index) {
+        now += index;
+        if (now < 0) {
+            now -= index;
+        } else if (now > 3) {
+            now -= index;
+        }
+        if (now == 0) {
             rv.setBackgroundResource(R.drawable.left_up);
             tv.setText(leftUp);
-        } else if(now==1){
+        } else if (now == 1) {
             rv.setBackgroundResource(R.drawable.right_up);
             tv.setText(rightUp);
-        } else if(now==2){
+        } else if (now == 2) {
             rv.setBackgroundResource(R.drawable.left_down);
             tv.setText(leftDown);
-        } else if(now==3){
+        } else if (now == 3) {
             rv.setBackgroundResource(R.drawable.right_down);
             tv.setText(rightDown);
         }
     }
 
     @Override
-    public boolean onKeyDown( int keyCode, KeyEvent event ) {
-        if( keyCode == KeyEvent.KEYCODE_DPAD_LEFT||keyCode == KeyEvent.KEYCODE_DPAD_UP ) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
             event.startTracking();
             return true;
-        }else if( keyCode == KeyEvent.KEYCODE_DPAD_RIGHT||keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
             event.startTracking();
             return true;
-        }else if( keyCode == KeyEvent.KEYCODE_DPAD_CENTER ) {
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
             event.startTracking();
             return true;
-        }return super.onKeyDown( keyCode, event );
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
-    public boolean onKeyUp( int keyCode, KeyEvent event ) {
-        switch(keyCode) {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 set_view_control(-1);
                 break;
@@ -112,17 +114,17 @@ public class SetViewActivity extends Activity {
         return super.onKeyUp(keyCode, event);
     }
 
-    public void UI_control(){
+    public void UI_control() {
         View view = getWindow().getDecorView();
         view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        app=(Std_Method) getApplicationContext();
+        app = (Std_Method) getApplicationContext();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("log_flow","restart");
+        Log.e("log_flow", "restart");
         UI_control();
         app.Set_voice_stat(voice_stat);
     }
@@ -130,6 +132,6 @@ public class SetViewActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("log_flow","destroy");
+        Log.e("log_flow", "destroy");
     }
 }

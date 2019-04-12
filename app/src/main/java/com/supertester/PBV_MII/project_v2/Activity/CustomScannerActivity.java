@@ -5,11 +5,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.supertester.PBV_MII.project_v2.R;
 
-public class CustomScannerActivity extends Activity{
+public class CustomScannerActivity extends Activity {
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
 
@@ -26,7 +27,7 @@ public class CustomScannerActivity extends Activity{
         capture.decode();
     }
 
-    private void UI_control(){
+    private void UI_control() {
         View view = getWindow().getDecorView();
         view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);

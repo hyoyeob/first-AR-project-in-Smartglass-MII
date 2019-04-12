@@ -28,17 +28,16 @@
         android:layout_below="@id/percent"
         android:layout_centerHorizontal="true"
         android:layout_gravity="start"
-        android:textColor="#d74545"
         android:layout_marginStart="20dp"
-        android:textSize="16sp"
-        />
+        android:textColor="#d74545"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/layout_h"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/percent">
+        android:layout_below="@+id/percent"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -48,9 +47,9 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/rl1"
                 android:orientation="vertical">
 
                 <TextView
@@ -59,8 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="start"
-                    android:textColor="#ffffff"
                     android:layout_marginStart="20dp"
+                    android:textColor="#ffffff"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -68,49 +67,46 @@
                     android:id="@+id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/aufnr"
                     android:layout_gravity="start"
-                    android:textColor="#ffffff"
                     android:layout_marginStart="200dp"
+                    android:layout_toEndOf="@id/aufnr"
+                    android:textColor="#ffffff"
                     android:textSize="16sp" />
 
 
                 <TextView
+                    android:id="@+id/lampos_print"
                     android:layout_width="164dp"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
-                    android:id="@+id/lampos_print"
                     android:layout_below="@id/aufnr"
-                    android:background="@drawable/border"
                     android:layout_marginEnd="1dp"
+                    android:background="@drawable/border"
                     android:gravity="center"
                     android:text="LAMPOS"
-                    />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="166dp"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
-                    android:layout_toEndOf="@id/lampos_print"
                     android:layout_below="@id/aufnr"
+                    android:layout_toEndOf="@id/lampos_print"
                     android:background="@drawable/border"
                     android:gravity="center"
                     android:text="MATNR"
-                    />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/index1"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="20sp"
+                    android:layout_below="@id/lampos_print"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/mat_nr1"
-                    android:layout_below="@id/lampos_print"
                     android:gravity="center"
                     android:paddingLeft="2dp"
-                    android:textColor="#ffffff"
                     android:paddingRight="2dp"
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
 
 
                 <TextView
@@ -124,7 +120,6 @@
                     android:gravity="center"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
 
 
                 <TextView
@@ -144,8 +139,8 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/lampos1"
                     android:layout_marginEnd="1dp"
-                    android:gravity="center"
                     android:background="@drawable/border"
+                    android:gravity="center"
                     android:text="QTY"
                     android:textSize="16sp" />
 
@@ -154,50 +149,47 @@
                     android:id="@+id/rem1"
                     android:layout_width="270dp"
                     android:layout_height="40dp"
-                    android:layout_toEndOf="@+id/qty"
                     android:layout_below="@id/lampos1"
-                    android:background="@drawable/border1"
                     android:layout_marginBottom="1dp"
+                    android:layout_toEndOf="@+id/qty"
+                    android:background="@drawable/border1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/box"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:gravity="center"
-                    android:id="@+id/box"
-                    android:background="@drawable/border"
                     android:layout_below="@id/rem1"
                     android:layout_marginEnd="1dp"
-                    android:text="BOX"
-                    android:textSize="16sp"
                     android:layout_marginBottom="20dp"
-                    />
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:text="BOX"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/box_no1"
                     android:layout_width="270dp"
                     android:layout_height="40dp"
-                    android:layout_toEndOf="@id/box"
                     android:layout_below="@+id/rem1"
+                    android:layout_toEndOf="@id/box"
+                    android:background="@drawable/border1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:background="@drawable/border1"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-
 
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl1"
-                android:id="@+id/rl2"
                 android:layout_marginStart="2dp">
 
 
@@ -205,23 +197,23 @@
                     android:id="@+id/index2"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="20sp"
-                    android:gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/mat_nr2"
+                    android:gravity="center"
                     android:paddingLeft="2dp"
-                    android:textColor="#ffffff"
                     android:paddingRight="2dp"
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/lampos2"
                     android:layout_width="164dp"
                     android:layout_height="40dp"
-                    android:textSize="20sp"
+                    android:layout_marginEnd="1dp"
                     android:layout_marginBottom="1dp"
                     android:background="@drawable/border1"
-                    android:layout_marginEnd="1dp"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -234,47 +226,43 @@
                     android:textSize="18sp" />
 
 
-
                 <TextView
                     android:id="@+id/qty2"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:layout_below="@id/lampos2"
-                    android:gravity="center"
+                    android:layout_marginEnd="1dp"
                     android:layout_marginBottom="1dp"
                     android:background="@drawable/border"
+                    android:gravity="center"
                     android:text="QTY"
-                    android:layout_marginEnd="1dp"
-                    android:textSize="16sp"
-                    />
-
+                    android:textSize="16sp" />
 
 
                 <TextView
                     android:id="@+id/rem2"
                     android:layout_width="270dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/border1"
-                    android:layout_toEndOf="@+id/qty2"
                     android:layout_below="@id/lampos2"
+                    android:layout_marginBottom="1dp"
+                    android:layout_toEndOf="@+id/qty2"
+                    android:background="@drawable/border1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:layout_marginBottom="1dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/box2"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:layout_below="@id/rem2"
-                    android:gravity="center"
-                    android:background="@drawable/border"
                     android:layout_marginEnd="1dp"
-                    android:id="@+id/box2"
                     android:layout_marginBottom="20dp"
+                    android:background="@drawable/border"
+                    android:gravity="center"
                     android:text="BOX"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/box_no2"
@@ -282,23 +270,21 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/rem2"
                     android:layout_toEndOf="@id/box2"
+                    android:background="@drawable/border1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:background="@drawable/border1"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-
 
 
             </RelativeLayout>
 
 
             <RelativeLayout
+                android:id="@+id/rl3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl2"
-                android:id="@+id/rl3"
                 android:layout_marginStart="2dp">
 
 
@@ -306,23 +292,23 @@
                     android:id="@+id/index3"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="20sp"
-                    android:gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/mat_nr3"
+                    android:gravity="center"
                     android:paddingLeft="2dp"
-                    android:textColor="#ffffff"
                     android:paddingRight="2dp"
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/lampos3"
                     android:layout_width="164dp"
                     android:layout_height="40dp"
-                    android:textSize="20sp"
+                    android:layout_marginEnd="1dp"
                     android:layout_marginBottom="1dp"
                     android:background="@drawable/border1"
-                    android:layout_marginEnd="1dp"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -335,46 +321,42 @@
                     android:textSize="18sp" />
 
 
-
                 <TextView
                     android:id="@+id/qty3"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:layout_below="@id/lampos3"
-                    android:gravity="center"
+                    android:layout_marginEnd="1dp"
                     android:layout_marginBottom="1dp"
                     android:background="@drawable/border"
+                    android:gravity="center"
                     android:text="QTY"
-                    android:layout_marginEnd="1dp"
-                    android:textSize="16sp"
-                    />
-
+                    android:textSize="16sp" />
 
 
                 <TextView
                     android:id="@+id/rem3"
                     android:layout_width="270dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/border1"
-                    android:layout_toEndOf="@+id/qty3"
                     android:layout_below="@id/lampos3"
+                    android:layout_marginBottom="1dp"
+                    android:layout_toEndOf="@+id/qty3"
+                    android:background="@drawable/border1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:layout_marginBottom="1dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/box3"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:layout_below="@id/rem3"
-                    android:gravity="center"
-                    android:background="@drawable/border"
                     android:layout_marginEnd="1dp"
-                    android:id="@+id/box3"
+                    android:background="@drawable/border"
+                    android:gravity="center"
                     android:text="BOX"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/box_no3"
@@ -382,21 +364,14 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/rem3"
                     android:layout_toEndOf="@id/box3"
+                    android:background="@drawable/border1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:background="@drawable/border1"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
 
-
-
             </RelativeLayout>
-
-
-
-
-
 
 
         </RelativeLayout>
@@ -404,13 +379,12 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/voice_status"
         android:layout_width="48sp"
         android:layout_height="48sp"
-        android:layout_gravity="bottom"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/voice_status"
-        android:layout_margin="30dp"
-        />
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp" />
 
 </RelativeLayout>

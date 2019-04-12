@@ -57,8 +57,6 @@ public class MainActivity extends Activity {
         voice_set();
         ready();
         UserInIt();
-
-//        JsonParse("A293155");
     }
 
     private void voice_set() {

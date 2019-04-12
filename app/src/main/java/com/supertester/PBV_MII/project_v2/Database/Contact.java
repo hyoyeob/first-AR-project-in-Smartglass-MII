@@ -10,33 +10,54 @@ public class Contact {
     private String CREATE_CONTACTS_TABLE;
 
     private int length = 0;
-    public Contact(){
+
+    public Contact() {
         table_name = "";
         CREATE_CONTACTS_TABLE = "";
     }
 
-    public void setProperties(ArrayList<String> data){
+    public void setProperties(ArrayList<String> data) {
         property = data;
     }
 
-    protected void setProperty_name(ArrayList<String> data){ property_name = data; }
+    protected void setProperty_name(ArrayList<String> data) {
+        property_name = data;
+    }
 
-    protected void setCREATE_CONTACTS_TABLE(String data){ CREATE_CONTACTS_TABLE = data; }
+    protected void setCREATE_CONTACTS_TABLE(String data) {
+        CREATE_CONTACTS_TABLE = data;
+    }
 
 
-    String getCREATE_CONTACTS_TABLE(){ return CREATE_CONTACTS_TABLE; }
+    String getCREATE_CONTACTS_TABLE() {
+        return CREATE_CONTACTS_TABLE;
+    }
 
-    public String getTable_name(){return table_name;}
+    public String getTable_name() {
+        return table_name;
+    }
 
-    public String getProperty(int i){return property.get(i);}
+    public String getProperty(int i) {
+        return property.get(i);
+    }
 
-    public ArrayList<String> getProperties(){return property;}
+    public ArrayList<String> getProperties() {
+        return property;
+    }
 
-    public ArrayList<String> getProperties_name(){ return property_name; }
+    public ArrayList<String> getProperties_name() {
+        return property_name;
+    }
 
-    public String getProperty_name(int i){ return property_name.get(i); }
+    public String getProperty_name(int i) {
+        return property_name.get(i);
+    }
 
-    protected void setLength(int length){ this.length = length; }
+    protected void setLength(int length) {
+        this.length = length;
+    }
 
-    public int getLength(){ return length;}
+    public int getLength() {
+        return length;
+    }
 }

@@ -30,7 +30,7 @@ public class OrderStatusContact extends Contact {
         super.setLength(length);
     }
 
-    public void setProperties(ArrayList<String> data){
+    public void setProperties(ArrayList<String> data) {
         super.setProperties(data);
 
         DATE = data.get(0);
@@ -40,6 +40,8 @@ public class OrderStatusContact extends Contact {
         LOAD_TIME = data.get(4);
     }
 
-    public String getDate(){ return DATE; }
+    public String getDate() {
+        return DATE;
+    }
 
 }
