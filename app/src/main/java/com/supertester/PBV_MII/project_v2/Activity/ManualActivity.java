@@ -99,7 +99,6 @@ public class ManualActivity extends AppCompatActivity {
     }
 
     private class WebViewClientClass extends WebViewClient {//페이지 이동
-
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d("check URL", url);

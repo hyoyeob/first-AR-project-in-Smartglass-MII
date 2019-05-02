@@ -918,7 +918,6 @@ public class OrderActivity extends Activity implements Serializable {
                         break breakOut;
                     }
                     SoapObject countryDetails;
-                    Log.e("log_load ", "1. 배열 인덱스: " + item.getLOAD_INDEX());
                     SoapObject input_params = new SoapObject(app.NAMESPACE, "InputParams");
                     SoapObject filter_sequence = new SoapObject(app.NAMESPACE, "InputSequence");
                     SoapObject request = new SoapObject(app.NAMESPACE, app.SOAP_METHOD);
@@ -942,15 +941,14 @@ public class OrderActivity extends Activity implements Serializable {
                     try {
                         androidHttpTransport.call(app.SOAP_ACTION, envelope);
                         countryDetails = (SoapObject) envelope.getResponse();
-                        Log.e("log_order_soap", countryDetails + "");
                         Result.set(item.getLOAD_INDEX(), countryDetails);
+//                        Log.e("log_order_soap", countryDetails + "");
                         item.getLOAD_STATUS().set(item.getLOAD_INDEX(), getString(R.string.Check));
                         Log.e("log_load", "load_index: " + item.getLOAD_INDEX() + "/ date: " + userInfo.getGETTIME());
                         app.SoapToArraylist_item(Result, item.getLOAD_INDEX(), item_dbAdapter, userInfo.getGETTIME(), itemStatusContact, item_status_dbAdapter);
+
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e("log_load ", "catch index: " + item.getLOAD_INDEX());
-                        Result.set(item.getLOAD_INDEX(), "");
                         item.setLOAD_INDEX(item.getLOAD_INDEX() - 1);
                     }
                     myHandler.sendMessage(myHandler.obtainMessage());
