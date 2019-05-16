@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
     User userInfo = new User();
     Std_Method app;
     int arrow_pos = 0;
-    String user[];
+    String[] user;
 
     TextView NW_stat;
     TextView Date;
@@ -361,41 +361,39 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int request, int result, Intent data) {
-        switch (request) {
-            case 1:
-                if (result == RESULT_OK) {
-                    String edt;
-                    edt = data.getStringExtra("gettime");
-                    Date.setText(edt);
-                    userInfo.setGETTIME(edt);
-                } else if (result == 7777) {
-                    int now_view;
-                    now_view = data.getIntExtra("now", 1217);
-                    app.set_now(now_view);
-                    app.share_preferences();
-                    app.set_view(linear_h);
-                }
-                break;
-            default:
-                IntentResult results = IntentIntegrator.parseActivityResult(request, result, data);//데이터 결과 문자
-                if (results != null) {
-                    user = JsonParse(results.getContents());
-                    UserInIt();
-                    if (userInfo.LOGIN_STATUS) {
-                        if(!app.getRememberID().equals(userInfo.getUSER())){
-                            InitAdapter();
-                            app.setREMEMBER_ID(userInfo.getUSER());
-                        }
-//                        Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
-                        Intent intent1 = new Intent(MainActivity.this, SetMenuActivity.class);
-                        intent1.putExtra("userInfo", userInfo);
-                        startActivity(intent1);
-                    } else {
-                        app.PrintToastMessage("Not Connected to MII");
+        if (request == 1) {
+            if (result == RESULT_OK) {
+                String edt;
+                edt = data.getStringExtra("gettime");
+                Date.setText(edt);
+                userInfo.setGETTIME(edt);
+            } else if (result == 7777) {
+                int now_view;
+                now_view = data.getIntExtra("now", 1217);
+                app.set_now(now_view);
+                app.share_preferences();
+                app.set_view(linear_h);
+            }
+        } else {
+            IntentResult results = IntentIntegrator.parseActivityResult(request, result, data);//데이터 결과 문자
+            if (results != null) {
+                user = JsonParse(results.getContents());
+                UserInIt();
+                if (userInfo.LOGIN_STATUS) {
+                    if (!app.getRememberID().equals(userInfo.getUSER())) {
+                        InitAdapter();
+                        app.setREMEMBER_ID(userInfo.getUSER());
                     }
+//                        Intent intent1 = new Intent(MainActivity.this, DateSetActivity.class);
+                    Intent intent1 = new Intent(MainActivity.this, SetMenuActivity.class);
+                    intent1.putExtra("userInfo", userInfo);
+                    startActivity(intent1);
                 } else {
-                    super.onActivityResult(request, result, data);
+                    app.PrintToastMessage("Not Connected to MII");
                 }
+            } else {
+                super.onActivityResult(request, result, data);
+            }
         }
     }
 

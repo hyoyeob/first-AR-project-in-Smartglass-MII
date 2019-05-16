@@ -17,7 +17,7 @@ public class AlarmWakeLock {
         Toast.makeText(context, "Welcome back, Gentleman.", Toast.LENGTH_LONG).show();
         try {
             mwl.release();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -29,7 +29,7 @@ public class AlarmWakeLock {
         Toast.makeText(context, "Thanks, Gentleman.", Toast.LENGTH_LONG).show();
         try {
             mwl.release();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 }
