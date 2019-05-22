@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 
-public class QRCodeActivity extends CaptureActivity {
+public class QRCodeActivity extends CaptureActivity { //TODO Not use in this App, just for testing activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

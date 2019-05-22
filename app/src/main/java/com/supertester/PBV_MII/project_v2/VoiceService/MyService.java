@@ -94,8 +94,6 @@ public class MyService extends Service implements SpeechDelegate, Speech.stopDue
     public void onSpecifiedCommandPronounced(String event) {
         sm = (Std_Method) getApplicationContext();
 
-        sm.voice_count++;
-        Log.e("log_voc_set_flow", "onSpecifiedCommandPronounced 안정  " + sm.voice_count + " / " + sm.isServiceRunning());
         if (Speech.getInstance().isListening()) {
             muteBeepSoundOfRecorder();
             Speech.getInstance().stopListening();

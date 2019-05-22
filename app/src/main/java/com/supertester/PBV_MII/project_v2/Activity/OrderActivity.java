@@ -214,7 +214,7 @@ public class OrderActivity extends Activity implements Serializable {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         app = (Std_Method) getApplicationContext();
         LinearLayout linear_h = findViewById(R.id.layout_h);
-        app.share_load();
+        app.InitRememberOption();
         app.set_view(linear_h);
     }
 
@@ -878,21 +878,19 @@ public class OrderActivity extends Activity implements Serializable {
 
     @Override
     protected void onActivityResult(int request, int result, Intent data) {
-        switch (request) {
-            case 1:
-                if (result == 1111) {
-                    UI_control();
-                    item.setLOAD_INDEX(data.getIntExtra("load_index_item", 3333));//현재 위치 알려줌
-                    item.setLIMIT_INDEX(data.getIntExtra("limit_index", 4444));//다운다됐는지 확인
-                    item.LOAD_STATUS = data.getStringArrayListExtra("load_stat");
-                    if (item.getLIMIT_INDEX() >= item.getAUFNR().size() - 1) {   //다 다운받았을경우
-                        enter_flag = true;
-                        backgroundThread.setRunning(false);
-                    } else {
-                        enter_flag = false;
-                    }
+        if (request == 1) {
+            if (result == 1111) {
+                UI_control();
+                item.setLOAD_INDEX(data.getIntExtra("load_index_item", 3333));//현재 위치 알려줌
+                item.setLIMIT_INDEX(data.getIntExtra("limit_index", 4444));//다운다됐는지 확인
+                item.LOAD_STATUS = data.getStringArrayListExtra("load_stat");
+                if (item.getLIMIT_INDEX() >= item.getAUFNR().size() - 1) {   //다 다운받았을경우
+                    enter_flag = true;
+                    backgroundThread.setRunning(false);
+                } else {
+                    enter_flag = false;
                 }
-                break;
+            }
         }
     }
 

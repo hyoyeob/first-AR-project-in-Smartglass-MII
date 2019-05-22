@@ -20,13 +20,17 @@ public class ManualActivity extends AppCompatActivity {
     WebView mWebView;
     TextView index;
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual);
         UI_control();
+        init();
+    }
 
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void init() {
         // 웹뷰 셋팅
         mWebView = findViewById(R.id.webView);//xml 자바코드 연결
         index = findViewById(R.id.index);
@@ -40,6 +44,7 @@ public class ManualActivity extends AppCompatActivity {
         index.bringToFront();
         new Handler().postDelayed(this::SetIndexView, 300);
     }
+
 
     private void SetIndexView() {
         String indexView = ((mWebView.getScrollY() / 600) + 1) + "/" + ((mWebView.getContentHeight() / 600) + 1);

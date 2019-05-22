@@ -2,7 +2,7 @@
     <string name="app_name">PBV_MII</string>
     <color name="bg">#000000</color>
     <color name="bg_backup">#A3CCA3</color>
-    <string name="version">v2.6.3-beta2</string>
+    <string name="version">v2.6.3-RC1</string>
     <string name="left">Gravity.LEFT</string>
     <string name="right">Gravity.RIGHT</string>
     <string name="permission_required">Please grant the permission to use the microphone</string>

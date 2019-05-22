@@ -39,15 +39,6 @@ public class CallRemote_order extends AsyncTask<User, String, SoapObject> {
         takt = userInfo.getTAKT();
         status = "";
 
-//        line = params[0];
-//        plant = params[1];
-//        zone = params[2];
-//        date = params[3];
-//        id = params[4];
-//        pw = params[5];
-//        takt = params[6];
-//        status = params[7];
-
         try {
             SoapObject input_params = new SoapObject(NAMESPACE, "InputParams");
             SoapObject filter_sequence = new SoapObject(NAMESPACE, "InputSequence");

@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Splash Activity 는 앱 제일 처음 시작할 시 화면에 보여지는 스플래시 화면입니다.
+ * 1.5초 동안 로딩을 위해 화면에 보여지고, 이후 메인 액티비티로 넘어갑니다.
+ */
 public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

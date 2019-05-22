@@ -38,7 +38,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Std_Method extends Application {
-    private int now_view;
+    private int now_view = 0;
     private String REMEMBER_ID;
     private String REMEMBER_Option;
     public String ITEM = "http://r3mpwdisp.got.volvo.net:8145/XMII/SOAPRunner/CEMII/04_MaterialSupply/Picking/Transaction/getPickingItemListTrx";
@@ -47,9 +47,8 @@ public class Std_Method extends Application {
     public String SOAP_ACTION = "http://www.sap.com/xMII/XacuteRequest";
     public boolean voice_now = false;
     public boolean voice_flag = false;
-    public boolean user_flag = false;
     public boolean toggle_flag = false;
-    public int voice_count = 0;
+    public boolean TempFlag = false;
 
     HashMap<Integer, Object> map = new HashMap<>();
     ArrayList<String> arr_total;
@@ -117,7 +116,6 @@ public class Std_Method extends Application {
         new Handler().postDelayed(() -> toggle_flag = false, 1500);
     }
 
-
     public void Voice_timer() {
         voice_now = true;
         new Handler().postDelayed(() -> voice_now = false, 3000);
@@ -131,7 +129,6 @@ public class Std_Method extends Application {
                     if (!voice_flag && !isServiceRunning()) {
                         voice_control();
                     } else if (voice_flag) {
-                        user_flag = true;
                         voice_control();
                     }
                     break;
@@ -139,7 +136,6 @@ public class Std_Method extends Application {
                     if (!isServiceRunning()) {
                         voice_control();
                     } else {
-                        user_flag = true;
                         voice_control();
                     }
                     break;
@@ -223,23 +219,14 @@ public class Std_Method extends Application {
     /**
      * 저장한 현재 view 위치를 불러옴
      */
-    public void share_load() {
-        SharedPreferences prefs = getSharedPreferences("test", MODE_PRIVATE);
-        int result = prefs.getInt("NOW", 1217);
-        Log.e("log_share", result + "");
-        now_view = result;
-    }
+//    public void share_load() {
+//        SharedPreferences prefs = getSharedPreferences("test", MODE_PRIVATE);
+//        int result = prefs.getInt("NOW", 1217);
+//        Log.e("log_share", result + "");
+//        now_view = result;
+//    }
 
 
-    /**
-     * 현재 뷰 위치 영구 저장
-     */
-    public void share_preferences() {
-        SharedPreferences pref = getSharedPreferences("test", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("NOW", now_view);
-        editor.apply();
-    }
 
 
     public String getRememberID() {
@@ -293,6 +280,15 @@ public class Std_Method extends Application {
     }
 
 
+    /**
+     * 현재 뷰 위치 영구 저장
+     */
+//    public void share_preferences() {
+//        SharedPreferences pref = getSharedPreferences("test", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = pref.edit();
+//        editor.putInt("NOW", now_view);
+//        editor.apply();
+//    }
     public void Option_Preference() {
         SharedPreferences pref_id = getSharedPreferences("option", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref_id.edit();
@@ -308,7 +304,6 @@ public class Std_Method extends Application {
      */
     public void set_now(int now) {
         now_view = now;
-        Log.e("log_method", "now_view: " + now_view);
     }
 
     /**
@@ -324,10 +319,6 @@ public class Std_Method extends Application {
 
     }
 
-
-    public int get_now_view() {
-        return now_view;
-    }
 
     /**
      * OrderStatusTable 의 모든 값 출력.

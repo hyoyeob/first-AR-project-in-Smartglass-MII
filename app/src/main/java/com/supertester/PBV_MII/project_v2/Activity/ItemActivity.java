@@ -68,7 +68,7 @@ public class ItemActivity extends Activity implements Serializable {
     LinearLayout linear_h;
 
     Std_Method app;
-    ItemActivity.BackgroundThread backgroundThread;
+    BackgroundThread backgroundThread;
 
     OrderStatusContact orderStatusContact = new OrderStatusContact();
     OrderContact orderContact = new OrderContact();
@@ -105,7 +105,7 @@ public class ItemActivity extends Activity implements Serializable {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         app = (Std_Method) getApplicationContext();
         linear_h = findViewById(R.id.layout_h);
-        app.share_load();
+        app.InitRememberOption();
         app.set_view(linear_h);
     }
 

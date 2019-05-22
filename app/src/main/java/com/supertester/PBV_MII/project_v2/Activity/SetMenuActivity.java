@@ -298,7 +298,7 @@ public class SetMenuActivity extends Activity {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         app = (Std_Method) getApplicationContext();
         LinearLayout linear_h = findViewById(R.id.layout_h);
-        app.share_load();
+        app.InitRememberOption();
         app.set_view(linear_h);
         app.InitRememberOption();
         Log.e("log_test_option", app.getRememberOption() + "/" + userInfo.getLINE());

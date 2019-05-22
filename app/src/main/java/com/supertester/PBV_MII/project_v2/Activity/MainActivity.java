@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
                 View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         app = (Std_Method) getApplicationContext();
         linear_h = findViewById(R.id.layout_h);
-        app.share_load();
+        app.InitRememberOption();
         app.set_view(linear_h);
         app.InitRememberID();
         Log.e("log_test_id", "" + app.getRememberID());
@@ -189,7 +189,7 @@ public class MainActivity extends Activity {
                 startActivity(intent1);
             } else {
                 IntentIntegrator qrScan = new IntentIntegrator(this);
-                if (app.get_now_view() != 2) qrScan.setCaptureActivity(CustomScannerActivity.class);
+                qrScan.setCaptureActivity(CustomScannerActivity.class);
                 qrScan.initiateScan();
             }
         } else if (arrow_pos == 1) {
@@ -371,7 +371,7 @@ public class MainActivity extends Activity {
                 int now_view;
                 now_view = data.getIntExtra("now", 1217);
                 app.set_now(now_view);
-                app.share_preferences();
+                app.Option_Preference();
                 app.set_view(linear_h);
             }
         } else {

@@ -115,10 +115,8 @@ public class DBAdapter<Contact extends com.supertester.PBV_MII.project_v2.Databa
                 cv.put(contact.getProperty_name(i), data.get(i));
             }
             db.insert(TABLE_NAME, null, cv);
-        } catch (SQLiteConstraintException e) {
-
-
-        } catch (Exception e) {
+        } catch (SQLiteConstraintException ignored) {
+        } catch (Exception ignored) {
         }
     }
 
